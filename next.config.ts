@@ -31,10 +31,11 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Added to resolve cross-origin warnings in Cloud Workstations
   experimental: {
     allowedDevOrigins: [
-      '*.cloudworkstations.dev'
+      '9000-firebase-studio-1776001683837.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev',
+      '*.cloudworkstations.dev',
+      '*.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev'
     ]
   }
 };
