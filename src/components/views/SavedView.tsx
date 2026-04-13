@@ -5,7 +5,7 @@ import { MediaViewer } from "@/components/ui/MediaViewer";
 import { NativeVideoAd } from "@/components/ads/AdComponents";
 import { FolderHeart, Camera, PlayCircle, CheckSquare, X, Trash2, CheckSquare2, FileX } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useAds } from "@/hooks/use-ads";
@@ -79,7 +79,7 @@ export function SavedView() {
     exitSelectionMode();
   };
 
-  const renderGridItems = (dataItems: any[]) => {
+  const renderGridItems = useCallback((dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
     if (!isPro) gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
 
@@ -98,7 +98,7 @@ export function SavedView() {
       }
     });
     return gridElements;
-  };
+  }, [isSelectionMode, selectedIds, items, isPro]);
 
   if (isInitialLoad) {
     return (
@@ -136,7 +136,7 @@ export function SavedView() {
             )}
           </div>
         </div>
-        <div className="p-0.5 mt-1">
+        <div className="p-0 mt-0">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center space-y-4 px-8 animate-in fade-in zoom-in duration-700">
               <div className="relative group">
