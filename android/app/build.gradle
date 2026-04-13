@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     namespace "com.qhaleelahmad.statuskeeper"
     // Mun rubuta 36 kai tsaye domin ya daina duban tsohon cache
-    compileSdk 36
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.qhaleelahmad.statuskeeper"
