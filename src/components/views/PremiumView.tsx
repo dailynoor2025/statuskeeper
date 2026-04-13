@@ -172,7 +172,7 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
       <div className="p-4 text-center space-y-1 opacity-20">
         <div className="flex items-center justify-center gap-1.5 text-gray-400 font-black tracking-tight text-[8px]">
           <ShieldCheck className="w-3 h-3" />
-          <span>Secured status keeper network</span>
+          <span>Secured Status keeper network</span>
         </div>
       </div>
 

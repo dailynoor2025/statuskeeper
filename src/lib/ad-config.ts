@@ -4,19 +4,19 @@
  */
 
 export const AD_CONFIG = {
-  // Official AdMob app ID
+  // Official AdMob App ID
   APP_ID: "ca-app-pub-9704872868499742~4538679298",
 
-  // Ad unit IDs categorized by placement logic
+  // Ad unit IDs for direct AdMob server connection
   UNITS: {
-    // Native video ads integrated into the gallery grids (StatusView & SavedView)
-    NATIVE: "ca-app-pub-3940256099942544/2247696110", 
+    // Native video ads integrated into the gallery grids
+    NATIVE: "ca-app-pub-9704872868499742/6511690000", 
 
-    // Interstitial ads shown during navigation between major app views
-    INTERSTITIAL: "ca-app-pub-3940256099942544/1033173712", 
+    // Interstitial ads shown during navigation
+    INTERSTITIAL: "ca-app-pub-9704872868499742/1450930000", 
 
-    // Rewarded ads for unlocking pro status in the premium dashboard
-    REWARDED: "ca-app-pub-3940256099942544/5224354917", 
+    // Rewarded ads for unlocking pro status
+    REWARDED: "ca-app-pub-9704872868499742/6915220000", 
   },
 
   // Operational settings

@@ -19,11 +19,6 @@ import { Filesystem } from '@capacitor/filesystem';
 type AppLifecycle = 'splash' | 'permission' | 'main';
 type ExtendedTabType = TabType | 'help';
 
-/**
- * MainApp - Entry point with lifecycle management.
- * Strictly optimized for Android 15 stability and universal permissions.
- */
-
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
   const [activeTab, setActiveTab] = useState<ExtendedTabType>('status');
@@ -66,9 +61,7 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Branding visibility delay
       await new Promise(r => setTimeout(r, 2500));
-      
       try {
         const status = await Filesystem.checkPermissions();
         if (status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true') {
@@ -107,14 +100,12 @@ export default function MainApp() {
 
   const handleTabChange = (tab: ExtendedTabType) => {
     if (activeTab === tab) return;
-    
     if (!hasNavigatedOnce) { 
       triggerInterstitialLogic(true); 
       setHasNavigatedOnce(true); 
     } else {
       triggerInterstitialLogic(false);
     }
-    
     setActiveTab(tab);
   };
 

@@ -46,7 +46,7 @@ export function StatusView() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    toast({ title: "Smart scan", description: "Checking WhatsApp directories..." });
+    toast({ title: "Smart scan", description: "Checking directories..." });
     setTimeout(() => {
       setIsRefreshing(false);
       toast({ title: "Sync complete", description: "Status list updated", variant: "success" });
@@ -83,13 +83,13 @@ export function StatusView() {
       }
     });
     localStorage.setItem('saved_statuses', JSON.stringify(savedItems));
-    toast({ title: "Bulk save complete", description: `${newlySaved} items added to gallery`, variant: "success" });
+    toast({ title: "Save complete", description: `${newlySaved} items added to gallery`, variant: "success" });
     exitSelectionMode();
   };
 
   const renderGridItems = useCallback((dataItems: typeof statusData) => {
     const gridElements: React.ReactNode[] = [];
-    if (!isPro) gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
+    if (!isPro) gridElements.push(<div key="native-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
 
     dataItems.forEach((item, index) => {
       gridElements.push(
@@ -140,7 +140,7 @@ export function StatusView() {
               <>
                 <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
-                  <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
+                  <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark'}</span>
                 </button>
                 <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
               </>
@@ -156,9 +156,9 @@ export function StatusView() {
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
               <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>
-              <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No {activeTab === 'all' ? 'statuses' : activeTab} found</h3>
-              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] uppercase tracking-wider">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>
-              <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] tracking-tight border-gray-200">Check directory again</Button>
+              <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No {activeTab} found</h3>
+              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] uppercase tracking-wider">Statuses appear here only after you watch them in WhatsApp.</p>
+              <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] tracking-tight border-gray-200">Check directory</Button>
             </div>
           ) : (
             <div className="status-grid-3">{renderGridItems(activeItems)}</div>

@@ -19,12 +19,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    allowedDevOrigins: [
-      '*.cloudworkstations.dev',
-      '*.idx.google.com'
-    ]
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
