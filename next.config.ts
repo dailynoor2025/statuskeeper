@@ -26,13 +26,17 @@ const nextConfig: NextConfig = {
     ],
   },
   typescript: {
-    // Ensures builds complete even with minor type mismatches or incorrect hook usage
     ignoreBuildErrors: true,
   },
   eslint: {
-    // Ensures faster builds by skipping lint checks during CI
     ignoreDuringBuilds: true,
   },
+  // Added to resolve cross-origin warnings in Cloud Workstations
+  experimental: {
+    allowedDevOrigins: [
+      '*.cloudworkstations.dev'
+    ]
+  }
 };
 
 export default nextConfig;
