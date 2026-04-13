@@ -1,18 +1,29 @@
 { pkgs, ... }: {
-  channel = "stable-23.11";
+  channel = "stable-24.05";
   packages = [
+    pkgs.nodejs_22
     pkgs.openjdk17
-    pkgs.nodejs_20
-    pkgs.nodePackages.firebase-tools
+    pkgs.android-tools
   ];
-  idx = {
-    extensions = [
-      "dsznajder.es7-react-js-snippets"
-      "bradlc.vscode-tailwindcss"
-    ];
-    workspace = {
-      onCreate = {
-        npm-install = "npm install";
+  idx.extensions = [
+    "rvest.vs-code-prettier"
+    "dsznajder.es7-react-js-snippets"
+  ];
+  idx.previews = {
+    enable = true;
+    previews = {
+      web = {
+        command = [
+          "npm"
+          "run"
+          "dev"
+          "--"
+          "--port"
+          "$PORT"
+          "--hostname"
+          "0.0.0.0"
+        ];
+        manager = "web";
       };
     };
   };
