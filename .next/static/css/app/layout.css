@@ -2835,6 +2835,10 @@ video {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
+.group:hover .group-hover\:bg-black\/10 {
+  background-color: rgb(0 0 0 / 0.1);
+}
+
 .group:hover .group-hover\:text-destructive {
   color: hsl(var(--destructive));
 }

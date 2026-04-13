@@ -39,7 +39,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           alt="Ad" 
           className="w-full h-full object-cover opacity-80" 
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
           <div className="bg-primary/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 animate-pulse">
             <PlayCircle className="w-4 h-4 text-white" />
           </div>

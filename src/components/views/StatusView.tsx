@@ -5,7 +5,7 @@ import { StatusCard } from "@/components/ui/StatusCard";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { NativeVideoAd } from "@/components/ads/AdComponents";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Smartphone, RefreshCcw, Camera, PlayCircle, CheckSquare, X, Download, CheckSquare2, FileWarning } from "lucide-react";
+import { Smartphone, RefreshCcw, Camera, PlayCircle, CheckSquare, X, CheckSquare2, FileWarning } from "lucide-react";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -168,7 +168,7 @@ export function StatusView() {
       {isSelectionMode && selectedIds.length > 0 && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-5 duration-300">
           <button onClick={handleBulkSave} className="h-8 px-4 rounded-full bg-primary text-white shadow-2xl flex items-center gap-2 active:scale-95 transition-all text-[10px] font-black whitespace-nowrap">
-            <Download className="w-3.5 h-3.5" /> Download {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
+            Download {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
           </button>
         </div>
       )}
