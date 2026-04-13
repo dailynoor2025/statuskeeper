@@ -23,7 +23,8 @@ const nextConfig: NextConfig = {
   experimental: {
     allowedDevOrigins: [
       '9000-firebase-studio-1776001683837.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev',
-      '*.cloudworkstations.dev'
+      '*.cloudworkstations.dev',
+      '*.idx.google.com'
     ]
   },
   typescript: {

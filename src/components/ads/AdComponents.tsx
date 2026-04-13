@@ -45,7 +45,10 @@ export function NativeVideoAd({ className }: { className?: string }) {
   }
 
   return (
-    <div className={cn("relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", className)}>
+    <div className={cn(
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", 
+      className
+    )}>
       <div className="absolute top-1.5 left-1.5 z-20">
         <div className="bg-black/40 backdrop-blur-md px-1 py-0.5 rounded-lg border border-white/10 shadow-sm flex items-center gap-1">
           <span className="text-[6px] font-black text-white uppercase tracking-wider">Sponsored</span>
@@ -73,7 +76,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
             <span className="text-[5px] font-black text-white">Ad</span>
           </div>
-          <span className="text-[6px] font-black tracking-tight text-primary truncate">Status Saver Premium</span>
+          <span className="text-[6px] font-black tracking-tight text-primary truncate uppercase">Status Saver Pro</span>
         </div>
         <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200">
           <ExternalLink className="w-2.5 h-2.5" />
@@ -84,7 +87,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
 }
 
 /**
- * Shared Ad Overlay Layout for consistent sizing between Interstitial and Rewarded ads.
+ * Shared Ad Overlay Layout for exact synchronization between Interstitial and Rewarded ads.
  */
 function AdOverlayLayout({ 
   isOpen, 
@@ -108,10 +111,10 @@ function AdOverlayLayout({
   return (
     <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe">
       <div className="bg-black/40 border-b border-white/5">
-        <div className="p-4 flex justify-between items-center">
+        <div className="p-4 flex justify-between items-center max-w-sm mx-auto">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3 h-3 text-primary" />
-            <span className="text-[9px] font-black text-white/60 tracking-widest uppercase">Premium partner</span>
+            <span className="text-[9px] font-black text-white/60 tracking-widest uppercase">Verified Partner</span>
           </div>
           <button 
             disabled={disabledClose} 
@@ -125,7 +128,7 @@ function AdOverlayLayout({
               <span className="text-[10px] font-black tracking-tight">{timerLabel}</span>
             ) : (
               <>
-                <span className="text-[10px] font-black tracking-tight uppercase">Skip ad</span>
+                <span className="text-[10px] font-black tracking-tight uppercase">Skip</span>
                 <X className="w-4 h-4" />
               </>
             )}
@@ -135,8 +138,8 @@ function AdOverlayLayout({
 
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-[320px] mx-auto space-y-6">
-          <div className="relative aspect-[9/16] w-full max-h-[60vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl group">
-            <img src="https://picsum.photos/seed/inter-ad-main/600/1067" alt="Ad content" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl group">
+            <img src="https://picsum.photos/seed/full-ad-media/600/1067" alt="Ad content" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
               <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
               <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
@@ -146,7 +149,7 @@ function AdOverlayLayout({
             <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all">
               {buttonText}
             </Button>
-            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>
+            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight uppercase">Premium status removal available in settings</p>
           </div>
         </div>
       </div>
@@ -176,10 +179,10 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       isOpen={isOpen}
       onClose={onClose}
       disabledClose={timer > 0}
-      timerLabel={`Wait ${timer}s`}
-      title="Unlock pro experience"
-      subtitle="Get elite tools today"
-      buttonText="Install Now"
+      timerLabel={`Close in ${timer}s`}
+      title="Unlock Pro Experience"
+      subtitle="Join 1M+ status keepers worldwide"
+      buttonText="Explore Features"
     />
   );
 }
@@ -199,9 +202,9 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`Reward in ${countdown}s`}
-      title="Elite reward active"
-      subtitle="Watch to unlock premium"
-      buttonText="Claim your reward"
+      title="Elite Access Unlocking"
+      subtitle="Watch fully to earn premium time"
+      buttonText="Claim 24H Access"
     />
   );
 }
@@ -226,8 +229,6 @@ export function useRewardedAd(onReward: () => void) {
     let interval: NodeJS.Timeout;
     if (isWatching && countdown > 0) {
       interval = setInterval(() => setCountdown(p => p - 1), 1000);
-    } else if (isWatching && countdown === 0) {
-      // Auto-complete logic can go here or be triggered by overlay button
     }
     return () => clearInterval(interval);
   }, [isWatching, countdown]);

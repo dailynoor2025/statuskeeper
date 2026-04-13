@@ -91,11 +91,12 @@ export function StatusView() {
   const renderGridItems = (items: typeof statusData) => {
     const gridElements: React.ReactNode[] = [];
     
-    // Ad Placement Logic: First item is ad (if not pro), then content, then ad every 5 items.
+    // 1 talla a farko (farkon grid)
     if (!isPro) {
       gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
     }
 
+    // Sauran contents da ads bayan kowane contents 5
     items.forEach((item, index) => {
       gridElements.push(
         <div key={item.id} className="animate-staggered" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
@@ -107,7 +108,7 @@ export function StatusView() {
         </div>
       );
       
-      // Show ad after every 5 items
+      // Talla daya bayan kowane contents guda 5
       if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(<div key={`ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }
@@ -161,7 +162,7 @@ export function StatusView() {
         </div>
         <div className="p-0.5 mt-1">
           {isEmpty ? (
-            <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in duration-700">
+            <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
               <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>
               <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No {activeTab === 'all' ? 'statuses' : activeTab} found</h3>
               <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] mx-auto uppercase tracking-wider">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>

@@ -1,23 +1,20 @@
 
 { pkgs, ... }: {
-  channel = "stable-24.05";
+  channel = "stable-23.11";
   packages = [
-    pkgs.nodejs_22
+    pkgs.nodejs_20
     pkgs.openjdk17
     pkgs.android-tools
   ];
-  idx = {
-    extensions = [
-      "dsznajder.es7-react-js-snippets"
-      "bradlc.vscode-tailwindcss"
-    ];
+  idx.extensions = [
+    "interpolation.interpolation"
+  ];
+  idx.previews = {
+    enable = true;
     previews = {
-      enable = true;
-      previews = {
-        web = {
-          command = ["npm", "run", "dev", "--", "--port", "$PORT", "--hostname", "0.0.0.0"];
-          manager = "web";
-        };
+      web = {
+        command = [ "npm" "run" "dev" "--" "--port" "$PORT" "--hostname" "0.0.0.0" ];
+        manager = "web";
       };
     };
   };

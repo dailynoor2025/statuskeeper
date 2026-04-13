@@ -82,9 +82,12 @@ export function SavedView() {
 
   const renderGridItems = (dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
+    
+    // Talla ta farko a farkon jerin
     if (!isPro) {
       gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
     }
+
     dataItems.forEach((item, index) => {
       gridElements.push(
         <div key={item.id} className="animate-staggered" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
@@ -95,6 +98,8 @@ export function SavedView() {
           />
         </div>
       );
+      
+      // Talla daya bayan kowane contents guda 5
       if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(<div key={`saved-ad-mid-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }

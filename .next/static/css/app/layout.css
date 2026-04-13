@@ -835,6 +835,9 @@ video {
 .grid {
   display: grid;
 }
+.contents {
+  display: contents;
+}
 .hidden {
   display: none;
 }
@@ -938,8 +941,8 @@ video {
 .max-h-96 {
   max-height: 24rem;
 }
-.max-h-\[60vh\] {
-  max-height: 60vh;
+.max-h-\[55vh\] {
+  max-height: 55vh;
 }
 .max-h-\[70vh\] {
   max-height: 70vh;
