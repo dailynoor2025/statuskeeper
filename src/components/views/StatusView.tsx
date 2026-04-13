@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,7 +10,6 @@ import { useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { useAds } from "@/hooks/use-ads";
 
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +18,6 @@ export function StatusView() {
   const [selectedMedia, setSelectedMedia] = useState<{ id: string; imageUrl: string; type: 'image' | 'video' } | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const { isPro } = useAds();
 
   const statusData = useMemo(() => {
     return PlaceHolderImages.map((img, i) => ({
@@ -88,16 +85,13 @@ export function StatusView() {
     exitSelectionMode();
   };
 
-  const renderGridItems = (items: typeof statusData) => {
+  const renderGridItems = (dataItems: typeof statusData) => {
     const gridElements: React.ReactNode[] = [];
     
-    // 1 talla a farko (farkon grid)
-    if (!isPro) {
-      gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
-    }
+    // First Ad at start
+    gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
 
-    // Sauran contents da ads bayan kowane contents 5
-    items.forEach((item, index) => {
+    dataItems.forEach((item, index) => {
       gridElements.push(
         <div key={item.id} className="animate-staggered" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
           <StatusCard 
@@ -108,8 +102,8 @@ export function StatusView() {
         </div>
       );
       
-      // Talla daya bayan kowane contents guda 5
-      if (!isPro && (index + 1) % 5 === 0) {
+      // Ad every 5 items
+      if ((index + 1) % 5 === 0) {
         gridElements.push(<div key={`ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }
     });
@@ -139,7 +133,7 @@ export function StatusView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none mr-2 shadow-inner">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px, 1.8vw, 9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
@@ -160,7 +154,7 @@ export function StatusView() {
             )}
           </div>
         </div>
-        <div className="p-0.5 mt-1">
+        <div className="p-0 mt-1">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
               <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>

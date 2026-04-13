@@ -1,4 +1,3 @@
-
 "use client";
 
 import { StatusCard } from "@/components/ui/StatusCard";
@@ -8,7 +7,6 @@ import { FolderHeart, Camera, PlayCircle, CheckSquare, X, Trash2, CheckSquare2, 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "@/hooks/use-toast";
-import { useAds } from "@/hooks/use-ads";
 import { cn } from "@/lib/utils";
 
 export function SavedView() {
@@ -18,7 +16,6 @@ export function SavedView() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const { isPro } = useAds();
 
   const loadSaved = () => {
     const saved = localStorage.getItem('saved_statuses');
@@ -83,10 +80,8 @@ export function SavedView() {
   const renderGridItems = (dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
     
-    // Talla ta farko a farkon jerin
-    if (!isPro) {
-      gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
-    }
+    // First Ad
+    gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
 
     dataItems.forEach((item, index) => {
       gridElements.push(
@@ -99,9 +94,8 @@ export function SavedView() {
         </div>
       );
       
-      // Talla daya bayan kowane contents guda 5
-      if (!isPro && (index + 1) % 5 === 0) {
-        gridElements.push(<div key={`saved-ad-mid-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
+      if ((index + 1) % 5 === 0) {
+        gridElements.push(<div key={`saved-ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }
     });
     return gridElements;
@@ -125,7 +119,7 @@ export function SavedView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px, 1.8vw, 9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex gap-1 items-center justify-center h-full data-[state=active]:bg-white"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex gap-1 items-center justify-center h-full data-[state=active]:bg-white"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
@@ -143,7 +137,7 @@ export function SavedView() {
             )}
           </div>
         </div>
-        <div className="p-0.5 mt-1">
+        <div className="p-0 mt-1">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center space-y-4 px-8 animate-in fade-in zoom-in duration-700">
               <div className="relative group">

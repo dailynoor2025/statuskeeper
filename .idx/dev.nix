@@ -1,13 +1,9 @@
-
 { pkgs, ... }: {
-  channel = "stable-23.11";
+  channel = "stable-24.05";
   packages = [
-    pkgs.nodejs_20
+    pkgs.nodejs_22
     pkgs.openjdk17
     pkgs.android-tools
-  ];
-  idx.extensions = [
-    "interpolation.interpolation"
   ];
   idx.previews = {
     enable = true;

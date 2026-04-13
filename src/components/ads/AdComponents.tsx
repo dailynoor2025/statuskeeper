@@ -1,46 +1,30 @@
-
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { PlayCircle, X, ShieldCheck, ExternalLink, Clock, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAds } from '@/hooks/use-ads';
 import { cn } from '@/lib/utils';
-import { toast } from '@/hooks/use-toast';
-import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * Native Video Ad Component - Perfectly synchronized with StatusCard dimensions.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
-  const { isPro } = useAds();
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (isPro) return;
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        await new Promise(resolve => setTimeout(resolve, 1200));
+        await new Promise(resolve => setTimeout(resolve, 1500));
         setAdStatus('ready');
       } catch (e) {
         setAdStatus('error');
       }
     };
     loadAd();
-  }, [isPro]);
+  }, []);
 
-  useEffect(() => {
-    if (adStatus === 'ready') {
-      const interval = setInterval(() => {
-        setProgress(p => (p >= 100 ? 0 : p + 1));
-      }, 50);
-      return () => clearInterval(interval);
-    }
-  }, [adStatus]);
-
-  if (isPro || adStatus === 'error' || adStatus === 'loading') {
+  if (adStatus === 'error' || adStatus === 'loading') {
     return null;
   }
 
@@ -49,25 +33,25 @@ export function NativeVideoAd({ className }: { className?: string }) {
       "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", 
       className
     )}>
-      <div className="absolute top-1.5 left-1.5 z-20">
-        <div className="bg-black/40 backdrop-blur-md px-1 py-0.5 rounded-lg border border-white/10 shadow-sm flex items-center gap-1">
-          <span className="text-[6px] font-black text-white uppercase tracking-wider">Sponsored</span>
+      <div className="absolute top-1 left-1 z-10">
+        <div className="bg-black/40 backdrop-blur-md px-1 py-0.5 rounded-md border border-white/10 shadow-sm flex items-center gap-1">
+          <span className="text-[6px] font-black text-white tracking-tight">Sponsored</span>
         </div>
       </div>
 
-      <div className="relative aspect-[9/14] w-full bg-gray-900 group cursor-pointer overflow-hidden">
+      <div className="relative aspect-[9/14] w-full bg-gray-900 group cursor-pointer">
         <img 
           src="https://picsum.photos/seed/ad-card-native/400/622" 
           alt="Ad" 
-          className="w-full h-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105" 
+          className="w-full h-full object-cover opacity-80" 
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
           <div className="bg-primary/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 animate-pulse">
             <PlayCircle className="w-4 h-4 text-white" />
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/10">
-          <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-gradient-to-t from-black/80 to-transparent">
+          <p className="text-[6px] text-white/90 font-bold tracking-tight leading-tight line-clamp-2">Remove ads in settings for a premium experience.</p>
         </div>
       </div>
       
@@ -76,7 +60,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
             <span className="text-[5px] font-black text-white">Ad</span>
           </div>
-          <span className="text-[6px] font-black tracking-tight text-primary truncate uppercase">Status Saver Pro</span>
+          <span className="text-[6px] font-black tracking-tight text-primary truncate">Promoted content</span>
         </div>
         <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200">
           <ExternalLink className="w-2.5 h-2.5" />
@@ -86,9 +70,6 @@ export function NativeVideoAd({ className }: { className?: string }) {
   );
 }
 
-/**
- * Shared Ad Overlay Layout for exact synchronization between Interstitial and Rewarded ads.
- */
 function AdOverlayLayout({ 
   isOpen, 
   title, 
@@ -109,12 +90,12 @@ function AdOverlayLayout({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe">
+    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe">
       <div className="bg-black/40 border-b border-white/5">
-        <div className="p-4 flex justify-between items-center max-w-sm mx-auto">
+        <div className="p-4 flex justify-between items-center">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3 h-3 text-primary" />
-            <span className="text-[9px] font-black text-white/60 tracking-widest uppercase">Verified Partner</span>
+            <span className="text-[9px] font-black text-white/60 tracking-tight">Sponsored content</span>
           </div>
           <button 
             disabled={disabledClose} 
@@ -125,10 +106,10 @@ function AdOverlayLayout({
             )}
           >
             {disabledClose ? (
-              <span className="text-[10px] font-black tracking-tight">{timerLabel}</span>
+              <span className="text-[10px] font-black tracking-tight">Wait {timerLabel}</span>
             ) : (
               <>
-                <span className="text-[10px] font-black tracking-tight uppercase">Skip</span>
+                <span className="text-[10px] font-black tracking-tight">Skip ad</span>
                 <X className="w-4 h-4" />
               </>
             )}
@@ -138,8 +119,8 @@ function AdOverlayLayout({
 
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-[320px] mx-auto space-y-6">
-          <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl group">
-            <img src="https://picsum.photos/seed/full-ad-media/600/1067" alt="Ad content" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+            <img src="https://picsum.photos/seed/inter-ad-main/600/1067" alt="Ad content" className="w-full h-full object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
               <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
               <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
@@ -149,7 +130,7 @@ function AdOverlayLayout({
             <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all">
               {buttonText}
             </Button>
-            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight uppercase">Premium status removal available in settings</p>
+            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>
           </div>
         </div>
       </div>
@@ -159,7 +140,6 @@ function AdOverlayLayout({
 }
 
 export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const { isPro } = useAds();
   const [timer, setTimer] = useState(5);
 
   useEffect(() => {
@@ -172,17 +152,17 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
     }
   }, [isOpen]);
 
-  if (isPro) return null;
+  if (!isOpen) return null;
 
   return (
     <AdOverlayLayout 
       isOpen={isOpen}
       onClose={onClose}
       disabledClose={timer > 0}
-      timerLabel={`Close in ${timer}s`}
-      title="Unlock Pro Experience"
-      subtitle="Join 1M+ status keepers worldwide"
-      buttonText="Explore Features"
+      timerLabel={`${timer}s`}
+      title="Status keeper pro"
+      subtitle="Upgrade for ad-free experience"
+      buttonText="Go ad-free now"
     />
   );
 }
@@ -196,48 +176,16 @@ export function RewardedAdOverlay({
   countdown: number; 
   onClose: () => void 
 }) {
+  if (!isOpen) return null;
   return (
     <AdOverlayLayout 
       isOpen={isOpen}
       onClose={onClose}
       disabledClose={countdown > 0}
-      timerLabel={`Reward in ${countdown}s`}
-      title="Elite Access Unlocking"
-      subtitle="Watch fully to earn premium time"
-      buttonText="Claim 24H Access"
+      timerLabel={`${countdown}s`}
+      title="Unlock Elite Access"
+      subtitle="Watch until the end to claim your reward"
+      buttonText="Claim 24H Premium"
     />
   );
-}
-
-export function useRewardedAd(onReward: () => void) {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isWatching, setIsWatching] = useState(false);
-  const [countdown, setCountdown] = useState(0);
-
-  const showRewardedAd = useCallback(() => {
-    if (isProcessing || isWatching) return;
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      setIsWatching(true);
-      setCountdown(AD_CONFIG.SETTINGS.REWARDED_COUNTDOWN_SEC);
-      toast({ title: "Video loaded", description: "Watch until end to receive reward" });
-    }, 1800); 
-  }, [isProcessing, isWatching]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isWatching && countdown > 0) {
-      interval = setInterval(() => setCountdown(p => p - 1), 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isWatching, countdown]);
-
-  const completeReward = useCallback(() => {
-    setIsWatching(false);
-    onReward();
-    toast({ title: "Reward success", description: "Pro status updated", variant: "success" });
-  }, [onReward]);
-
-  return { showRewardedAd, isProcessing, isWatching, countdown, completeReward };
 }
