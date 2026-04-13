@@ -1,0 +1,77 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "status-1",
+      "description": "Landscape View",
+      "imageUrl": "https://picsum.photos/seed/1/400/600",
+      "imageHint": "landscape nature"
+    },
+    {
+      "id": "status-2",
+      "description": "City Night",
+      "imageUrl": "https://picsum.photos/seed/2/400/600",
+      "imageHint": "city night"
+    },
+    {
+      "id": "status-3",
+      "description": "Abstract Art",
+      "imageUrl": "https://picsum.photos/seed/3/400/600",
+      "imageHint": "abstract colorful"
+    },
+    {
+      "id": "status-4",
+      "description": "Coffee Break",
+      "imageUrl": "https://picsum.photos/seed/4/400/600",
+      "imageHint": "coffee cup"
+    },
+    {
+      "id": "status-5",
+      "description": "Travel Life",
+      "imageUrl": "https://picsum.photos/seed/5/400/600",
+      "imageHint": "travel beach"
+    },
+    {
+      "id": "status-6",
+      "description": "Pet Love",
+      "imageUrl": "https://picsum.photos/seed/6/400/600",
+      "imageHint": "cute cat"
+    },
+    {
+      "id": "status-7",
+      "description": "Foodie",
+      "imageUrl": "https://picsum.photos/seed/7/400/600",
+      "imageHint": "delicious food"
+    },
+    {
+      "id": "status-8",
+      "description": "Workout",
+      "imageUrl": "https://picsum.photos/seed/8/400/600",
+      "imageHint": "fitness gym"
+    },
+    {
+      "id": "status-9",
+      "description": "Office Vibes",
+      "imageUrl": "https://picsum.photos/seed/9/400/600",
+      "imageHint": "office workspace"
+    },
+    {
+      "id": "status-10",
+      "description": "Rainy Day",
+      "imageUrl": "https://picsum.photos/seed/10/400/600",
+      "imageHint": "rain window"
+    },
+    {
+      "id": "status-11",
+      "description": "Mountain Trip",
+      "imageUrl": "https://picsum.photos/seed/11/400/600",
+      "imageHint": "mountains snow"
+    },
+    {
+      "id": "status-12",
+      "description": "Fashion",
+      "imageUrl": "https://picsum.photos/seed/12/400/600",
+      "imageHint": "fashion style"
+    }
+  ]
+}
