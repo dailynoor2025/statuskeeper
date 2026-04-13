@@ -10,6 +10,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useAds } from "@/hooks/use-ads";
 
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +19,7 @@ export function StatusView() {
   const [selectedMedia, setSelectedMedia] = useState<{ id: string; imageUrl: string; type: 'image' | 'video' } | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const { isPro } = useAds();
 
   const statusData = useMemo(() => {
     return PlaceHolderImages.map((img, i) => ({
@@ -87,7 +89,7 @@ export function StatusView() {
 
   const renderGridItems = useCallback((dataItems: typeof statusData) => {
     const gridElements: React.ReactNode[] = [];
-    gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
+    if (!isPro) gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
 
     dataItems.forEach((item, index) => {
       gridElements.push(
@@ -99,12 +101,12 @@ export function StatusView() {
           />
         </div>
       );
-      if ((index + 1) % 5 === 0) {
+      if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(<div key={`ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }
     });
     return gridElements;
-  }, [isSelectionMode, selectedIds]);
+  }, [isSelectionMode, selectedIds, statusData, isPro]);
 
   if (isLoading) {
     return (
@@ -136,21 +138,21 @@ export function StatusView() {
           <div className="flex items-center gap-1">
             {isSelectionMode ? (
               <>
-                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center gap-1.5">
+                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
                   <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
-                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 transition-transform flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
+                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
               </>
             ) : (
               <>
-                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center"><CheckSquare className="w-3 h-3 text-gray-400" /></button>}
-                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center"><RefreshCcw className={cn("w-3 h-3 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
+                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><CheckSquare className="w-3 h-3 text-gray-400" /></button>}
+                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><RefreshCcw className={cn("w-3 h-3 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
               </>
             )}
           </div>
         </div>
-        <div className="p-0 mt-1">
+        <div className="p-0.5 mt-1">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
               <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>

@@ -8,10 +8,6 @@ import {
 } from "@/components/ui/accordion";
 import { HelpCircle, Zap, ShieldAlert } from "lucide-react";
 
-/**
- * HelpView - Troubleshoot guide with strict Sentence case.
- */
-
 export function HelpView() {
   const faqs = [
     {

@@ -5,9 +5,6 @@ import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-/**
- * Native Video Ad Component - Perfectly synchronized with StatusCard dimensions.
- */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -24,9 +21,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     loadAd();
   }, []);
 
-  if (adStatus === 'error' || adStatus === 'loading') {
-    return null;
-  }
+  if (adStatus === 'error' || adStatus === 'loading') return null;
 
   return (
     <div className={cn(
@@ -38,14 +33,13 @@ export function NativeVideoAd({ className }: { className?: string }) {
           <span className="text-[6px] font-black text-white tracking-tight">Sponsored</span>
         </div>
       </div>
-
       <div className="relative aspect-[9/14] w-full bg-gray-900 group cursor-pointer">
         <img 
           src="https://picsum.photos/seed/ad-card-native/400/622" 
           alt="Ad" 
           className="w-full h-full object-cover opacity-80" 
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
           <div className="bg-primary/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 animate-pulse">
             <PlayCircle className="w-4 h-4 text-white" />
           </div>
@@ -54,7 +48,6 @@ export function NativeVideoAd({ className }: { className?: string }) {
           <p className="text-[6px] text-white/90 font-bold tracking-tight leading-tight line-clamp-2">Remove ads in settings for a premium experience.</p>
         </div>
       </div>
-      
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
         <div className="flex items-center gap-1 overflow-hidden">
           <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
@@ -62,7 +55,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
           <span className="text-[6px] font-black tracking-tight text-primary truncate">Promoted content</span>
         </div>
-        <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200">
+        <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all">
           <ExternalLink className="w-2.5 h-2.5" />
         </button>
       </div>
@@ -116,7 +109,6 @@ function AdOverlayLayout({
           </button>
         </div>
       </div>
-
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-[320px] mx-auto space-y-6">
           <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">

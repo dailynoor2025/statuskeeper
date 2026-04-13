@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useAds } from "@/hooks/use-ads";
 
 export function SavedView() {
   const [items, setItems] = useState<any[]>([]);
@@ -16,6 +17,7 @@ export function SavedView() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const { isPro } = useAds();
 
   const loadSaved = () => {
     const saved = localStorage.getItem('saved_statuses');
@@ -79,9 +81,7 @@ export function SavedView() {
 
   const renderGridItems = (dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
-    
-    // First Ad
-    gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
+    if (!isPro) gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
 
     dataItems.forEach((item, index) => {
       gridElements.push(
@@ -93,8 +93,7 @@ export function SavedView() {
           />
         </div>
       );
-      
-      if ((index + 1) % 5 === 0) {
+      if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(<div key={`saved-ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }
     });
@@ -126,18 +125,18 @@ export function SavedView() {
           <div className="flex items-center gap-1">
             {isSelectionMode ? (
               <>
-                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center gap-1.5">
+                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
                   <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
-                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 transition-transform flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
+                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
               </>
             ) : (
-              !isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center"><CheckSquare className="w-3 h-3 text-gray-400" /></button>
+              !isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><CheckSquare className="w-3 h-3 text-gray-400" /></button>
             )}
           </div>
         </div>
-        <div className="p-0 mt-1">
+        <div className="p-0.5 mt-1">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center space-y-4 px-8 animate-in fade-in zoom-in duration-700">
               <div className="relative group">
