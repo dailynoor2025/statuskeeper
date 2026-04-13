@@ -76,7 +76,6 @@ export function SavedView() {
     setItems(updated);
     localStorage.setItem('saved_statuses', JSON.stringify(updated));
     toast({ title: "Bulk delete complete", description: `${selectedIds.length} items removed`, variant: "destructive" });
-    handleDelete(""); // trigger reload logic
     exitSelectionMode();
   };
 

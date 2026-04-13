@@ -2,28 +2,37 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
-    compileSdk 35
+    compileSdk project.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.qhaleelahmad.statuskeeper"
-        minSdk 22
-        targetSdk 35
+        minSdk project.ext.minSdkVersion
+        targetSdk project.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         aaptOptions {
-             // Fragments and resources should be optimized
-             favoredArm64 = true
+             // Strings should not be compressed
+             noCompress 'txt', 'pdf', 'docx'
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 }
 
@@ -36,12 +45,20 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.core:core-ktx:$androidxCoreVersion"
+    implementation "androidx.activity:activity-ktx:$androidxActivityVersion"
+    implementation "androidx.fragment:fragment-ktx:$androidxFragmentVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation "androidx.webkit:webkit:$androidxWebkitVersion"
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.documentfile:documentfile:1.0.1"
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
     implementation project(':capacitor-android')
     implementation project(':capacitor-cordova-android-plugins')
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.2.1"
-    androidTestImplementation "androidx.test.espresso:core:3.6.1"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:core:$androidxEspressoCoreVersion"
 }
 
 apply from: 'capacitor.build.gradle'

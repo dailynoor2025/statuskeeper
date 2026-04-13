@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
+import { PlayCircle, X, ShieldCheck, ExternalLink, Loader2, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -25,7 +25,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full aspect-[9/14]", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", 
       className
     )}>
       <div className="absolute top-1 left-1 z-10">
@@ -33,7 +33,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           <span className="text-[6px] font-black text-white tracking-tight">Sponsored</span>
         </div>
       </div>
-      <div className="relative flex-1 w-full bg-gray-900 group cursor-pointer overflow-hidden">
+      <div className="relative aspect-[9/14] w-full bg-gray-900 group cursor-pointer overflow-hidden">
         <img 
           src="https://picsum.photos/seed/ad-card-native/400/622" 
           alt="Ad" 
@@ -44,8 +44,8 @@ export function NativeVideoAd({ className }: { className?: string }) {
             <PlayCircle className="w-4 h-4 text-white" />
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 p-1 bg-gradient-to-t from-black/80 to-transparent">
-          <p className="text-[5px] text-white/90 font-bold tracking-tight leading-tight line-clamp-2">Remove ads in settings for a premium experience.</p>
+        <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-gradient-to-t from-black/80 to-transparent">
+          <p className="text-[6px] text-white/90 font-bold tracking-tight leading-tight line-clamp-2">Remove ads in settings for a premium experience.</p>
         </div>
       </div>
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
