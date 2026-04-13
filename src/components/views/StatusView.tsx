@@ -106,7 +106,7 @@ export function StatusView() {
       }
     });
     return gridElements;
-  }, [isSelectionMode, selectedIds, isPro]);
+  }, [isSelectionMode, selectedIds, isPro, statusData]);
 
   if (isLoading) {
     return (
