@@ -14,7 +14,7 @@ import { useAds } from "@/hooks/use-ads";
 
 /**
  * StatusView - Enhanced with Native Video Ad placements.
- * Ads are injected at the start and then every 5 items.
+ * Ads are injected at the start and then strictly every 5 content items.
  */
 
 export function StatusView() {
@@ -98,7 +98,7 @@ export function StatusView() {
   const renderGridItems = (items: typeof statusData) => {
     const gridElements = [];
     
-    // Inject native video ad at the very beginning for non-pro users
+    // talla ta farko (1st ad)
     if (!isPro) {
       gridElements.push(
         <div key="native-ad-start" className="animate-staggered">
@@ -123,7 +123,7 @@ export function StatusView() {
         </div>
       );
       
-      // Inject native video ads every 5 items
+      // talla guda 1 bayan kowane hotuna/bidiyo 5
       if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(
           <div key={`native-ad-mid-${index}`} className="animate-staggered">

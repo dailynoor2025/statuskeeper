@@ -10,7 +10,7 @@ import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * Native Video Ad Component - Logic: Only appears if ad content is "ready".
- * Simulates a video ad placement with mute/unmute and progress tracking.
+ * Updated to match StatusCard dimensions and styling exactly.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const { isPro } = useAds();
@@ -49,40 +49,30 @@ export function NativeVideoAd({ className }: { className?: string }) {
   }
 
   return (
-    <div className={cn("relative flex flex-col rounded-2xl overflow-hidden shadow-md bg-white border border-gray-100 transition-all duration-300 h-full group", className)}>
+    <div className={cn("relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", className)}>
       {/* Sponsored Tag */}
-      <div className="absolute top-2 left-2 z-20">
-        <div className="bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10 shadow-sm flex items-center gap-1">
-          <span className="text-[7px] font-black text-white/90 uppercase tracking-widest">Sponsored</span>
+      <div className="absolute top-1.5 left-1.5 z-20">
+        <div className="bg-black/40 backdrop-blur-md px-1 py-0.5 rounded-md border border-white/10 shadow-sm flex items-center gap-1">
+          <span className="text-[6px] font-black text-white tracking-tight">Sponsored</span>
         </div>
       </div>
 
-      {/* Mute Toggle */}
-      <button 
-        onClick={() => setIsMuted(!isMuted)}
-        className="absolute top-2 right-2 z-20 bg-black/40 backdrop-blur-md p-1.5 rounded-full text-white hover:bg-black/60 active:scale-90 transition-all"
-      >
-        {isMuted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
-      </button>
-
-      {/* Video Content Container */}
-      <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden">
+      {/* Video Content Container - Matches StatusCard aspect ratio */}
+      <div className="relative aspect-[9/14] w-full bg-gray-900 group cursor-pointer">
         <img 
-          src="https://picsum.photos/seed/ad-video-bg/400/622" 
-          alt="Ad Background" 
-          className="w-full h-full object-cover opacity-60 scale-110 blur-[2px]" 
+          src="https://picsum.photos/seed/ad-card-native/400/622" 
+          alt="Ad" 
+          className="w-full h-full object-cover opacity-80" 
         />
         
-        {/* Animated Play Overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20">
-          <div className="bg-primary/20 backdrop-blur-xl p-3 rounded-full border border-white/30 animate-pulse mb-3">
-            <PlayCircle className="w-6 h-6 text-white" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
+          <div className="bg-primary/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 animate-pulse">
+            <PlayCircle className="w-4 h-4 text-white" />
           </div>
-          <span className="text-[8px] font-black text-white/80 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom-1">Play Ad</span>
         </div>
 
         {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/10">
           <div 
             className="h-full bg-primary transition-all duration-300" 
             style={{ width: `${progress}%` }} 
@@ -90,21 +80,17 @@ export function NativeVideoAd({ className }: { className?: string }) {
         </div>
       </div>
       
-      {/* Ad Details Footer */}
-      <div className="p-2 space-y-2 bg-gray-50/50">
-        <div className="flex items-center gap-2 overflow-hidden">
-          <div className="bg-primary px-1.5 py-0.5 rounded-[4px] flex-shrink-0">
-            <span className="text-[6px] font-black text-white">AD</span>
+      {/* Ad Details Footer - Unified with StatusCard px/py and height */}
+      <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
+        <div className="flex items-center gap-1 overflow-hidden">
+          <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
+            <span className="text-[5px] font-black text-white">Ad</span>
           </div>
-          <div className="min-w-0">
-            <p className="text-[8px] font-black tracking-tight text-gray-900 truncate">Status Saver Premium</p>
-            <p className="text-[6px] font-bold text-gray-400 leading-none truncate">Get elite tools today</p>
-          </div>
+          <span className="text-[6px] font-black tracking-tight text-primary truncate">Promoted content</span>
         </div>
-        
-        <Button variant="outline" className="w-full h-7 rounded-lg text-[8px] font-black uppercase tracking-wider border-primary/20 text-primary hover:bg-primary hover:text-white">
-          Install Now <ExternalLink className="w-2 h-2 ml-1" />
-        </Button>
+        <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200">
+          <ExternalLink className="w-2.5 h-2.5" />
+        </button>
       </div>
     </div>
   );

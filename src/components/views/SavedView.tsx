@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * SavedView - Logic: Only reveals content grid if items are present in storage.
- * Provides detailed category-specific absence messages.
+ * Updated with standardized ad placement logic (1st ad + 1 per 5 items).
  */
 
 export function SavedView() {
@@ -92,7 +92,15 @@ export function SavedView() {
 
   const renderGridItems = (dataItems: any[]) => {
     const gridElements = [];
-    if (!isPro) gridElements.push(<div key="saved-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
+    
+    // talla ta farko (1st ad)
+    if (!isPro) {
+      gridElements.push(
+        <div key="saved-ad-start" className="animate-staggered">
+          <NativeVideoAd />
+        </div>
+      );
+    }
 
     dataItems.forEach((item, index) => {
       gridElements.push(
@@ -110,8 +118,14 @@ export function SavedView() {
           />
         </div>
       );
+      
+      // talla guda 1 bayan kowane hotuna/bidiyo 5
       if (!isPro && (index + 1) % 5 === 0) {
-        gridElements.push(<div key={`saved-ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
+        gridElements.push(
+          <div key={`saved-ad-mid-${index}`} className="animate-staggered">
+            <NativeVideoAd />
+          </div>
+        );
       }
     });
     return gridElements;
