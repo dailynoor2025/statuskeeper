@@ -56,7 +56,7 @@ export function SettingsView() {
 
   return (
     <div className="px-3 py-4 animate-in slide-in-from-right-2 duration-500 w-full h-full pb-20 overflow-y-auto no-scrollbar bg-gray-50/10">
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full text-gray-900">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
         <div className="p-4 border-b border-gray-50 bg-gray-50/50">
           <div className="flex justify-between items-end mb-2">
             <div>
@@ -75,7 +75,7 @@ export function SettingsView() {
                 <FolderSearch className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight truncate">Status directory</p>
+                <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900 truncate">Status directory</p>
                 <p className="text-[clamp(7px,1.8vw,8px)] text-gray-400 font-bold tracking-tight leading-none mt-0.5 truncate">Android/media/com.whatsapp/WhatsApp/Media/.Statuses</p>
               </div>
             </div>
@@ -91,7 +91,7 @@ export function SettingsView() {
                 {isClearing ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Database className="w-4 h-4" />}
               </div>
               <div>
-                <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight">Clear temp cache</p>
+                <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">Clear temp cache</p>
                 <p className="text-[clamp(8px,2vw,9px)] text-primary font-black tracking-tight leading-none mt-0.5">{cacheSize} identified</p>
               </div>
             </div>
@@ -101,7 +101,7 @@ export function SettingsView() {
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
-        <div className="px-4 py-3 border-b border-gray-50 text-gray-900">
+        <div className="px-4 py-3 border-b border-gray-50">
           <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight">Automation & logic</p>
         </div>
         <div className="divide-y divide-gray-50">
@@ -149,7 +149,7 @@ export function SettingsView() {
       <div className="p-4 text-center space-y-1.5 opacity-30">
         <div className="flex items-center justify-center gap-1 text-gray-400 font-black tracking-tight text-[8px]">
           <ShieldCheck className="w-3 h-3" />
-          <span>Secured Status keeper network</span>
+          <span>Secured status keeper network</span>
         </div>
         <p className="text-[7px] font-bold text-gray-300">Version 1.5.0 stable build</p>
       </div>

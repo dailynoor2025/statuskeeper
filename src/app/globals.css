@@ -40,9 +40,9 @@
 .status-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  gap: 1px;
   width: 100%;
-  padding: 2px;
+  padding: 1px;
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
