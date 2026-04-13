@@ -25,19 +25,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    // Adding allowedDevOrigins to resolve cross-origin warnings in Cloud Workstations
+    allowedDevOrigins: [
+      '9000-firebase-studio-1776001683837.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev',
+      '*.cloudworkstations.dev'
+    ]
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    allowedDevOrigins: [
-      '9000-firebase-studio-1776001683837.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev',
-      '*.cloudworkstations.dev',
-      '*.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev'
-    ]
-  }
 };
 
 export default nextConfig;
