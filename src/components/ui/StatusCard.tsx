@@ -7,11 +7,6 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { Share } from '@capacitor/share';
 
-/**
- * StatusCard component - Synchronized with NativeVideoAd layout.
- * Follows strict Sentence case and professional grid styling.
- */
-
 export interface StatusCardProps {
   id: string;
   imageUrl: string;

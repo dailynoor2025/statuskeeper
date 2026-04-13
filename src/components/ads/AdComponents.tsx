@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import { PlayCircle, X, ShieldCheck, ExternalLink, Loader2 } from 'lucide-react';
+import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
