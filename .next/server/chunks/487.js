@@ -1,1 +1,0 @@
-"use strict";exports.id=487,exports.ids=[487],exports.modules={6487:(a,b,c)=>{c.r(b),c.d(b,{SplashScreenWeb:()=>e});var d=c(1022);class e extends d.E_{async show(a){}async hide(a){}}}};

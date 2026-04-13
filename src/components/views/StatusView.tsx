@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 import { useAds } from "@/hooks/use-ads";
 
 /**
- * StatusView - Logic: Content only appears if fetched from filesystem.
- * Otherwise, detailed reasons for absence are displayed.
+ * StatusView - Enhanced with Native Video Ad placements.
+ * Ads are injected at the start and then every 5 items.
  */
 
 export function StatusView() {
@@ -26,9 +26,7 @@ export function StatusView() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { isPro } = useAds();
 
-  // Logic: Simulation of filesystem fetch
   const statusData = useMemo(() => {
-    // In production, this replaces PlaceHolderImages with Filesystem.readdir results
     return PlaceHolderImages.map((img, i) => ({
       ...img,
       type: i % 4 === 0 ? 'video' : ('image' as 'image' | 'video'),
@@ -99,7 +97,15 @@ export function StatusView() {
 
   const renderGridItems = (items: typeof statusData) => {
     const gridElements = [];
-    if (!isPro) gridElements.push(<div key="permanent-ad" className="animate-staggered"><NativeVideoAd /></div>);
+    
+    // Inject native video ad at the very beginning for non-pro users
+    if (!isPro) {
+      gridElements.push(
+        <div key="native-ad-start" className="animate-staggered">
+          <NativeVideoAd />
+        </div>
+      );
+    }
 
     items.forEach((item, index) => {
       gridElements.push(
@@ -116,10 +122,17 @@ export function StatusView() {
           />
         </div>
       );
+      
+      // Inject native video ads every 5 items
       if (!isPro && (index + 1) % 5 === 0) {
-        gridElements.push(<div key={`ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
+        gridElements.push(
+          <div key={`native-ad-mid-${index}`} className="animate-staggered">
+            <NativeVideoAd />
+          </div>
+        );
       }
     });
+    
     return gridElements;
   };
 
