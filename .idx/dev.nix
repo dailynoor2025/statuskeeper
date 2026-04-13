@@ -5,12 +5,21 @@
     pkgs.openjdk17
     pkgs.android-tools
   ];
-  idx.previews = {
-    enable = true;
+  env = {
+    JAVA_HOME = "${pkgs.openjdk17}";
+    ANDROID_HOME = "/usr/lib/android-sdk";
+  };
+  idx = {
+    extensions = [
+      "usernamehw.errorlens"
+    ];
     previews = {
-      web = {
-        command = [ "npm" "run" "dev" "--" "--port" "$PORT" "--hostname" "0.0.0.0" ];
-        manager = "web";
+      enable = true;
+      previews = {
+        web = {
+          command = ["npm" "run" "dev" "--" "-p" "$PORT"];
+          manager = "web";
+        };
       };
     };
   };

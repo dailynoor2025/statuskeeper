@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -15,7 +15,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1200));
         setAdStatus('ready');
       } catch (e) {
         setAdStatus('error');
@@ -167,6 +167,41 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
   );
 }
 
+export function useRewardedAd(onReward: () => void) {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isWatching, setIsWatching] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
+  const showRewardedAd = useCallback(() => {
+    if (isProcessing || isWatching) return;
+    setIsProcessing(true);
+    setTimeout(() => {
+      setIsProcessing(false);
+      setIsWatching(true);
+      setCountdown(10);
+    }, 1800);
+  }, [isProcessing, isWatching]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isWatching && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isWatching, countdown]);
+
+  const completeReward = useCallback(() => {
+    if (countdown === 0) {
+      onReward();
+    }
+    setIsWatching(false);
+  }, [countdown, onReward]);
+
+  return { showRewardedAd, isProcessing, isWatching, countdown, completeReward };
+}
+
 export function RewardedAdOverlay({ 
   isOpen, 
   countdown, 
@@ -183,9 +218,9 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Unlock Elite Access"
+      title="Unlock elite access"
       subtitle="Watch until the end to claim your reward"
-      buttonText="Claim 24H Premium"
+      buttonText="Claim 24h premium"
     />
   );
 }
