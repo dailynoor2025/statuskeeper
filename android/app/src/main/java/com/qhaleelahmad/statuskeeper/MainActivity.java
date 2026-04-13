@@ -1,4 +1,4 @@
-package com.statuskeeper.app;
+package com.qhaleelahmad.statuskeeper;
 
 import com.getcapacitor.BridgeActivity;
 
