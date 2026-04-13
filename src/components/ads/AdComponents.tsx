@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -69,14 +70,14 @@ export function NativeVideoAd({ className }: { className?: string }) {
       
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
         <div className="flex items-center gap-1 overflow-hidden">
-          <Clock className="w-2.5 h-2.5 text-primary/60" />
-          <span className="text-[6px] font-black tracking-tight text-primary truncate">Promoted content</span>
+          <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
+            <span className="text-[5px] font-black text-white">Ad</span>
+          </div>
+          <span className="text-[6px] font-black tracking-tight text-primary truncate">Status Saver Premium</span>
         </div>
-        <div className="flex items-center gap-1">
-          <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200">
-            <ExternalLink className="w-2.5 h-2.5" />
-          </button>
-        </div>
+        <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200">
+          <ExternalLink className="w-2.5 h-2.5" />
+        </button>
       </div>
     </div>
   );
@@ -124,7 +125,7 @@ function AdOverlayLayout({
               <span className="text-[10px] font-black tracking-tight">{timerLabel}</span>
             ) : (
               <>
-                <span className="text-[10px] font-black tracking-tight uppercase">Close ad</span>
+                <span className="text-[10px] font-black tracking-tight uppercase">Skip ad</span>
                 <X className="w-4 h-4" />
               </>
             )}
@@ -133,20 +134,19 @@ function AdOverlayLayout({
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-[320px] mx-auto space-y-8">
-          <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl group">
+        <div className="w-full max-w-[320px] mx-auto space-y-6">
+          <div className="relative aspect-[9/16] w-full max-h-[60vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl group">
             <img src="https://picsum.photos/seed/inter-ad-main/600/1067" alt="Ad content" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 space-y-1">
-              <h2 className="text-xl font-black text-white tracking-tight leading-tight">{title}</h2>
-              <p className="text-[10px] text-white/60 font-bold tracking-widest uppercase">{subtitle}</p>
+            <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
+              <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
+              <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
             </div>
           </div>
           <div className="space-y-4 px-2">
-            <Button className="w-full h-14 rounded-2xl font-black tracking-tight text-[12px] bg-primary shadow-2xl shadow-primary/40 active:scale-95 transition-all">
+            <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all">
               {buttonText}
             </Button>
-            <p className="text-[8px] text-center text-white/30 font-bold tracking-widest uppercase">Safe & secure network</p>
+            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>
           </div>
         </div>
       </div>
@@ -178,8 +178,8 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       disabledClose={timer > 0}
       timerLabel={`Wait ${timer}s`}
       title="Unlock pro experience"
-      subtitle="No more ads, just status"
-      buttonText="Remove all ads now"
+      subtitle="Get elite tools today"
+      buttonText="Install Now"
     />
   );
 }
@@ -218,8 +218,8 @@ export function useRewardedAd(onReward: () => void) {
       setIsProcessing(false);
       setIsWatching(true);
       setCountdown(AD_CONFIG.SETTINGS.REWARDED_COUNTDOWN_SEC);
-      toast({ title: "Video ready", description: "Watch until end to receive reward" });
-    }, 1500); 
+      toast({ title: "Video loaded", description: "Watch until end to receive reward" });
+    }, 1800); 
   }, [isProcessing, isWatching]);
 
   useEffect(() => {
@@ -227,8 +227,7 @@ export function useRewardedAd(onReward: () => void) {
     if (isWatching && countdown > 0) {
       interval = setInterval(() => setCountdown(p => p - 1), 1000);
     } else if (isWatching && countdown === 0) {
-      // Auto-complete or wait for user to close? 
-      // For this MVP, we'll auto-complete after a small delay once closed or auto
+      // Auto-complete logic can go here or be triggered by overlay button
     }
     return () => clearInterval(interval);
   }, [isWatching, countdown]);
@@ -236,7 +235,7 @@ export function useRewardedAd(onReward: () => void) {
   const completeReward = useCallback(() => {
     setIsWatching(false);
     onReward();
-    toast({ title: "Reward granted!", description: "Ad-free access updated.", variant: "success" });
+    toast({ title: "Reward success", description: "Pro status updated", variant: "success" });
   }, [onReward]);
 
   return { showRewardedAd, isProcessing, isWatching, countdown, completeReward };
