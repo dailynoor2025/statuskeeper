@@ -116,7 +116,7 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
         <div className="flex items-center gap-2">
           <div className="bg-primary/10 p-1.5 rounded-lg"><Zap className="w-4 h-4 text-primary" /></div>
           <div>
-            <h3 className="font-black text-[clamp(10px,2.5vw,11px)] tracking-tight leading-none">Quick boost</h3>
+            <h3 className="font-black text-[clamp(10px,2.5vw,11px)] tracking-tight leading-none text-gray-900">Quick boost</h3>
             <p className="text-[clamp(8px,2vw,9px)] text-gray-400 font-bold tracking-tight">7 hours ad-free</p>
           </div>
         </div>
@@ -124,7 +124,7 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
         <Button 
           onClick={show7hAd} 
           disabled={isProc7h || isWatching7h || isPro} 
-          className="w-full h-10 rounded-lg font-black text-[10px] bg-primary shadow-lg shadow-primary/20 active:scale-95 transition-all"
+          className="w-full h-10 rounded-lg font-black text-[10px] bg-primary shadow-lg shadow-primary/20 active:scale-95 transition-all border-none"
         >
           {isProc7h ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -161,7 +161,7 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
         <Button 
           onClick={show24hStepAd} 
           disabled={isProc24h || isWatching24h || isPro} 
-          className="w-full h-10 rounded-lg font-black text-[10px] bg-white text-primary hover:bg-white/90 active:scale-95 shadow-2xl transition-all"
+          className="w-full h-10 rounded-lg font-black text-[10px] bg-white text-primary hover:bg-white/90 active:scale-95 shadow-2xl transition-all border-none"
         >
           {isProc24h ? (
             <RefreshCcw className="w-4 h-4 animate-spin" />

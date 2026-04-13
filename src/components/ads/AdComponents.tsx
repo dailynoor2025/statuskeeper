@@ -83,7 +83,7 @@ function AdOverlayLayout({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe">
+    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
       <div className="bg-black/40 border-b border-white/5">
         <div className="p-4 flex justify-between items-center">
           <div className="flex items-center gap-1.5">
@@ -119,7 +119,7 @@ function AdOverlayLayout({
             </div>
           </div>
           <div className="space-y-4 px-2">
-            <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all">
+            <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all border-none">
               {buttonText}
             </Button>
             <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>

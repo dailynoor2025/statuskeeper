@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatusCard } from "@/components/ui/StatusCard";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { NativeVideoAd } from "@/components/ads/AdComponents";

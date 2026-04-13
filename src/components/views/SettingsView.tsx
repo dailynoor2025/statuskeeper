@@ -56,7 +56,7 @@ export function SettingsView() {
 
   return (
     <div className="px-3 py-4 animate-in slide-in-from-right-2 duration-500 w-full h-full pb-20 overflow-y-auto no-scrollbar bg-gray-50/10">
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full text-gray-900">
         <div className="p-4 border-b border-gray-50 bg-gray-50/50">
           <div className="flex justify-between items-end mb-2">
             <div>
@@ -101,7 +101,7 @@ export function SettingsView() {
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
-        <div className="px-4 py-3 border-b border-gray-50">
+        <div className="px-4 py-3 border-b border-gray-50 text-gray-900">
           <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight">Automation & logic</p>
         </div>
         <div className="divide-y divide-gray-50">
@@ -114,7 +114,7 @@ export function SettingsView() {
                 <DownloadCloud className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight">Auto-download</p>
+                <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">Auto-download</p>
                 <p className="text-[clamp(8px,2vw,9px)] text-gray-400 font-bold tracking-tight mt-0.5">Save viewed statuses instantly</p>
               </div>
             </div>
@@ -129,7 +129,7 @@ export function SettingsView() {
               <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500 shadow-sm">
                 <Bell className="w-4 h-4" />
               </div>
-              <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight">New status alert</p>
+              <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">New status alert</p>
             </div>
             <Switch className="scale-90 origin-right" checked={notifyNewStatus} onCheckedChange={handleToggleNotify} />
           </div>
@@ -139,7 +139,7 @@ export function SettingsView() {
               <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 shadow-sm">
                 <ShieldCheck className="w-4 h-4" />
               </div>
-              <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight truncate">App language</p>
+              <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight truncate text-gray-900">App language</p>
               <span className="ml-auto text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 whitespace-nowrap">English only</span>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { StatusCard } from "@/components/ui/StatusCard";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { NativeVideoAd } from "@/components/ads/AdComponents";
 import { FolderHeart, Camera, PlayCircle, CheckSquare, X, Trash2, CheckSquare2, FileX } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
