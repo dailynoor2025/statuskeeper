@@ -16,6 +16,32 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+    // Force all subprojects (including plugins like filesystem) to use Java 17
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            project.android {
+                compileSdk rootProject.ext.compileSdkVersion
+                if (project.name != "app") {
+                    defaultConfig {
+                        targetSdk rootProject.ext.targetSdkVersion
+                    }
+                }
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+    }
 }
 
 tasks.register("clean", Delete) {

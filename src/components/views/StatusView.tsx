@@ -127,7 +127,7 @@ export function StatusView() {
   const isEmpty = activeItems.length === 0;
 
   return (
-    <div className="w-full h-full flex flex-col overflow-y-auto no-scrollbar pb-16 bg-gray-50/20 relative">
+    <div className="w-full h-full flex flex-col overflow-y-auto no-scrollbar bg-gray-50/20 relative">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">

@@ -99,11 +99,11 @@ export function StatusCard({
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full aspect-[9/14]", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", 
       isAnimating ? "ring-2 ring-primary scale-95" : "hover:shadow-md",
       isSelected && "ring-2 ring-primary bg-primary/5"
     )}>
-      <div onClick={handleClick} className="relative flex-1 w-full cursor-pointer overflow-hidden group bg-gray-900">
+      <div onClick={handleClick} className="relative aspect-[9/14] w-full cursor-pointer overflow-hidden group bg-gray-900">
         <Image 
           src={imageUrl} 
           alt="Status" 
