@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { RefreshCcw, Gem, ShieldCheck, Zap, Star, Loader2, PlayCircle } from 'lucide-react';
+import { RefreshCcw, Gem, ShieldCheck, Zap, Star, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useRewardedAd } from '@/components/ads/AdComponents';
+import { useRewardedAd, RewardedAdOverlay } from '@/components/ads/AdComponents';
 import { cn } from '@/lib/utils';
 
 interface PremiumViewProps {
@@ -55,14 +55,16 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
     showRewardedAd: show7hAd, 
     isProcessing: isProc7h, 
     isWatching: isWatching7h, 
-    countdown: count7h 
+    countdown: count7h,
+    completeReward: complete7h
   } = useRewardedAd(() => activateAdFree(7));
   
   const { 
     showRewardedAd: show24hStepAd, 
     isProcessing: isProc24h, 
     isWatching: isWatching24h, 
-    countdown: count24h 
+    countdown: count24h,
+    completeReward: complete24h
   } = useRewardedAd(() => {
     const nextCount = adCount + 1;
     if (nextCount >= GOAL) {
@@ -126,11 +128,7 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
         >
           {isProc7h ? (
             <Loader2 className="w-4 h-4 animate-spin" />
-          ) : isWatching7h ? (
-            <span className="flex items-center gap-2"><PlayCircle className="w-4 h-4 animate-pulse" /> Reward in {count7h}s</span>
-          ) : (
-            <span className="flex items-center gap-2">Watch video <Zap className="w-3 h-3" /></span>
-          )}
+          ) : "Watch video"}
         </Button>
       </div>
 
@@ -167,8 +165,6 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
         >
           {isProc24h ? (
             <RefreshCcw className="w-4 h-4 animate-spin" />
-          ) : isWatching24h ? (
-            <span className="flex items-center gap-2"><PlayCircle className="w-4 h-4 animate-pulse" /> Verifying {count24h}s</span>
           ) : "Next step"}
         </Button>
       </div>
@@ -179,6 +175,9 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
           <span>Secured Status keeper network</span>
         </div>
       </div>
+
+      <RewardedAdOverlay isOpen={isWatching7h} countdown={count7h} onClose={complete7h} />
+      <RewardedAdOverlay isOpen={isWatching24h} countdown={count24h} onClose={complete24h} />
     </div>
   );
 }

@@ -12,11 +12,6 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useAds } from "@/hooks/use-ads";
 
-/**
- * StatusView - Enhanced with Native Video Ad placements.
- * Ads are injected at the start and then strictly every 5 content items.
- */
-
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -52,7 +47,6 @@ export function StatusView() {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     toast({ title: "Smart scan", description: "Checking WhatsApp directories..." });
-    
     setTimeout(() => {
       setIsRefreshing(false);
       toast({ title: "Sync complete", description: "Status list updated", variant: "success" });
@@ -60,9 +54,7 @@ export function StatusView() {
   };
 
   const toggleSelect = (id: string) => {
-    setSelectedIds(prev => 
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
 
   const handleSelectAll = () => {
@@ -97,42 +89,23 @@ export function StatusView() {
 
   const renderGridItems = (items: typeof statusData) => {
     const gridElements = [];
-    
-    // talla ta farko (1st ad)
     if (!isPro) {
-      gridElements.push(
-        <div key="native-ad-start" className="animate-staggered">
-          <NativeVideoAd />
-        </div>
-      );
+      gridElements.push(<div key="native-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
     }
-
     items.forEach((item, index) => {
       gridElements.push(
         <div key={item.id} className="animate-staggered" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
           <StatusCard 
-            id={item.id} 
-            imageUrl={item.imageUrl} 
-            type={item.type} 
-            mode="status" 
-            isSelectionMode={isSelectionMode}
-            isSelected={selectedIds.includes(item.id)}
-            onToggleSelect={toggleSelect}
-            onView={setSelectedMedia} 
+            id={item.id} imageUrl={item.imageUrl} type={item.type} mode="status" 
+            isSelectionMode={isSelectionMode} isSelected={selectedIds.includes(item.id)}
+            onToggleSelect={toggleSelect} onView={setSelectedMedia} 
           />
         </div>
       );
-      
-      // talla guda 1 bayan kowane hotuna/bidiyo 5
       if (!isPro && (index + 1) % 5 === 0) {
-        gridElements.push(
-          <div key={`native-ad-mid-${index}`} className="animate-staggered">
-            <NativeVideoAd />
-          </div>
-        );
+        gridElements.push(<div key={`native-ad-mid-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
       }
     });
-    
     return gridElements;
   };
 
@@ -157,78 +130,49 @@ export function StatusView() {
   return (
     <div className="w-full h-full flex flex-col overflow-y-auto no-scrollbar pb-16 bg-gray-50/20 relative">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
+        <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none mr-2 shadow-inner">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
-            <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Camera className="w-3.5 h-3.5" />
-            </TabsTrigger>
-            <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <PlayCircle className="w-3.5 h-3.5" />
-            </TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[9px] font-black uppercase h-full data-[state=active]:bg-white">All</TabsTrigger>
+            <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
+            <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
-          
           <div className="flex items-center gap-1">
             {isSelectionMode ? (
               <>
-                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center gap-1.5">
+                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center gap-1.5">
                   <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
-                  <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">
-                    {isAllActiveSelected ? 'Unmark' : 'Mark all'}
-                  </span>
+                  <span className="text-[8px] font-black uppercase text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
-                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 transition-transform flex items-center justify-center">
-                  <X className="w-3 h-3 text-red-500" />
-                </button>
+                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
               </>
             ) : (
               <>
-                {!isEmpty && (
-                  <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center">
-                    <CheckSquare className="w-3 h-3 text-gray-400" />
-                  </button>
-                )}
-                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 transition-transform flex items-center justify-center">
-                  <RefreshCcw className={cn("w-3 h-3 text-gray-400", isRefreshing && "animate-spin text-primary")} />
-                </button>
+                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><CheckSquare className="w-3 h-3 text-gray-400" /></button>}
+                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><RefreshCcw className={cn("w-3 h-3 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
               </>
             )}
           </div>
         </div>
-
         <div className="p-0.5 mt-1">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in duration-700">
-              <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner">
-                <FileWarning className="w-10 h-10 text-gray-300" />
-              </div>
-              <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">
-                No {activeTab === 'all' ? 'statuses' : activeTab} found
-              </h3>
-              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] uppercase tracking-wider">
-                Statuses appear here only after you watch them in the official WhatsApp app. Please view some media and return.
-              </p>
-              <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] tracking-tight border-gray-200">
-                Check directory again
-              </Button>
+              <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>
+              <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No {activeTab === 'all' ? 'statuses' : activeTab} found</h3>
+              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] mx-auto uppercase tracking-wider">Statuses appear here only after you watch them in WhatsApp.</p>
+              <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] border-gray-200">Check directory again</Button>
             </div>
           ) : (
-            <div className="status-grid-3">
-              {renderGridItems(activeItems)}
-            </div>
+            <div className="status-grid-3">{renderGridItems(activeItems)}</div>
           )}
         </div>
       </Tabs>
-      
       {isSelectionMode && selectedIds.length > 0 && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-5 duration-300">
-          <button onClick={handleBulkSave} className="h-8 px-4 rounded-full bg-primary text-white shadow-2xl flex items-center gap-2 active:scale-95 transition-all text-[10px] font-black whitespace-nowrap">
-            <Download className="w-3.5 h-3.5" />
-            Download {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
+          <button onClick={handleBulkSave} className="h-8 px-4 rounded-full bg-primary text-white shadow-2xl flex items-center gap-2 active:scale-95 text-[10px] font-black whitespace-nowrap">
+            <Download className="w-3.5 h-3.5" /> Download {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
           </button>
         </div>
       )}
-
       <MediaViewer isOpen={!!selectedMedia} onClose={() => setSelectedMedia(null)} media={selectedMedia} mode="status" />
     </div>
   );
