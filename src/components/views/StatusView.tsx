@@ -119,7 +119,7 @@ export function StatusView() {
             <RefreshCcw className="w-4 h-4 text-primary animate-spin" />
           </div>
         </div>
-        <p className="text-[9px] font-black text-gray-400 tracking-[0.4em]">Locating media...</p>
+        <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em]">Locating media...</p>
       </div>
     );
   }
@@ -157,7 +157,7 @@ export function StatusView() {
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
               <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>
               <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No {activeTab} found</h3>
-              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] tracking-wider">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>
+              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] tracking-wider uppercase">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>
               <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] tracking-tight border-gray-200">Check directory again</Button>
             </div>
           ) : (
