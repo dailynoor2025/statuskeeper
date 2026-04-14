@@ -91,20 +91,35 @@ export function StatusView() {
 
   const renderGridItems = useCallback((dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
-    if (!isPro) gridElements.push(<div key="native-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
+    if (!isPro) {
+      gridElements.push(
+        <div key="native-ad-start" className="animate-staggered h-full">
+          <NativeVideoAd />
+        </div>
+      );
+    }
 
     dataItems.forEach((item, index) => {
       gridElements.push(
-        <div key={item.id} className="animate-staggered" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
+        <div key={item.id} className="animate-staggered h-full" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
           <StatusCard 
-            id={item.id} imageUrl={item.imageUrl} type={item.type} mode="status" 
-            isSelectionMode={isSelectionMode} isSelected={selectedIds.includes(item.id)}
-            onToggleSelect={toggleSelect} onView={setSelectedMedia} 
+            id={item.id} 
+            imageUrl={item.imageUrl} 
+            type={item.type} 
+            mode="status" 
+            isSelectionMode={isSelectionMode} 
+            isSelected={selectedIds.includes(item.id)}
+            onToggleSelect={toggleSelect} 
+            onView={setSelectedMedia} 
           />
         </div>
       );
       if (!isPro && (index + 1) % 5 === 0) {
-        gridElements.push(<div key={`ad-${index}`} className="animate-staggered"><NativeVideoAd /></div>);
+        gridElements.push(
+          <div key={`ad-${index}`} className="animate-staggered h-full">
+            <NativeVideoAd />
+          </div>
+        );
       }
     });
     return gridElements;
