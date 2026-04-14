@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { RefreshCcw, Gem, ShieldCheck, Zap, Star, Loader2 } from 'lucide-react';
+import { Gem, ShieldCheck, Zap, Star, Loader2, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useRewardedAd, RewardedAdOverlay } from '@/components/ads/AdComponents';
