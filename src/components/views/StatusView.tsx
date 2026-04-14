@@ -87,7 +87,7 @@ export function StatusView() {
     exitSelectionMode();
   };
 
-  const renderGridItems = (dataItems: typeof statusData) => {
+  const renderGridItems = useCallback((dataItems: typeof statusData) => {
     const gridElements: React.ReactNode[] = [];
     if (!isPro) gridElements.push(<div key="native-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
 
@@ -106,7 +106,7 @@ export function StatusView() {
       }
     });
     return gridElements;
-  };
+  }, [isSelectionMode, selectedIds, isPro, statusData]);
 
   if (isLoading) {
     return (
@@ -131,7 +131,7 @@ export function StatusView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
@@ -157,7 +157,7 @@ export function StatusView() {
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
               <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>
               <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No {activeTab} found</h3>
-              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] tracking-tight">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>
+              <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] tracking-tight uppercase tracking-widest">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>
               <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] tracking-tight border-gray-200">Check directory again</Button>
             </div>
           ) : (

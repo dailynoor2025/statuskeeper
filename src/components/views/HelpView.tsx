@@ -39,7 +39,7 @@ export function HelpView() {
           <HelpCircle className="w-6 h-6 text-primary" />
         </div>
         <h2 className="text-[clamp(14px,4vw,18px)] font-black text-gray-900 tracking-tight leading-tight">Help & support</h2>
-        <p className="text-[clamp(10px,2.5vw,12px)] text-gray-400 font-bold tracking-tight">Troubleshooting and solutions</p>
+        <p className="text-[clamp(10px,2.5vw,12px)] text-gray-400 font-bold tracking-tight uppercase tracking-widest">Troubleshooting and solutions</p>
       </div>
 
       <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden p-2">
@@ -60,7 +60,7 @@ export function HelpView() {
 
       <div className="bg-destructive/5 border border-destructive/10 rounded-2xl p-4 flex items-start gap-3">
         <ShieldAlert className="w-4 h-4 text-destructive flex-shrink-0 mt-0.5" />
-        <p className="text-[9px] font-bold text-destructive/80 leading-tight uppercase tracking-wider">
+        <p className="text-[9px] font-bold text-destructive/80 leading-tight uppercase tracking-widest">
           Warning: clearing app data will reset your premium timer.
         </p>
       </div>
