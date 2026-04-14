@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -60,8 +61,6 @@ export function StatusCard({
         setIsSaved(true);
         
         toast({ title: "Status saved", description: "Media captured to gallery", variant: "success" });
-
-        // Request interstitial ad after a single save action (natural break)
         window.dispatchEvent(new CustomEvent('request-interstitial'));
       }
     } catch (err) {
@@ -99,6 +98,7 @@ export function StatusCard({
       isAnimating ? "ring-2 ring-primary scale-95" : "hover:shadow-md",
       isSelected && "ring-2 ring-primary bg-primary/5"
     )}>
+      {/* Media Image Layer */}
       <div onClick={handleClick} className="relative aspect-[9/14] w-full cursor-pointer overflow-hidden group bg-gray-900">
         <Image 
           src={imageUrl} 
@@ -119,7 +119,7 @@ export function StatusCard({
         )}
 
         <div className="absolute top-1.5 left-1.5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.2)]">
+          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
             {type === 'video' ? <Play className="w-2.5 h-2.5 text-white fill-white" /> : <Sparkles className="w-2.5 h-2.5 text-white/90" />}
           </div>
         </div>
@@ -133,6 +133,7 @@ export function StatusCard({
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
+      {/* Card Footer */}
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
         <div className="flex items-center gap-1 overflow-hidden">
           <Clock className="w-2.5 h-2.5 text-primary/60" />

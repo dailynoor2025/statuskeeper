@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -6,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 /**
- * NativeVideoAd - Normalized structure to perfectly match StatusCard dimensions.
+ * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
+ * High visual distinction to comply with AdMob policies.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -28,42 +30,40 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-200 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border-2 border-slate-200 transition-all duration-300 h-full", 
       className
     )}>
-      {/* Main Image Container - Identical aspect ratio to StatusCard */}
-      <div className="relative aspect-[9/14] w-full bg-slate-900 group cursor-pointer overflow-hidden">
+      {/* Media Layer - Exact same aspect ratio as StatusCard */}
+      <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <img 
-          src="https://picsum.photos/seed/ad-card-v4/400/622" 
-          alt="Advertisement" 
-          className="w-full h-full object-cover opacity-80" 
+          src="https://picsum.photos/seed/ad-distinguished/400/622" 
+          alt="Ad content" 
+          className="w-full h-full object-cover opacity-75" 
         />
         
-        {/* Ad Indicator Badge */}
-        <div className="absolute top-1.5 left-1.5 z-10">
-          <div className="bg-primary/90 backdrop-blur-md px-1.5 py-0.5 rounded-md shadow-sm border border-white/20">
-            <span className="text-[6px] font-black text-white uppercase tracking-tight">Ad</span>
+        {/* Ad Badge - Must be prominent */}
+        <div className="absolute top-2 left-2 z-10">
+          <div className="bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md shadow-sm border border-slate-200">
+            <span className="text-[7px] font-black text-slate-900 uppercase tracking-widest">Ad</span>
           </div>
         </div>
 
-        {/* Visual Call to Action in Center */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-          <div className="bg-primary/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse shadow-lg">
-            <PlayCircle className="w-4 h-4 text-white" />
+        {/* CTA in Center */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="bg-white/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 shadow-xl">
+            <PlayCircle className="w-5 h-5 text-white" />
           </div>
         </div>
       </div>
 
-      {/* Footer - Standardized to 28px height to align with StatusCard grid */}
-      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
-        <div className="flex items-center gap-1 overflow-hidden">
-          <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest truncate">Sponsored content</span>
+      {/* Footer - Matched min-height to StatusCard footer (28px) */}
+      <div className="flex items-center justify-between px-2 py-1 bg-white border-t border-slate-100 min-h-[28px]">
+        <div className="flex items-center overflow-hidden">
+          <span className="text-[7px] font-black text-slate-400 uppercase tracking-tighter truncate">Promoted content</span>
         </div>
-        <div className="flex items-center">
-          <button className="p-0.5 text-blue-600 bg-blue-50 rounded-md active:scale-90 transition-all shadow-sm">
-            <ExternalLink className="w-2.5 h-2.5" />
-          </button>
-        </div>
+        <button className="p-1 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors active:scale-90">
+          <ExternalLink className="w-3 h-3" />
+        </button>
       </div>
     </div>
   );
@@ -89,12 +89,12 @@ function AdOverlayLayout({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
+    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
       <div className="bg-black/40 border-b border-white/5">
         <div className="p-4 flex justify-between items-center">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3 h-3 text-primary" />
-            <span className="text-[9px] font-black text-white/60 tracking-tight">Sponsored content</span>
+            <span className="text-[9px] font-black text-white/60 tracking-tight uppercase">Sponsored</span>
           </div>
           <button 
             disabled={disabledClose} 
@@ -118,17 +118,17 @@ function AdOverlayLayout({
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-[320px] mx-auto space-y-6">
           <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-            <img src="https://picsum.photos/seed/inter-ad-main/600/1067" alt="Ad content" className="w-full h-full object-cover" />
+            <img src="https://picsum.photos/seed/inter-ad-safe/600/1067" alt="Promoted" className="w-full h-full object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
               <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
-              <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
+              <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none uppercase">{subtitle}</p>
             </div>
           </div>
           <div className="space-y-4 px-2">
             <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all border-none">
               {buttonText}
             </Button>
-            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>
+            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight uppercase">Remove ads in settings permanently</p>
           </div>
         </div>
       </div>
@@ -159,8 +159,8 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
       title="Status keeper pro"
-      subtitle="Upgrade for ad-free experience"
-      buttonText="Go ad-free now"
+      subtitle="Unlock premium for ad-free experience"
+      buttonText="Go pro now"
     />
   );
 }
@@ -216,9 +216,9 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Unlock elite access"
-      subtitle="Watch until the end to claim your reward"
-      buttonText="Claim 24h premium"
+      title="Claim elite access"
+      subtitle="Watch until the end to get 24h reward"
+      buttonText="Activate premium"
     />
   );
 }
