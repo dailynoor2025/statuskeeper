@@ -130,7 +130,7 @@ export default function MainApp() {
     <div className="flex flex-col h-full bg-background text-foreground overflow-hidden w-full relative">
       <AppHeader isPro={isPro} onHelpClick={() => handleTabChange('help')} />
       <div className="flex-1 overflow-y-auto no-scrollbar w-full relative">
-        <div key={activeTab} className="animate-in fade-in slide-in-from-bottom-2 duration-400 w-full h-full pb-16">
+        <div key={activeTab} className="animate-in fade-in slide-in-from-bottom-2 duration-400 w-full h-full">
           {activeTab === 'status' && <StatusView />}
           {activeTab === 'saved' && <SavedView />}
           {activeTab === 'premium' && <PremiumView isPro={isPro} onProChange={setIsPro} />}

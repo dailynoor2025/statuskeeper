@@ -144,7 +144,7 @@ export function SavedView() {
               </div>
               <div className="space-y-1">
                 <h3 className="text-sm font-black text-gray-900 tracking-tight">No saved {activeTab === 'all' ? 'content' : activeTab}</h3>
-                <p className="text-[9px] text-gray-400 font-bold max-w-[160px] mx-auto tracking-widest leading-relaxed uppercase">Your captured statuses will appear here after you save them from the main status screen.</p>
+                <p className="text-[9px] text-gray-400 font-bold max-w-[160px] mx-auto tracking-tight leading-relaxed">Your captured statuses will appear here after you save them from the main status screen.</p>
               </div>
             </div>
           ) : (

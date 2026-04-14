@@ -1,39 +1,38 @@
-
 {
   "placeholderImages": [
     {
       "id": "status-1",
-      "description": "Landscape View",
+      "description": "Landscape view",
       "imageUrl": "https://picsum.photos/seed/1/400/600",
       "imageHint": "landscape nature"
     },
     {
       "id": "status-2",
-      "description": "City Night",
+      "description": "City night",
       "imageUrl": "https://picsum.photos/seed/2/400/600",
       "imageHint": "city night"
     },
     {
       "id": "status-3",
-      "description": "Abstract Art",
+      "description": "Abstract art",
       "imageUrl": "https://picsum.photos/seed/3/400/600",
       "imageHint": "abstract colorful"
     },
     {
       "id": "status-4",
-      "description": "Coffee Break",
+      "description": "Coffee break",
       "imageUrl": "https://picsum.photos/seed/4/400/600",
       "imageHint": "coffee cup"
     },
     {
       "id": "status-5",
-      "description": "Travel Life",
+      "description": "Travel life",
       "imageUrl": "https://picsum.photos/seed/5/400/600",
       "imageHint": "travel beach"
     },
     {
       "id": "status-6",
-      "description": "Pet Love",
+      "description": "Pet love",
       "imageUrl": "https://picsum.photos/seed/6/400/600",
       "imageHint": "cute cat"
     },
@@ -51,19 +50,19 @@
     },
     {
       "id": "status-9",
-      "description": "Office Vibes",
+      "description": "Office vibes",
       "imageUrl": "https://picsum.photos/seed/9/400/600",
       "imageHint": "office workspace"
     },
     {
       "id": "status-10",
-      "description": "Rainy Day",
+      "description": "Rainy day",
       "imageUrl": "https://picsum.photos/seed/10/400/600",
       "imageHint": "rain window"
     },
     {
       "id": "status-11",
-      "description": "Mountain Trip",
+      "description": "Mountain trip",
       "imageUrl": "https://picsum.photos/seed/11/400/600",
       "imageHint": "mountains snow"
     },
