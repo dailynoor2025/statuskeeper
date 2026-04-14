@@ -98,7 +98,7 @@ export function SavedView() {
       }
     });
     return gridElements;
-  }, [isSelectionMode, selectedIds, isPro]);
+  }, [isSelectionMode, selectedIds, isPro, toggleSelect, handleDelete]);
 
   if (isInitialLoad) {
     return (
@@ -118,7 +118,7 @@ export function SavedView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex gap-1 items-center justify-center h-full data-[state=active]:bg-white"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex gap-1 items-center justify-center h-full data-[state=active]:bg-white"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
@@ -127,7 +127,7 @@ export function SavedView() {
               <>
                 <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
-                  <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
+                  <span className="text-[8px] font-black tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
                 <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
               </>
@@ -144,7 +144,7 @@ export function SavedView() {
               </div>
               <div className="space-y-1">
                 <h3 className="text-sm font-black text-gray-900 tracking-tight">No saved {activeTab === 'all' ? 'content' : activeTab}</h3>
-                <p className="text-[9px] text-gray-400 font-bold max-w-[160px] mx-auto uppercase tracking-widest leading-relaxed">Your captured statuses will appear here after you save them from the main status screen.</p>
+                <p className="text-[9px] text-gray-400 font-bold max-w-[160px] mx-auto leading-relaxed">Your captured statuses will appear here after you save them from the main status screen.</p>
               </div>
             </div>
           ) : (
@@ -155,7 +155,7 @@ export function SavedView() {
       {isSelectionMode && selectedIds.length > 0 && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-5 duration-300">
           <button onClick={handleBulkDelete} className="h-8 px-4 rounded-full bg-destructive text-white shadow-2xl flex items-center gap-2 active:scale-95 transition-all text-[10px] font-black whitespace-nowrap">
-            <Trash2 className="w-3.5 h-3.5" /> Delete {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
+            Delete {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
           </button>
         </div>
       )}

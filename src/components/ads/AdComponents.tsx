@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * Visual distinction provided by background and CTA styling.
+ * Removed the prominent green "Ad" badge from footer as requested.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -34,16 +35,18 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       {/* Media layer - Exact same aspect ratio as StatusCard */}
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
-        <img 
+        <Image 
           src="https://picsum.photos/seed/ad-native-v3/400/622" 
           alt="Ad content" 
-          className="w-full h-full object-cover opacity-75" 
+          fill
+          className="object-cover opacity-75"
+          sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Ad badge - Even smaller and more subtle */}
+        {/* Ad badge - Subtle corner indicator */}
         <div className="absolute top-1 left-1 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
-            <span className="text-[5px] font-black text-slate-900 uppercase tracking-tight leading-none">Ad</span>
+            <span className="text-[5px] font-black text-slate-900 tracking-tight leading-none">Ad</span>
           </div>
         </div>
 
@@ -58,9 +61,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
       {/* Footer - Matched exactly to StatusCard footer (28px) */}
       <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
         <div className="flex items-center overflow-hidden gap-1">
-          <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
-            <span className="text-[5px] font-black text-white">Ad</span>
-          </div>
+          {/* Removed the green bg Ad div from here */}
           <span className="text-[6px] font-black text-slate-400 truncate">Promoted content</span>
         </div>
         <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90">
@@ -96,7 +97,7 @@ function AdOverlayLayout({
         <div className="p-4 flex justify-between items-center">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3 h-3 text-primary" />
-            <span className="text-[9px] font-black text-white/60 tracking-tight uppercase">Sponsored content</span>
+            <span className="text-[9px] font-black text-white/60 tracking-tight">Sponsored content</span>
           </div>
           <button 
             disabled={disabledClose} 
