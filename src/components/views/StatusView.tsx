@@ -87,7 +87,7 @@ export function StatusView() {
     exitSelectionMode();
   };
 
-  const renderGridItems = useCallback((dataItems: typeof statusData) => {
+  const renderGridItems = (dataItems: typeof statusData) => {
     const gridElements: React.ReactNode[] = [];
     if (!isPro) gridElements.push(<div key="native-ad-start" className="animate-staggered"><NativeVideoAd /></div>);
 
@@ -97,7 +97,7 @@ export function StatusView() {
           <StatusCard 
             id={item.id} imageUrl={item.imageUrl} type={item.type} mode="status" 
             isSelectionMode={isSelectionMode} isSelected={selectedIds.includes(item.id)}
-            onToggleSelect={j} onView={setSelectedMedia} 
+            onToggleSelect={toggleSelect} onView={setSelectedMedia} 
           />
         </div>
       );
@@ -106,7 +106,7 @@ export function StatusView() {
       }
     });
     return gridElements;
-  }, [isSelectionMode, selectedIds, isPro, statusData]);
+  };
 
   if (isLoading) {
     return (
@@ -131,7 +131,7 @@ export function StatusView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black uppercase tracking-wider h-full data-[state=active]:bg-white">All</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
