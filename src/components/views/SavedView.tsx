@@ -127,7 +127,7 @@ export function SavedView() {
               <>
                 <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
-                  <span className="text-[8px] font-black tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
+                  <span className="text-[8px] font-black uppercase tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
                 <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
               </>

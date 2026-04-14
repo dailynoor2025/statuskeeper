@@ -5,6 +5,10 @@ import { PlayCircle, X, ShieldCheck, ExternalLink, Loader2, RefreshCcw } from 'l
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+/**
+ * NativeVideoAd - Updated for high visual distinction to prevent policy violations.
+ * Removed metadata and status-like buttons to avoid accidental clicks.
+ */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -25,39 +29,38 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-none bg-slate-50 border-2 border-slate-200 transition-all duration-300 h-full", 
       className
     )}>
-      <div className="absolute top-1 left-1 z-10">
-        <div className="bg-black/40 backdrop-blur-md px-1 py-0.5 rounded-md border border-white/10 shadow-sm flex items-center gap-1">
-          <span className="text-[6px] font-black text-white tracking-tight">Sponsored</span>
+      {/* Distinct Badge */}
+      <div className="absolute top-2 left-2 z-10">
+        <div className="bg-primary px-2 py-0.5 rounded-md shadow-sm flex items-center gap-1">
+          <span className="text-[7px] font-black text-white uppercase tracking-tighter">Ad</span>
         </div>
       </div>
-      <div className="relative aspect-[9/14] w-full bg-gray-900 group cursor-pointer overflow-hidden">
+
+      <div className="relative aspect-[9/14] w-full bg-slate-200 group cursor-pointer overflow-hidden">
         <img 
-          src="https://picsum.photos/seed/ad-card-native/400/622" 
-          alt="Ad" 
-          className="w-full h-full object-cover opacity-80" 
+          src="https://picsum.photos/seed/ad-card-v2/400/622" 
+          alt="Advertisement" 
+          className="w-full h-full object-cover opacity-90 grayscale-[20%]" 
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
-          <div className="bg-primary/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 animate-pulse">
-            <PlayCircle className="w-4 h-4 text-white" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/5 transition-colors">
+          <div className="bg-white/30 backdrop-blur-md p-2 rounded-full border border-white/40 animate-pulse">
+            <PlayCircle className="w-5 h-5 text-white" />
           </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-gradient-to-t from-black/80 to-transparent">
-          <p className="text-[6px] text-white/90 font-bold tracking-tight leading-tight line-clamp-2">Remove ads in settings for a premium experience.</p>
         </div>
       </div>
-      <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
-        <div className="flex items-center gap-1 overflow-hidden">
-          <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
-            <span className="text-[5px] font-black text-white">Ad</span>
-          </div>
-          <span className="text-[6px] font-black tracking-tight text-primary truncate">Promoted content</span>
+
+      {/* CTA Section - Distinct from status metadata */}
+      <div className="flex flex-col gap-1 px-2 py-2 bg-white border-t border-slate-100">
+        <div className="flex items-center justify-between">
+          <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Sponsored</span>
+          <ExternalLink className="w-2.5 h-2.5 text-slate-300" />
         </div>
-        <button className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all">
-          <ExternalLink className="w-2.5 h-2.5" />
-        </button>
+        <Button className="w-full h-7 rounded-lg text-[9px] font-black bg-blue-600 hover:bg-blue-700 text-white shadow-md active:scale-95 transition-all border-none">
+          Learn more
+        </Button>
       </div>
     </div>
   );
