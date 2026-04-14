@@ -19,6 +19,10 @@ import { Filesystem } from '@capacitor/filesystem';
 type AppLifecycle = 'splash' | 'permission' | 'main';
 type ExtendedTabType = TabType | 'help';
 
+/**
+ * MainApp - Entry point for the Status Keeper application.
+ * Handles lifecycle, global state, and view routing.
+ */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
   const [activeTab, setActiveTab] = useState<ExtendedTabType>('status');
@@ -27,7 +31,7 @@ export default function MainApp() {
   const [showInterstitial, setShowInterstitial] = useState(false);
 
   useEffect(() => {
-    // Initialize last interstitial time if not exists
+    // Standard initialization
     if (!localStorage.getItem('last_interstitial_time')) {
       localStorage.setItem('last_interstitial_time', Date.now().toString());
     }
@@ -65,6 +69,7 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
+      // Branding delay
       await new Promise(r => setTimeout(r, 2500));
       try {
         const status = await Filesystem.checkPermissions();
@@ -97,7 +102,7 @@ export default function MainApp() {
     if (proActive) return;
     
     const lastShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
-    const interval = 10 * 60 * 1000; // 10 minutes gap
+    const interval = 10 * 60 * 1000; // 10 minutes interval
     
     if (Date.now() - lastShown > interval) {
       setShowInterstitial(true);
@@ -112,20 +117,16 @@ export default function MainApp() {
 
   const handleGrantPermission = async () => {
     try {
-      const status = await Filesystem.requestPermissions();
-      if (status.publicStorage === 'granted') {
-        localStorage.setItem('storage_permission_granted', 'true');
-        setLifecycle('main');
-      } else {
-        localStorage.setItem('storage_permission_granted', 'true');
-        setLifecycle('main');
-      }
+      await Filesystem.requestPermissions();
+      localStorage.setItem('storage_permission_granted', 'true');
+      setLifecycle('main');
     } catch (e) {
       localStorage.setItem('storage_permission_granted', 'true');
       setLifecycle('main');
     }
   };
 
+  // View management
   if (!isOnline) return <NoInternetView />;
   if (lifecycle === 'splash') return <AppSplashScreen />;
   if (lifecycle === 'permission') return <PermissionView onGrant={handleGrantPermission} />;
@@ -133,6 +134,7 @@ export default function MainApp() {
   return (
     <div className="flex flex-col h-full bg-background text-foreground overflow-hidden w-full relative">
       <AppHeader isPro={isPro} onHelpClick={() => handleTabChange('help')} />
+      
       <div className="flex-1 overflow-y-auto no-scrollbar w-full relative">
         <div key={activeTab} className="animate-in fade-in slide-in-from-bottom-2 duration-400 w-full h-full">
           {activeTab === 'status' && <StatusView />}
@@ -142,7 +144,9 @@ export default function MainApp() {
           {activeTab === 'help' && <HelpView />}
         </div>
       </div>
+
       <BottomNav activeTab={activeTab === 'help' ? 'status' : activeTab as TabType} onTabChange={handleTabChange} />
+      
       <InterstitialAd isOpen={showInterstitial} onClose={() => setShowInterstitial(false)} />
     </div>
   );

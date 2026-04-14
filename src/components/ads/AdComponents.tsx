@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
+import { PlayCircle, X, ShieldCheck, ExternalLink, Film, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -9,17 +9,23 @@ import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * This represents where the Ad Unit ID 'NATIVE' will render.
+ * Enhanced with logic to simulate image/video/reels delivery from ad network.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [mediaType, setMediaType] = useState<'image' | 'video' | 'reels'>('image');
 
   useEffect(() => {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        // Simulated delay for AdMob SDK request
-        await new Promise(resolve => setTimeout(resolve, 800));
+        // Simulated network request to AdMob SDK
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        
+        // Randomly simulate ad network response types
+        const types: ('image' | 'video' | 'reels')[] = ['image', 'video', 'reels'];
+        setMediaType(types[Math.floor(Math.random() * types.length)]);
+        
         setAdStatus('ready');
       } catch (e) {
         setAdStatus('error');
@@ -32,37 +38,62 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-gray-100 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-100 transition-all duration-300 h-full", 
       className
     )}>
-      {/* Media layer - Matches StatusCard aspect ratio */}
+      {/* Media layer - Matches StatusCard aspect ratio (9/14) */}
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src="https://picsum.photos/seed/ad-native-v4/400/622" 
-          alt="Ad content" 
+          src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
+          alt="Promoted content" 
           fill
-          className="object-cover opacity-75"
+          className={cn(
+            "object-cover transition-opacity duration-500",
+            mediaType === 'image' ? "opacity-90" : "opacity-70"
+          )}
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Subtle Ad indicator */}
-        <div className="absolute top-1 left-1 z-10">
-          <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
-            <span className="text-[5px] font-black text-slate-900 tracking-tight leading-none uppercase">Ad</span>
+        {/* Ad Provider Label */}
+        <div className="absolute top-1.5 left-1.5 z-10">
+          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[2px] rounded-md shadow-sm border border-slate-200 flex items-center gap-1">
+            <span className="text-[6px] font-black text-slate-900 tracking-tight leading-none uppercase">Ad</span>
           </div>
         </div>
 
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-white/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 shadow-xl">
-            <PlayCircle className="w-4 h-4 text-white" />
+        {/* Dynamic Media Indicator Icons */}
+        <div className="absolute top-1.5 right-1.5 pointer-events-none">
+          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
+            {mediaType === 'image' ? (
+              <ImageIcon className="w-2.5 h-2.5 text-white/90" />
+            ) : (
+              <PlayCircle className="w-2.5 h-2.5 text-white fill-white animate-pulse" />
+            )}
           </div>
         </div>
+
+        {/* Visual Cue for Video/Reels */}
+        {mediaType !== 'image' && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors group-hover:bg-transparent">
+            <div className="bg-primary/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 shadow-2xl">
+              <PlayCircle className="w-5 h-5 text-white shadow-lg" />
+            </div>
+          </div>
+        )}
+
+        {/* Gradient Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </div>
 
-      {/* Footer - Matched exactly to StatusCard footer (28px height) with Ellipsis logic */}
-      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
+      {/* Footer - Matched exactly to StatusCard footer (28px height) */}
+      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-50 min-h-[28px]">
         <div className="flex items-center overflow-hidden gap-1 min-w-0 flex-1">
-          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-slate-400 truncate block">Promoted content</span>
+          <div className="bg-blue-500/10 p-0.5 rounded flex-shrink-0">
+            <ShieldCheck className="w-2.5 h-2.5 text-blue-600" />
+          </div>
+          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-slate-400 truncate block">
+            {mediaType === 'reels' ? 'Trending content' : 'Promoted content'}
+          </span>
         </div>
         <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90 shrink-0">
           <ExternalLink className="w-2.5 h-2.5" />
