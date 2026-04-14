@@ -35,33 +35,33 @@ export function NativeVideoAd({ className }: { className?: string }) {
       {/* Media layer - Exact same aspect ratio as StatusCard */}
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <img 
-          src="https://picsum.photos/seed/ad-native-v2/400/622" 
+          src="https://picsum.photos/seed/ad-native-v3/400/622" 
           alt="Ad content" 
           className="w-full h-full object-cover opacity-75" 
         />
         
-        {/* Ad badge - High visibility for policy compliance */}
-        <div className="absolute top-2 left-2 z-10">
-          <div className="bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md shadow-sm border border-slate-200">
-            <span className="text-[7px] font-black text-slate-900 uppercase tracking-widest">Ad</span>
+        {/* Ad badge - Reduced size for better visual integration */}
+        <div className="absolute top-1.5 left-1.5 z-10">
+          <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
+            <span className="text-[5px] font-black text-slate-900 uppercase tracking-tight">Ad</span>
           </div>
         </div>
 
         {/* Action icon in center */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-white/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 shadow-xl">
-            <PlayCircle className="w-5 h-5 text-white" />
+          <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 shadow-xl">
+            <PlayCircle className="w-4 h-4 text-white" />
           </div>
         </div>
       </div>
 
       {/* Footer - Matched min-height to StatusCard footer (28px) */}
-      <div className="flex items-center justify-between px-2 py-1 bg-white border-t border-slate-100 min-h-[28px]">
+      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
         <div className="flex items-center overflow-hidden">
-          <span className="text-[7px] font-black text-slate-400 truncate">Promoted content</span>
+          <span className="text-[6px] font-black text-slate-400 truncate">Promoted content</span>
         </div>
-        <button className="p-1 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors active:scale-90">
-          <ExternalLink className="w-3 h-3" />
+        <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90">
+          <ExternalLink className="w-2.5 h-2.5" />
         </button>
       </div>
     </div>
