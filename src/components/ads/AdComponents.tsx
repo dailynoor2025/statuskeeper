@@ -40,7 +40,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           className="w-full h-full object-cover opacity-75" 
         />
         
-        {/* Ad badge - Small and discrete */}
+        {/* Ad badge - Even smaller and more subtle */}
         <div className="absolute top-1 left-1 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
             <span className="text-[5px] font-black text-slate-900 uppercase tracking-tight leading-none">Ad</span>
@@ -55,7 +55,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Footer - Matched to StatusCard footer (28px) */}
+      {/* Footer - Matched exactly to StatusCard footer (28px) */}
       <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
         <div className="flex items-center overflow-hidden gap-1">
           <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
