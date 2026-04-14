@@ -8,16 +8,14 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.appopen.AppOpenAd;
 import java.util.Date;
 
-/**
- * Manages AdMob App Open Ads following Google's best practices.
- * Includes frequency capping, ad expiration check, and lifecycle monitoring.
- */
-public class AppOpenManager implements Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver {
+public class AppOpenManager implements DefaultLifecycleObserver, Application.ActivityLifecycleCallbacks {
     private static final String AD_UNIT_ID = "ca-app-pub-9704872868499742/1450930000";
     private AppOpenAd appOpenAd = null;
     private AppOpenAd.AppOpenAdLoadCallback loadCallback;
@@ -25,10 +23,6 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, D
     private Activity currentActivity;
     private static boolean isShowingAd = false;
     private long loadTime = 0;
-    private long lastShownTime = 0;
-    
-    // Frequency cap: 15 minutes to ensure good user experience
-    private static final long COOLDOWN_MS = 15 * 60 * 1000; 
 
     public AppOpenManager(MyApplication myApplication) {
         this.myApplication = myApplication;
@@ -36,11 +30,8 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, D
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
     }
 
-    /** Request a new ad from servers */
     public void fetchAd() {
-        if (isAdAvailable()) {
-            return;
-        }
+        if (isAdAvailable()) return;
 
         loadCallback = new AppOpenAd.AppOpenAdLoadCallback() {
             @Override
@@ -51,48 +42,49 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, D
 
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Silently fail to not interrupt user flow
+                // Handle failed load
             }
         };
         AdRequest request = new AdRequest.Builder().build();
-        AppOpenAd.load(
-            myApplication, 
-            AD_UNIT_ID, 
-            request, 
-            AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, 
-            loadCallback
-        );
+        AppOpenAd.load(myApplication, AD_UNIT_ID, request, AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
     }
 
-    /** Show the ad if it is valid and cooldown has passed */
     public void showAdIfAvailable() {
         if (!isShowingAd && isAdAvailable()) {
-            long now = (new Date()).getTime();
-            
-            // Apply frequency capping
-            if (now - lastShownTime < COOLDOWN_MS) {
-                return;
-            }
+            FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    AppOpenManager.this.appOpenAd = null;
+                    isShowingAd = false;
+                    fetchAd();
+                }
 
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    isShowingAd = false;
+                }
+
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    isShowingAd = true;
+                }
+            };
+
+            appOpenAd.setFullScreenContentCallback(fullScreenContentCallback);
             appOpenAd.show(currentActivity);
-            isShowingAd = true;
-            lastShownTime = now;
-            appOpenAd = null;
-            fetchAd();
         } else {
             fetchAd();
         }
     }
 
-    /** Checks if an ad exists and is not older than 4 hours */
-    private boolean isAdAvailable() {
-        return appOpenAd != null && wasLoadTimeLessThanFourHoursAgo();
+    private boolean wasLoadTimeLessThanNHoursAgo(long numHours) {
+        long dateDifference = (new Date()).getTime() - this.loadTime;
+        long numMilliSecondsPerHour = 3600000;
+        return (dateDifference < (numMilliSecondsPerHour * numHours));
     }
 
-    private boolean wasLoadTimeLessThanFourHoursAgo() {
-        long dateDifference = (new Date()).getTime() - this.loadTime;
-        long numMillisecondsInFourHours = 3600000 * 4;
-        return (dateDifference < numMillisecondsInFourHours);
+    public boolean isAdAvailable() {
+        return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4);
     }
 
     @Override
@@ -100,11 +92,30 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, D
         showAdIfAvailable();
     }
 
-    @Override public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {}
-    @Override public void onActivityStarted(@NonNull Activity activity) { currentActivity = activity; }
-    @Override public void onActivityResumed(@NonNull Activity activity) { currentActivity = activity; }
-    @Override public void onActivityPaused(@NonNull Activity activity) {}
-    @Override public void onActivityStopped(@NonNull Activity activity) {}
-    @Override public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {}
-    @Override public void onActivityDestroyed(@NonNull Activity activity) { currentActivity = null; }
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {}
+
+    @Override
+    public void onActivityStarted(@NonNull Activity activity) {
+        currentActivity = activity;
+    }
+
+    @Override
+    public void onActivityResumed(@NonNull Activity activity) {
+        currentActivity = activity;
+    }
+
+    @Override
+    public void onActivityPaused(@NonNull Activity activity) {}
+
+    @Override
+    public void onActivityStopped(@NonNull Activity activity) {}
+
+    @Override
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {}
+
+    @Override
+    public void onActivityDestroyed(@NonNull Activity activity) {
+        currentActivity = null;
+    }
 }
