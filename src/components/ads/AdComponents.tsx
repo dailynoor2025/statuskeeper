@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -8,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * High visual distinction to comply with AdMob policies.
+ * Subtle background distinction to comply with AdMob policy while maintaining size consistency.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -30,25 +29,25 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border-2 border-slate-200 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-200 transition-all duration-300 h-full", 
       className
     )}>
-      {/* Media Layer - Exact same aspect ratio as StatusCard */}
+      {/* Media layer - Exact same aspect ratio as StatusCard */}
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <img 
-          src="https://picsum.photos/seed/ad-distinguished/400/622" 
+          src="https://picsum.photos/seed/ad-native-v2/400/622" 
           alt="Ad content" 
           className="w-full h-full object-cover opacity-75" 
         />
         
-        {/* Ad Badge - Must be prominent */}
+        {/* Ad badge - High visibility for policy compliance */}
         <div className="absolute top-2 left-2 z-10">
           <div className="bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md shadow-sm border border-slate-200">
             <span className="text-[7px] font-black text-slate-900 uppercase tracking-widest">Ad</span>
           </div>
         </div>
 
-        {/* CTA in Center */}
+        {/* Action icon in center */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="bg-white/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 shadow-xl">
             <PlayCircle className="w-5 h-5 text-white" />
@@ -59,7 +58,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
       {/* Footer - Matched min-height to StatusCard footer (28px) */}
       <div className="flex items-center justify-between px-2 py-1 bg-white border-t border-slate-100 min-h-[28px]">
         <div className="flex items-center overflow-hidden">
-          <span className="text-[7px] font-black text-slate-400 uppercase tracking-tighter truncate">Promoted content</span>
+          <span className="text-[7px] font-black text-slate-400 truncate">Promoted content</span>
         </div>
         <button className="p-1 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors active:scale-90">
           <ExternalLink className="w-3 h-3" />
@@ -89,7 +88,7 @@ function AdOverlayLayout({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
+    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
       <div className="bg-black/40 border-b border-white/5">
         <div className="p-4 flex justify-between items-center">
           <div className="flex items-center gap-1.5">
@@ -121,14 +120,14 @@ function AdOverlayLayout({
             <img src="https://picsum.photos/seed/inter-ad-safe/600/1067" alt="Promoted" className="w-full h-full object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
               <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
-              <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none uppercase">{subtitle}</p>
+              <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
             </div>
           </div>
           <div className="space-y-4 px-2">
             <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all border-none">
               {buttonText}
             </Button>
-            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight uppercase">Remove ads in settings permanently</p>
+            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>
           </div>
         </div>
       </div>

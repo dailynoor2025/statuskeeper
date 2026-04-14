@@ -12,6 +12,9 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useAds } from "@/hooks/use-ads";
 
+/**
+ * StatusView - Manages discovery and display of current WhatsApp statuses.
+ */
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -85,12 +88,15 @@ export function StatusView() {
     localStorage.setItem('saved_statuses', JSON.stringify(savedItems));
     toast({ title: "Save complete", description: `${newlySaved} items added to gallery`, variant: "success" });
     
+    // Trigger interstitial ad after user saves multiple items
     window.dispatchEvent(new CustomEvent('request-interstitial'));
     exitSelectionMode();
   };
 
   const renderGridItems = useCallback((dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
+    
+    // Inject a native ad at the start if not pro
     if (!isPro) {
       gridElements.push(
         <div key="native-ad-start" className="animate-staggered">
@@ -114,6 +120,8 @@ export function StatusView() {
           />
         </div>
       );
+      
+      // Inject ads every 5 items
       if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(
           <div key={`ad-${index}`} className="animate-staggered">
