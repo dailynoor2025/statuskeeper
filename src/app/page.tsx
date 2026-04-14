@@ -25,7 +25,6 @@ export default function MainApp() {
   const [isPro, setIsPro] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const [showInterstitial, setShowInterstitial] = useState(false);
-  const [hasNavigatedOnce, setHasNavigatedOnce] = useState(false);
 
   useEffect(() => {
     const hideNativeSplash = async () => {
@@ -75,7 +74,7 @@ export default function MainApp() {
     };
     initApp();
 
-    const handleInterstitialRequest = () => triggerInterstitialLogic(true);
+    const handleInterstitialRequest = () => triggerInterstitialLogic(false);
     window.addEventListener('request-interstitial', handleInterstitialRequest);
 
     return () => {
@@ -85,12 +84,13 @@ export default function MainApp() {
       }
       window.removeEventListener('request-interstitial', handleInterstitialRequest);
     };
-  }, []);
+  }, [isPro]);
 
   const triggerInterstitialLogic = (force: boolean = false) => {
     if (isPro) return;
+    
     const lastShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
-    const interval = 10 * 60 * 1000;
+    const interval = 10 * 60 * 1000; // 10 minutes gap strictly for policy compliance
     
     if (force || (Date.now() - lastShown > interval)) {
       setShowInterstitial(true);
@@ -100,12 +100,8 @@ export default function MainApp() {
 
   const handleTabChange = (tab: ExtendedTabType) => {
     if (activeTab === tab) return;
-    if (!hasNavigatedOnce) { 
-      triggerInterstitialLogic(true); 
-      setHasNavigatedOnce(true); 
-    } else {
-      triggerInterstitialLogic(false);
-    }
+    // We trigger interstitial on tab changes only if the interval has passed
+    triggerInterstitialLogic(false);
     setActiveTab(tab);
   };
 

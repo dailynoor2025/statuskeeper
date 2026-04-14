@@ -84,6 +84,10 @@ export function StatusView() {
     });
     localStorage.setItem('saved_statuses', JSON.stringify(savedItems));
     toast({ title: "Save complete", description: `${newlySaved} items added to gallery`, variant: "success" });
+    
+    // Request interstitial after bulk action (natural break)
+    window.dispatchEvent(new CustomEvent('request-interstitial'));
+    
     exitSelectionMode();
   };
 
