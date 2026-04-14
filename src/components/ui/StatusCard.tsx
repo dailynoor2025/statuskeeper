@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -133,14 +132,14 @@ export function StatusCard({
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      {/* Card Footer */}
+      {/* Card Footer with Ellipsis logic for small screens */}
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
-        <div className="flex items-center gap-1 overflow-hidden">
-          <Clock className="w-2.5 h-2.5 text-primary/60" />
-          <span className="text-[6px] font-black tracking-tight text-primary truncate">{timeAgo}</span>
+        <div className="flex items-center gap-1 overflow-hidden min-w-0 flex-1">
+          <Clock className="w-2.5 h-2.5 text-primary/60 shrink-0" />
+          <span className="text-[clamp(5px,1.5vw,7px)] font-black tracking-tight text-primary truncate block">{timeAgo}</span>
         </div>
         {!isSelectionMode && (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <button 
               onClick={handleShare} 
               className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200"

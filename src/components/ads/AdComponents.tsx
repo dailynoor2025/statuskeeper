@@ -59,12 +59,12 @@ export function NativeVideoAd({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Footer - Matched exactly to StatusCard footer (28px height) */}
+      {/* Footer - Matched exactly to StatusCard footer (28px height) with Ellipsis logic */}
       <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
-        <div className="flex items-center overflow-hidden gap-1">
-          <span className="text-[6px] font-black text-slate-400 truncate">Promoted content</span>
+        <div className="flex items-center overflow-hidden gap-1 min-w-0 flex-1">
+          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-slate-400 truncate block">Promoted content</span>
         </div>
-        <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90">
+        <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90 shrink-0">
           <ExternalLink className="w-2.5 h-2.5" />
         </button>
       </div>

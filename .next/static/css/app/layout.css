@@ -2002,6 +2002,9 @@ video {
 .text-\[5px\] {
   font-size: 5px;
 }
+.text-\[clamp\(5px\2c 1\.5vw\2c 7px\)\] {
+  font-size: clamp(5px,1.5vw,7px);
+}
 .font-black {
   font-weight: 900;
 }

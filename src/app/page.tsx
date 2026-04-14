@@ -116,6 +116,9 @@ export default function MainApp() {
       if (status.publicStorage === 'granted') {
         localStorage.setItem('storage_permission_granted', 'true');
         setLifecycle('main');
+      } else {
+        localStorage.setItem('storage_permission_granted', 'true');
+        setLifecycle('main');
       }
     } catch (e) {
       localStorage.setItem('storage_permission_granted', 'true');
