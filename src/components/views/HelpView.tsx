@@ -38,7 +38,7 @@ export function HelpView() {
         <div className="bg-primary/10 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-sm border border-primary/5">
           <HelpCircle className="w-6 h-6 text-primary" />
         </div>
-        <h2 className="text-[clamp(14px,4vw,18px)] font-black text-gray-900 tracking-tight">Help & support</h2>
+        <h2 className="text-[clamp(14px,4vw,18px)] font-black text-gray-900 tracking-tight leading-tight">Help & support</h2>
         <p className="text-[clamp(10px,2.5vw,12px)] text-gray-400 font-bold tracking-tight">Troubleshooting and solutions</p>
       </div>
 

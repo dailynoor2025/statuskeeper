@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
@@ -10,18 +11,9 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding true
-        dataBinding true
-    }
-
-    androidResources {
-        noCompress 'tflite'
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -39,6 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    androidResources {
+        noCompress 'tflite'
+    }
 }
 
 repositories {
@@ -50,17 +51,13 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'androidx.multidex:multidex:2.0.1'
     implementation project(':capacitor-android')
     implementation project(':capacitor-cordova-android-plugins')
-    
+    implementation "androidx.documentfile:documentfile:1.0.1"
     implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
-
+    implementation 'androidx.multidex:multidex:2.0.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:core:3.5.1'
@@ -74,5 +71,5 @@ try {
         apply plugin: 'com.google.gms.google-services'
     }
 } catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. This is fine.")
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
 }

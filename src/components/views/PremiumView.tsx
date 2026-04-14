@@ -80,7 +80,7 @@ export function PremiumView({ isPro, onProChange }: PremiumViewProps) {
   return (
     <div className="px-3 py-3 space-y-3 w-full h-full overflow-y-auto no-scrollbar bg-gray-50/10">
       <div className="text-center space-y-0.5 animate-in fade-in duration-500">
-        <h2 className="text-[clamp(10px,2.5vw,12px)] font-black text-gray-900 tracking-tight">Premium dashboard</h2>
+        <h2 className="text-[clamp(10px,2.5vw,12px)] font-black text-gray-900 tracking-tight leading-tight">Premium dashboard</h2>
         <p className="text-[clamp(8px,2vw,10px)] text-gray-400 font-bold tracking-tight">Ad-free access points</p>
       </div>
 
