@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 /**
- * NativeVideoAd - Optimized height to match StatusCard exactly.
+ * NativeVideoAd - Optimized to match StatusCard dimensions exactly.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -28,36 +28,36 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-none bg-slate-50 border border-slate-200 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-200 transition-all duration-300 h-full", 
       className
     )}>
       {/* Ad Badge */}
       <div className="absolute top-1.5 left-1.5 z-10">
-        <div className="bg-primary/90 backdrop-blur-md px-1.5 py-0.5 rounded-md shadow-sm border border-white/20">
-          <span className="text-[6px] font-black text-white uppercase tracking-tighter">Ad</span>
+        <div className="bg-primary/90 backdrop-blur-md px-1 py-0.5 rounded-md shadow-sm border border-white/20">
+          <span className="text-[6px] font-black text-white uppercase tracking-tight">Ad</span>
         </div>
       </div>
 
-      {/* Main Image - Matches aspect ratio of status cards */}
-      <div className="relative aspect-[9/14] w-full bg-slate-200 group cursor-pointer overflow-hidden">
+      {/* Main Image - Matches StatusCard aspect ratio exactly */}
+      <div className="relative aspect-[9/14] w-full bg-slate-900 group cursor-pointer overflow-hidden">
         <img 
-          src="https://picsum.photos/seed/ad-card-v3/400/622" 
+          src="https://picsum.photos/seed/ad-card-v4/400/622" 
           alt="Advertisement" 
-          className="w-full h-full object-cover opacity-90" 
+          className="w-full h-full object-cover opacity-80" 
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/5">
-          <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
-            <PlayCircle className="w-4 h-4 text-white shadow-sm" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+          <div className="bg-primary/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
+            <PlayCircle className="w-4 h-4 text-white" />
           </div>
         </div>
       </div>
 
-      {/* Footer - Standardized height to 28px to match StatusCard */}
-      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-50 min-h-[28px]">
+      {/* Footer - Standardized to 28px height to match StatusCard grid */}
+      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
         <div className="flex items-center gap-1 overflow-hidden">
           <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest truncate">Sponsored content</span>
         </div>
-        <button className="p-0.5 text-blue-600 bg-blue-50 rounded-md active:scale-90 transition-all">
+        <button className="p-0.5 text-blue-600 bg-blue-50 rounded-md active:scale-90 transition-all shadow-sm">
           <ExternalLink className="w-2.5 h-2.5" />
         </button>
       </div>

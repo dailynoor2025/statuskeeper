@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -28,7 +27,7 @@ export default function MainApp() {
   const [showInterstitial, setShowInterstitial] = useState(false);
 
   useEffect(() => {
-    // Initialize last interstitial time if not exists to prevent immediate ad on first action
+    // Initialize last interstitial time if not exists
     if (!localStorage.getItem('last_interstitial_time')) {
       localStorage.setItem('last_interstitial_time', Date.now().toString());
     }
@@ -90,15 +89,16 @@ export default function MainApp() {
       }
       window.removeEventListener('request-interstitial', handleInterstitialRequest);
     };
-  }, [isPro]);
+  }, []);
 
   const triggerInterstitialLogic = () => {
-    if (isPro) return;
+    const expiry = localStorage.getItem('ad_free_expiry');
+    const proActive = expiry ? parseInt(expiry) > Date.now() : false;
+    if (proActive) return;
     
     const lastShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
-    const interval = 10 * 60 * 1000; // 10 minutes gap strictly for policy compliance
+    const interval = 10 * 60 * 1000; // 10 minutes gap
     
-    // Only show if 10 minutes have passed since last ad
     if (Date.now() - lastShown > interval) {
       setShowInterstitial(true);
       localStorage.setItem('last_interstitial_time', Date.now().toString());
@@ -107,7 +107,6 @@ export default function MainApp() {
 
   const handleTabChange = (tab: ExtendedTabType) => {
     if (activeTab === tab) return;
-    // Interstitial logic removed from tab changes to strictly follow Save/Close requirement
     setActiveTab(tab);
   };
 
