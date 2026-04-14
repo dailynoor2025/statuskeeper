@@ -7,8 +7,7 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
- * MediaViewer - Enhanced with professional scaling logic.
- * Constraints enforced for phones and tablets.
+ * MediaViewer - Updated to fill the screen and provide high-visibility controls.
  */
 
 interface MediaViewerProps {
@@ -29,18 +28,28 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-none w-screen h-screen p-0 bg-black/95 border-none flex flex-col items-center justify-center z-[100] outline-none overflow-hidden">
+      <DialogContent className="max-w-none w-screen h-[100dvh] p-0 bg-black border-none flex flex-col items-center justify-center z-[100] outline-none overflow-hidden rounded-none">
         <DialogTitle>
           <VisuallyHidden>Media viewer - {media.id}</VisuallyHidden>
         </DialogTitle>
         
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-[110] bg-gradient-to-b from-black/80 to-transparent pt-safe">
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-white hover:bg-white/20 rounded-full transition-transform active:scale-90">
+        {/* Top bar with improved icon visibility logic */}
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-[110] bg-gradient-to-b from-black/90 via-black/40 to-transparent pt-safe transition-opacity duration-300">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={onClose} 
+            className="text-white hover:bg-white/20 rounded-full transition-all active:scale-90 bg-black/20 backdrop-blur-md border border-white/10"
+          >
             <X className="w-6 h-6" />
           </Button>
           
           <div className="flex gap-3">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full transition-transform active:scale-90">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-white hover:bg-white/20 rounded-full transition-all active:scale-90 bg-black/20 backdrop-blur-md border border-white/10"
+            >
               <Share2 className="w-5 h-5" />
             </Button>
             {mode === 'status' ? (
@@ -48,7 +57,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                 variant="ghost" 
                 size="icon" 
                 onClick={() => onDownload?.(media.id)}
-                className="text-white hover:bg-white/20 rounded-full transition-transform active:scale-90"
+                className="text-white hover:bg-primary/80 rounded-full transition-all active:scale-90 bg-primary/20 backdrop-blur-md border border-primary/20"
               >
                 <Download className="w-5 h-5" />
               </Button>
@@ -60,7 +69,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                   onDelete?.(media.id);
                   onClose();
                 }}
-                className="text-white hover:bg-destructive rounded-full transition-transform active:scale-90"
+                className="text-white hover:bg-destructive rounded-full transition-all active:scale-90 bg-destructive/20 backdrop-blur-md border border-destructive/20"
               >
                 <Trash2 className="w-5 h-5" />
               </Button>
@@ -68,23 +77,27 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
           </div>
         </div>
 
-        <div className="relative w-full h-full flex items-center justify-center p-6">
-          {/* Professional Scaling Logic: constrained max-h and max-w */}
-          <div className="relative w-full max-w-[min(85vw,320px)] max-h-[70vh] aspect-[9/16] shadow-2xl rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black transition-all duration-500">
+        {/* Full screen resize logic using object-contain to preserve quality */}
+        <div className="relative w-full h-full flex items-center justify-center">
+          <div className="relative w-full h-full transition-all duration-500 bg-black">
             <Image 
               src={media.imageUrl} 
               alt="Status preview" 
               fill 
               className="object-contain"
               priority
-              sizes="(max-width: 520px) 100vw, 320px"
+              quality={100}
+              sizes="100vw"
             />
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-0 right-0 p-6 flex flex-col items-center gap-2 text-white/40 text-[clamp(8px,2vw,10px)] font-black uppercase tracking-[0.3em] pointer-events-none">
-          <span>Status keeper stable build</span>
-          <div className="w-8 h-0.5 bg-primary/40 rounded-full" />
+        {/* Bottom indicator with improved accessibility */}
+        <div className="absolute bottom-10 left-0 right-0 p-6 flex flex-col items-center gap-2 text-white/60 text-[clamp(8px,2vw,10px)] font-black uppercase tracking-[0.3em] pointer-events-none drop-shadow-lg">
+          <span className="bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm border border-white/5">
+            Status keeper stable build
+          </span>
+          <div className="w-12 h-0.5 bg-primary/60 rounded-full shadow-[0_0_10px_rgba(37,211,102,0.5)]" />
         </div>
       </DialogContent>
     </Dialog>
