@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -61,12 +62,8 @@ export function StatusCard({
         
         toast({ title: "Status saved", description: "Media captured to gallery", variant: "success" });
 
-        const currentDownloads = parseInt(localStorage.getItem('global_download_count') || '0') + 1;
-        localStorage.setItem('global_download_count', currentDownloads.toString());
-        
-        if (currentDownloads % 5 === 0) {
-          window.dispatchEvent(new CustomEvent('request-interstitial'));
-        }
+        // Request interstitial ad after a single save action (natural break)
+        window.dispatchEvent(new CustomEvent('request-interstitial'));
       }
     } catch (err) {
       toast({ title: "Save error", description: "Storage access failed", variant: "destructive" });
