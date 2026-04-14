@@ -5,10 +5,11 @@ import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * Removed the prominent green "Ad" badge from footer as requested.
+ * This represents where the Ad Unit ID 'NATIVE' will render.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -17,6 +18,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
+        // Simulated delay for AdMob SDK request
         await new Promise(resolve => setTimeout(resolve, 800));
         setAdStatus('ready');
       } catch (e) {
@@ -33,24 +35,23 @@ export function NativeVideoAd({ className }: { className?: string }) {
       "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-gray-100 transition-all duration-300 h-full", 
       className
     )}>
-      {/* Media layer - Exact same aspect ratio as StatusCard */}
+      {/* Media layer - Matches StatusCard aspect ratio */}
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src="https://picsum.photos/seed/ad-native-v3/400/622" 
+          src="https://picsum.photos/seed/ad-native-v4/400/622" 
           alt="Ad content" 
           fill
           className="object-cover opacity-75"
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Ad badge - Subtle corner indicator */}
+        {/* Subtle Ad indicator */}
         <div className="absolute top-1 left-1 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
-            <span className="text-[5px] font-black text-slate-900 tracking-tight leading-none">Ad</span>
+            <span className="text-[5px] font-black text-slate-900 tracking-tight leading-none uppercase">Ad</span>
           </div>
         </div>
 
-        {/* Action icon in center */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="bg-white/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 shadow-xl">
             <PlayCircle className="w-4 h-4 text-white" />
@@ -58,10 +59,9 @@ export function NativeVideoAd({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Footer - Matched exactly to StatusCard footer (28px) */}
+      {/* Footer - Matched exactly to StatusCard footer (28px height) */}
       <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
         <div className="flex items-center overflow-hidden gap-1">
-          {/* Removed the green bg Ad div from here */}
           <span className="text-[6px] font-black text-slate-400 truncate">Promoted content</span>
         </div>
         <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90">
@@ -121,7 +121,7 @@ function AdOverlayLayout({
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-[320px] mx-auto space-y-6">
           <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-            <img src="https://picsum.photos/seed/inter-ad-main/600/1067" alt="Ad content" className="w-full h-full object-cover" />
+            <img src="https://picsum.photos/seed/inter-ad-v4/600/1067" alt="Ad content" className="w-full h-full object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
               <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
               <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
@@ -179,7 +179,7 @@ export function useRewardedAd(onReward: () => void) {
     setTimeout(() => {
       setIsProcessing(false);
       setIsWatching(true);
-      setCountdown(10);
+      setCountdown(AD_CONFIG.SETTINGS.REWARDED_COUNTDOWN_SEC);
     }, 1800);
   };
 

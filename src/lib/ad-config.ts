@@ -4,7 +4,7 @@
  */
 
 export const AD_CONFIG = {
-  // Official AdMob App ID
+  // Official AdMob App ID (Linked in AndroidManifest.xml)
   APP_ID: "ca-app-pub-9704872868499742~4538679298",
 
   // Ad unit IDs for direct AdMob server connection

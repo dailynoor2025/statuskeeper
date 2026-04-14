@@ -97,7 +97,7 @@ export function StatusView() {
     
     if (!isPro) {
       gridElements.push(
-        <div key="native-ad-start" className="animate-staggered">
+        <div key="native-ad-start" className="animate-staggered h-full">
           <NativeVideoAd />
         </div>
       );
@@ -105,7 +105,7 @@ export function StatusView() {
 
     dataItems.forEach((item, index) => {
       gridElements.push(
-        <div key={item.id} className="animate-staggered" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
+        <div key={item.id} className="animate-staggered h-full" style={{ animationDelay: `${(index + 1) * 0.04}s` }}>
           <StatusCard 
             id={item.id} 
             imageUrl={item.imageUrl} 
@@ -121,14 +121,14 @@ export function StatusView() {
       
       if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(
-          <div key={`ad-${index}`} className="animate-staggered">
+          <div key={`ad-${index}`} className="animate-staggered h-full">
             <NativeVideoAd />
           </div>
         );
       }
     });
     return gridElements;
-  }, [isSelectionMode, selectedIds, isPro, statusData, toggleSelect]);
+  }, [isSelectionMode, selectedIds, isPro, toggleSelect]);
 
   if (isLoading) {
     return (
