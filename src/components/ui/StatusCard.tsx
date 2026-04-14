@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -120,7 +119,7 @@ export function StatusCard({
         )}
 
         <div className="absolute top-1.5 left-1.5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
+          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.2)]">
             {type === 'video' ? <Play className="w-2.5 h-2.5 text-white fill-white" /> : <Sparkles className="w-2.5 h-2.5 text-white/90" />}
           </div>
         </div>

@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { PlayCircle, X, ShieldCheck, ExternalLink, Loader2, RefreshCcw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { PlayCircle, X, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 /**
- * NativeVideoAd - Updated for high visual distinction to prevent policy violations.
- * Removed metadata and status-like buttons to avoid accidental clicks.
+ * NativeVideoAd - Optimized height to match StatusCard exactly.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -29,38 +28,38 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-none bg-slate-50 border-2 border-slate-200 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-none bg-slate-50 border border-slate-200 transition-all duration-300 h-full", 
       className
     )}>
-      {/* Distinct Badge */}
-      <div className="absolute top-2 left-2 z-10">
-        <div className="bg-primary px-2 py-0.5 rounded-md shadow-sm flex items-center gap-1">
-          <span className="text-[7px] font-black text-white uppercase tracking-tighter">Ad</span>
+      {/* Ad Badge */}
+      <div className="absolute top-1.5 left-1.5 z-10">
+        <div className="bg-primary/90 backdrop-blur-md px-1.5 py-0.5 rounded-md shadow-sm border border-white/20">
+          <span className="text-[6px] font-black text-white uppercase tracking-tighter">Ad</span>
         </div>
       </div>
 
+      {/* Main Image - Matches aspect ratio of status cards */}
       <div className="relative aspect-[9/14] w-full bg-slate-200 group cursor-pointer overflow-hidden">
         <img 
-          src="https://picsum.photos/seed/ad-card-v2/400/622" 
+          src="https://picsum.photos/seed/ad-card-v3/400/622" 
           alt="Advertisement" 
-          className="w-full h-full object-cover opacity-90 grayscale-[20%]" 
+          className="w-full h-full object-cover opacity-90" 
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/5 transition-colors">
-          <div className="bg-white/30 backdrop-blur-md p-2 rounded-full border border-white/40 animate-pulse">
-            <PlayCircle className="w-5 h-5 text-white" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/5">
+          <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
+            <PlayCircle className="w-4 h-4 text-white shadow-sm" />
           </div>
         </div>
       </div>
 
-      {/* CTA Section - Distinct from status metadata */}
-      <div className="flex flex-col gap-1 px-2 py-2 bg-white border-t border-slate-100">
-        <div className="flex items-center justify-between">
-          <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Sponsored</span>
-          <ExternalLink className="w-2.5 h-2.5 text-slate-300" />
+      {/* Footer - Standardized height to 28px to match StatusCard */}
+      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-50 min-h-[28px]">
+        <div className="flex items-center gap-1 overflow-hidden">
+          <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest truncate">Sponsored content</span>
         </div>
-        <Button className="w-full h-7 rounded-lg text-[9px] font-black bg-blue-600 hover:bg-blue-700 text-white shadow-md active:scale-95 transition-all border-none">
-          Learn more
-        </Button>
+        <button className="p-0.5 text-blue-600 bg-blue-50 rounded-md active:scale-90 transition-all">
+          <ExternalLink className="w-2.5 h-2.5" />
+        </button>
       </div>
     </div>
   );
@@ -167,7 +166,7 @@ export function useRewardedAd(onReward: () => void) {
   const [isWatching, setIsWatching] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
-  const showRewardedAd = useCallback(() => {
+  const showRewardedAd = () => {
     if (isProcessing || isWatching) return;
     setIsProcessing(true);
     setTimeout(() => {
@@ -175,7 +174,7 @@ export function useRewardedAd(onReward: () => void) {
       setIsWatching(true);
       setCountdown(10);
     }, 1800);
-  }, [isProcessing, isWatching]);
+  };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -187,12 +186,12 @@ export function useRewardedAd(onReward: () => void) {
     return () => clearInterval(timer);
   }, [isWatching, countdown]);
 
-  const completeReward = useCallback(() => {
+  const completeReward = () => {
     if (countdown === 0) {
       onReward();
     }
     setIsWatching(false);
-  }, [countdown, onReward]);
+  };
 
   return { showRewardedAd, isProcessing, isWatching, countdown, completeReward };
 }
