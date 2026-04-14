@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * Reduced ad badge size and optimized visual distinction.
+ * Visual distinction provided by background and CTA styling.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -40,24 +40,27 @@ export function NativeVideoAd({ className }: { className?: string }) {
           className="w-full h-full object-cover opacity-75" 
         />
         
-        {/* Ad badge - Tiny and discrete to maintain professional look */}
-        <div className="absolute top-1.5 left-1.5 z-10">
+        {/* Ad badge - Small and discrete */}
+        <div className="absolute top-1 left-1 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
-            <span className="text-[5px] font-black text-slate-900 uppercase tracking-tight">Ad</span>
+            <span className="text-[5px] font-black text-slate-900 uppercase tracking-tight leading-none">Ad</span>
           </div>
         </div>
 
         {/* Action icon in center */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 shadow-xl">
+          <div className="bg-white/20 backdrop-blur-md p-1.5 rounded-full border border-white/30 shadow-xl">
             <PlayCircle className="w-4 h-4 text-white" />
           </div>
         </div>
       </div>
 
-      {/* Footer - Matched min-height to StatusCard footer (28px) */}
+      {/* Footer - Matched to StatusCard footer (28px) */}
       <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-100 min-h-[28px]">
-        <div className="flex items-center overflow-hidden">
+        <div className="flex items-center overflow-hidden gap-1">
+          <div className="bg-primary px-1 rounded-[2px] flex-shrink-0">
+            <span className="text-[5px] font-black text-white">Ad</span>
+          </div>
           <span className="text-[6px] font-black text-slate-400 truncate">Promoted content</span>
         </div>
         <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90">
@@ -93,7 +96,7 @@ function AdOverlayLayout({
         <div className="p-4 flex justify-between items-center">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3 h-3 text-primary" />
-            <span className="text-[9px] font-black text-white/60 tracking-tight uppercase">Sponsored</span>
+            <span className="text-[9px] font-black text-white/60 tracking-tight uppercase">Sponsored content</span>
           </div>
           <button 
             disabled={disabledClose} 
@@ -117,7 +120,7 @@ function AdOverlayLayout({
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-[320px] mx-auto space-y-6">
           <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-            <img src="https://picsum.photos/seed/inter-ad-safe/600/1067" alt="Promoted" className="w-full h-full object-cover" />
+            <img src="https://picsum.photos/seed/inter-ad-main/600/1067" alt="Ad content" className="w-full h-full object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
               <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
               <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
@@ -158,8 +161,8 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
       title="Status keeper pro"
-      subtitle="Unlock premium for ad-free experience"
-      buttonText="Go pro now"
+      subtitle="Upgrade for ad-free experience"
+      buttonText="Go ad-free now"
     />
   );
 }
@@ -215,9 +218,9 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Claim elite access"
-      subtitle="Watch until the end to get 24h reward"
-      buttonText="Activate premium"
+      title="Unlock elite access"
+      subtitle="Watch until the end to claim your reward"
+      buttonText="Claim 24h premium"
     />
   );
 }
