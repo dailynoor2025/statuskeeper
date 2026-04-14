@@ -42,7 +42,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   width: 100%;
-  padding: 1px;
+  padding: 0;
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

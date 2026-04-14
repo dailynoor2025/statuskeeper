@@ -61,7 +61,7 @@ export function SettingsView() {
           <div className="flex justify-between items-end mb-2">
             <div>
               <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">Device storage</p>
-              <p className="text-[clamp(8px,2vw,9px)] text-gray-400 font-bold tracking-tight leading-none uppercase">WhatsApp monitoring</p>
+              <p className="text-[clamp(8px,2vw,9px)] text-gray-400 font-bold tracking-tight leading-none">WhatsApp monitoring</p>
             </div>
             <p className="text-[clamp(10px,2.5vw,11px)] font-black text-primary">12% used</p>
           </div>
@@ -76,7 +76,7 @@ export function SettingsView() {
               </div>
               <div className="min-w-0">
                 <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900 truncate">Status directory</p>
-                <p className="text-[clamp(7px,1.8vw,8px)] text-gray-400 font-bold tracking-tight leading-none mt-0.5 truncate uppercase">Android/media/com.whatsapp/WhatsApp/Media/.Statuses</p>
+                <p className="text-[clamp(7px,1.8vw,8px)] text-gray-400 font-bold tracking-tight leading-none mt-0.5 truncate">Android/media/com.whatsapp/WhatsApp/Media/.Statuses</p>
               </div>
             </div>
             <ChevronRight className="w-3 h-3 text-gray-300 flex-shrink-0" />
@@ -92,7 +92,7 @@ export function SettingsView() {
               </div>
               <div>
                 <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">Clear temp cache</p>
-                <p className="text-[clamp(8px,2vw,9px)] text-primary font-black tracking-tight leading-none mt-0.5 uppercase">{cacheSize} identified</p>
+                <p className="text-[clamp(8px,2vw,9px)] text-primary font-black tracking-tight leading-none mt-0.5">{cacheSize} identified</p>
               </div>
             </div>
             <Trash2 className="w-3 h-3 text-gray-300 group-hover:text-destructive transition-colors flex-shrink-0" />
@@ -102,7 +102,7 @@ export function SettingsView() {
 
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
         <div className="px-4 py-3 border-b border-gray-50">
-          <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight uppercase">Automation & logic</p>
+          <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight">Automation & logic</p>
         </div>
         <div className="divide-y divide-gray-50">
           <div 

@@ -57,7 +57,7 @@ export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
             <DropdownMenuContent align="end" className="w-48 rounded-2xl p-1.5 shadow-2xl border-none glass-morphism">
               <DropdownMenuItem className="rounded-xl text-[10px] font-bold py-2" asChild>
                 <a href="https://sites.google.com/view/qhaleel-latest-apps/home" target="_blank" rel="noopener noreferrer">
-                  Latest apps 🔥
+                  Latest apps
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem className="rounded-xl text-[10px] font-bold py-2" asChild>

@@ -5,7 +5,7 @@ import { StatusCard } from "@/components/ui/StatusCard";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { NativeVideoAd } from "@/components/ads/AdComponents";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Smartphone, RefreshCcw, Camera, PlayCircle, CheckSquare, X, CheckSquare2, FileWarning } from "lucide-react";
+import { RefreshCcw, Camera, PlayCircle, CheckSquare, X, CheckSquare2, FileWarning } from "lucide-react";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -113,7 +113,7 @@ export function StatusView() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] w-full space-y-4">
         <div className="relative">
           <div className="bg-primary/5 p-8 rounded-full animate-pulse border border-primary/10">
-            <Smartphone className="w-6 h-6 text-primary/30" />
+            <RefreshCcw className="w-6 h-6 text-primary/30" />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <RefreshCcw className="w-4 h-4 text-primary animate-spin" />
