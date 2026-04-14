@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * Subtle background distinction to comply with AdMob policy while maintaining size consistency.
+ * Reduced ad badge size and optimized visual distinction.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -29,7 +29,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-200 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-gray-100 transition-all duration-300 h-full", 
       className
     )}>
       {/* Media layer - Exact same aspect ratio as StatusCard */}
@@ -40,7 +40,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           className="w-full h-full object-cover opacity-75" 
         />
         
-        {/* Ad badge - Reduced size for better visual integration */}
+        {/* Ad badge - Tiny and discrete to maintain professional look */}
         <div className="absolute top-1.5 left-1.5 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1 py-[1px] rounded-md shadow-sm border border-slate-200">
             <span className="text-[5px] font-black text-slate-900 uppercase tracking-tight">Ad</span>
