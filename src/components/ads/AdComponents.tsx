@@ -8,8 +8,8 @@ import Image from 'next/image';
 import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
- * NativeVideoAd - Precisely matched to StatusCard dimensions for grid integrity.
- * Enhanced with logic to simulate image/video/reels delivery from ad network.
+ * NativeVideoAd - Precisely matched to StatusCard dimensions.
+ * Updated: Footer button changed to tiny text-based CTA with resize logic.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -19,13 +19,9 @@ export function NativeVideoAd({ className }: { className?: string }) {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        // Simulated network request to AdMob SDK
         await new Promise(resolve => setTimeout(resolve, 1200));
-        
-        // Randomly simulate ad network response types
         const types: ('image' | 'video' | 'reels')[] = ['image', 'video', 'reels'];
         setMediaType(types[Math.floor(Math.random() * types.length)]);
-        
         setAdStatus('ready');
       } catch (e) {
         setAdStatus('error');
@@ -41,7 +37,6 @@ export function NativeVideoAd({ className }: { className?: string }) {
       "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-100 transition-all duration-300 h-full", 
       className
     )}>
-      {/* Media layer - Matches StatusCard aspect ratio (9/14) */}
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
           src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
@@ -52,16 +47,15 @@ export function NativeVideoAd({ className }: { className?: string }) {
             mediaType === 'image' ? "opacity-90" : "opacity-70"
           )}
           sizes="(max-width: 480px) 33vw, 25vw"
+          data-ai-hint="sponsored content"
         />
         
-        {/* Ad Provider Label */}
         <div className="absolute top-1.5 left-1.5 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1.5 py-[2px] rounded-md shadow-sm border border-slate-200 flex items-center gap-1">
             <span className="text-[6px] font-black text-slate-900 tracking-tight leading-none uppercase">Ad</span>
           </div>
         </div>
 
-        {/* Dynamic Media Indicator Icons */}
         <div className="absolute top-1.5 right-1.5 pointer-events-none">
           <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
             {mediaType === 'image' ? (
@@ -72,7 +66,6 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
         </div>
 
-        {/* Visual Cue for Video/Reels */}
         {mediaType !== 'image' && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors group-hover:bg-transparent">
             <div className="bg-primary/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 shadow-2xl">
@@ -81,11 +74,9 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
         )}
 
-        {/* Gradient Overlay */}
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </div>
 
-      {/* Footer - Matched exactly to StatusCard footer (28px height) */}
       <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-50 min-h-[28px]">
         <div className="flex items-center overflow-hidden gap-1 min-w-0 flex-1">
           <div className="bg-blue-500/10 p-0.5 rounded flex-shrink-0">
@@ -95,8 +86,10 @@ export function NativeVideoAd({ className }: { className?: string }) {
             {mediaType === 'reels' ? 'Trending content' : 'Promoted content'}
           </span>
         </div>
-        <button className="p-0.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors active:scale-90 shrink-0">
-          <ExternalLink className="w-2.5 h-2.5" />
+        
+        {/* Updated Button: Tiny text-based CTA with resize logic */}
+        <button className="bg-primary text-white px-[clamp(6px,1.5vw,10px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
+          {mediaType === 'reels' ? 'Watch' : 'Install'}
         </button>
       </div>
     </div>

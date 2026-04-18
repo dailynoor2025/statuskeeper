@@ -8,7 +8,6 @@ import { SavedView } from "@/components/views/SavedView";
 import { PremiumView } from "@/components/views/PremiumView";
 import { SettingsView } from "@/components/views/SettingsView";
 import { HelpView } from "@/components/views/HelpView";
-import { SplashScreen as AppSplashScreen } from "@/components/views/SplashScreen";
 import { PermissionView } from "@/components/views/PermissionView";
 import { NoInternetView } from "@/components/views/NoInternetView";
 import { InterstitialAd } from "@/components/ads/AdComponents";
@@ -22,6 +21,7 @@ type ExtendedTabType = TabType | 'help';
 /**
  * MainApp - Entry point for the Status Keeper application.
  * Handles lifecycle, global state, and view routing.
+ * Updated: Removed branding splash screen and delay.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -31,7 +31,6 @@ export default function MainApp() {
   const [showInterstitial, setShowInterstitial] = useState(false);
 
   useEffect(() => {
-    // Standard initialization
     if (!localStorage.getItem('last_interstitial_time')) {
       localStorage.setItem('last_interstitial_time', Date.now().toString());
     }
@@ -69,8 +68,7 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Branding delay
-      await new Promise(r => setTimeout(r, 2500));
+      // Immediate check without branding delay
       try {
         const status = await Filesystem.checkPermissions();
         if (status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true') {
@@ -102,7 +100,7 @@ export default function MainApp() {
     if (proActive) return;
     
     const lastShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
-    const interval = 10 * 60 * 1000; // 10 minutes interval
+    const interval = 10 * 60 * 1000;
     
     if (Date.now() - lastShown > interval) {
       setShowInterstitial(true);
@@ -126,9 +124,8 @@ export default function MainApp() {
     }
   };
 
-  // View management
   if (!isOnline) return <NoInternetView />;
-  if (lifecycle === 'splash') return <AppSplashScreen />;
+  if (lifecycle === 'splash') return null; // Show nothing or a small spinner while checking
   if (lifecycle === 'permission') return <PermissionView onGrant={handleGrantPermission} />;
 
   return (
