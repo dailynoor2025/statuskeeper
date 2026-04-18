@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, ShieldCheck } from 'lucide-react';
+import { X, ShieldCheck, Trophy, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -87,7 +87,8 @@ function AdOverlayLayout({
   buttonText, 
   onClose, 
   disabledClose, 
-  timerLabel 
+  timerLabel,
+  variant = 'interstitial'
 }: { 
   isOpen: boolean; 
   title: string; 
@@ -96,23 +97,37 @@ function AdOverlayLayout({
   onClose: () => void; 
   disabledClose?: boolean; 
   timerLabel?: string;
+  variant?: 'interstitial' | 'rewarded';
 }) {
   if (!isOpen) return null;
 
+  const isRewarded = variant === 'rewarded';
+
   return (
-    <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
+    <div className="fixed inset-0 z-[200] bg-black/98 backdrop-blur-xl flex flex-col animate-in fade-in duration-500 overflow-hidden pt-safe text-white">
+      {/* Header Bar */}
       <div className="bg-black/40 border-b border-white/5">
-        <div className="p-4 flex justify-between items-center">
+        <div className="p-4 flex justify-between items-center max-w-lg mx-auto w-full">
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3 h-3 text-primary" />
-            <span className="text-[9px] font-black text-white/60 tracking-tight">Sponsored content</span>
+            {isRewarded ? (
+              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+            ) : (
+              <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+            )}
+            <span className="text-[10px] font-black text-white/70 tracking-tight uppercase">
+              {isRewarded ? 'Reward video' : 'Sponsored content'}
+            </span>
           </div>
           <button 
             disabled={disabledClose} 
             onClick={onClose} 
             className={cn(
-              "h-9 px-5 rounded-full flex items-center gap-2 transition-all active:scale-95", 
-              disabledClose ? "bg-white/10 text-white/30" : "bg-primary text-white shadow-lg shadow-primary/30"
+              "h-9 px-5 rounded-full flex items-center gap-2 transition-all active:scale-95 border-none", 
+              disabledClose 
+                ? "bg-white/5 text-white/30" 
+                : isRewarded 
+                  ? "bg-amber-500 text-black shadow-lg shadow-amber-500/20" 
+                  : "bg-primary text-white shadow-lg shadow-primary/30"
             )}
           >
             {disabledClose ? (
@@ -126,23 +141,62 @@ function AdOverlayLayout({
           </button>
         </div>
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-[320px] mx-auto space-y-6">
-          <div className="relative aspect-[9/16] w-full max-h-[55vh] bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-            <img src="https://picsum.photos/seed/inter-ad-v4/600/1067" alt="Ad content" className="w-full h-full object-cover" />
-            <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black via-black/40 to-transparent">
-              <h2 className="text-base font-black text-white tracking-tight mb-0.5">{title}</h2>
-              <p className="text-[9px] text-white/60 font-bold tracking-tight leading-none">{subtitle}</p>
+
+      {/* Main Content with Resize Logics */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-[min(90vw,360px)] mx-auto space-y-6 flex flex-col items-center">
+          {/* Framed Media Surface */}
+          <div className={cn(
+            "relative aspect-[9/16] w-full max-h-[60vh] bg-white/5 rounded-[2.5rem] border overflow-hidden shadow-2xl transition-all duration-500",
+            isRewarded ? "border-amber-500/30" : "border-white/10"
+          )}>
+            <Image 
+              src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v5/600/1067`} 
+              alt="Ad content" 
+              fill 
+              className="object-cover"
+              sizes="360px"
+              priority
+              data-ai-hint="ad content"
+            />
+            
+            {/* Visual Differentiation for Rewarded Ad */}
+            {isRewarded && (
+              <div className="absolute top-4 right-4 bg-amber-500/90 text-black p-2 rounded-xl backdrop-blur-md shadow-xl animate-bounce">
+                <Sparkles className="w-4 h-4" />
+              </div>
+            )}
+
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+              <h2 className={cn(
+                "text-lg font-black tracking-tight mb-1",
+                isRewarded ? "text-amber-400" : "text-white"
+              )}>
+                {title}
+              </h2>
+              <p className="text-[10px] text-white/70 font-bold tracking-wide leading-tight line-clamp-2">
+                {subtitle}
+              </p>
             </div>
           </div>
-          <div className="space-y-4 px-2">
-            <Button className="w-full h-12 rounded-xl font-black tracking-tight text-[11px] bg-primary shadow-xl shadow-primary/40 active:scale-95 transition-all border-none">
+
+          {/* CTA Area */}
+          <div className="space-y-4 w-full px-2">
+            <Button className={cn(
+              "w-full h-14 rounded-2xl font-black tracking-tight text-xs active:scale-95 transition-all border-none shadow-xl",
+              isRewarded 
+                ? "bg-amber-500 text-black hover:bg-amber-400" 
+                : "bg-primary text-white hover:bg-primary/90"
+            )}>
               {buttonText}
             </Button>
-            <p className="text-[8px] text-center text-white/20 font-bold tracking-tight">Remove ads in settings permanently</p>
+            <p className="text-[9px] text-center text-white/30 font-bold tracking-widest uppercase">
+              {isRewarded ? "Claim your reward after watching" : "Remove ads in settings permanently"}
+            </p>
           </div>
         </div>
       </div>
+
       <div className="pb-safe" />
     </div>
   );
@@ -172,6 +226,7 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       title="Status keeper pro"
       subtitle="Upgrade for ad-free experience"
       buttonText="Go ad-free now"
+      variant="interstitial"
     />
   );
 }
@@ -230,6 +285,7 @@ export function RewardedAdOverlay({
       title="Unlock elite access"
       subtitle="Watch until the end to claim your reward"
       buttonText="Claim 24h premium"
+      variant="rewarded"
     />
   );
 }
