@@ -1,4 +1,3 @@
-
 "use client";
 
 import { X, Download, Share2, Trash2 } from 'lucide-react';
@@ -9,6 +8,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
  * MediaViewer - True fullscreen responsive view with high-visibility actions.
+ * Icons reduced for a cleaner, professional look.
  */
 
 interface MediaViewerProps {
@@ -29,7 +29,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
 
   const handleClose = () => {
     onClose();
-    // Dispatch event to potentially show interstitial ad after closing the viewer (natural break)
+    // Dispatch event to potentially show interstitial ad after closing the viewer
     window.dispatchEvent(new CustomEvent('request-interstitial'));
   };
 
@@ -40,35 +40,34 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
           <VisuallyHidden>Media viewer - {media.id}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Actions Overlay Layer */}
         <div className="absolute inset-0 z-[110] pointer-events-none flex flex-col justify-between">
-          {/* Top Bar */}
+          {/* Top Bar with reduced icon sizes */}
           <div className="w-full p-4 flex items-center justify-between bg-gradient-to-b from-black/90 via-black/40 to-transparent pt-safe pointer-events-auto">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={handleClose} 
-              className="text-white hover:bg-white/20 rounded-full transition-all active:scale-90 bg-black/20 backdrop-blur-md border border-white/10 shadow-lg"
+              className="text-white hover:bg-white/20 rounded-full transition-all active:scale-90 bg-black/20 backdrop-blur-md border border-white/10 shadow-lg w-9 h-9"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </Button>
             
             <div className="flex gap-3">
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="text-white hover:bg-white/20 rounded-full transition-all active:scale-90 bg-black/20 backdrop-blur-md border border-white/10 shadow-lg"
+                className="text-white hover:bg-white/20 rounded-full transition-all active:scale-90 bg-black/20 backdrop-blur-md border border-white/10 shadow-lg w-9 h-9"
               >
-                <Share2 className="w-5 h-5" />
+                <Share2 className="w-4 h-4" />
               </Button>
               {mode === 'status' ? (
                 <Button 
                   variant="ghost" 
                   size="icon" 
                   onClick={() => onDownload?.(media.id)}
-                  className="text-white hover:bg-primary/80 rounded-full transition-all active:scale-90 bg-primary/20 backdrop-blur-md border border-primary/20 shadow-[0_0_15px_rgba(37,211,102,0.3)]"
+                  className="text-white hover:bg-primary/80 rounded-full transition-all active:scale-90 bg-primary/20 backdrop-blur-md border border-primary/20 shadow-[0_0_15px_rgba(37,211,102,0.3)] w-9 h-9"
                 >
-                  <Download className="w-5 h-5" />
+                  <Download className="w-4 h-4" />
                 </Button>
               ) : (
                 <Button 
@@ -78,9 +77,9 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                     onDelete?.(media.id);
                     handleClose();
                   }}
-                  className="text-white hover:bg-destructive rounded-full transition-all active:scale-90 bg-destructive/20 backdrop-blur-md border border-destructive/20 shadow-lg"
+                  className="text-white hover:bg-destructive rounded-full transition-all active:scale-90 bg-destructive/20 backdrop-blur-md border border-destructive/20 shadow-lg w-9 h-9"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               )}
             </div>
@@ -95,7 +94,6 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
           </div>
         </div>
 
-        {/* Content Layer */}
         <div className="w-full h-full flex items-center justify-center bg-black overflow-hidden">
           <div className="relative w-full h-full">
             <Image 

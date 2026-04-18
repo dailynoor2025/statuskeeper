@@ -10,6 +10,7 @@ import { AD_CONFIG } from '@/lib/ad-config';
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions.
  * Labels moved to media area to protect layout integrity.
+ * Enforced Sentence case for professional UI.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -58,10 +59,10 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
         </div>
 
-        {/* Labels moved onto media bottom to prevent layout breaks */}
+        {/* Labels moved onto media bottom with truncation logic */}
         <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
           <ShieldCheck className="w-2 h-2 text-white/70" />
-          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block uppercase tracking-wider">
+          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block tracking-wider">
             {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
           </span>
         </div>
