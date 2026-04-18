@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * SettingsView - System preferences and storage management.
- * Fixed ReferenceError: e is not defined.
+ * Fixed ReferenceError: isClearing logic corrected.
  */
 export function SettingsView() {
   const [isClearing, setIsClearing] = useState(false);
