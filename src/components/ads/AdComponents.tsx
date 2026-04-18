@@ -1,85 +1,16 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, ShieldCheck, Trophy, Sparkles } from 'lucide-react';
+import { X, ShieldCheck, Trophy, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
- * NativeVideoAd - Precisely matched to StatusCard dimensions.
- * Labels moved to media area to protect layout integrity.
- * Enforced Sentence case for professional UI.
+ * AdOverlayLayout - Full-screen responsive layout for Interstitial and Rewarded ads.
+ * Implements strict resize logic to prevent edge clipping.
  */
-export function NativeVideoAd({ className }: { className?: string }) {
-  const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [mediaType, setMediaType] = useState<'image' | 'video' | 'reels'>('image');
-
-  useEffect(() => {
-    const loadAd = async () => {
-      try {
-        setAdStatus('loading');
-        await new Promise(resolve => setTimeout(resolve, 1200));
-        const types: ('image' | 'video' | 'reels')[] = ['image', 'video', 'reels'];
-        setMediaType(types[Math.floor(Math.random() * types.length)]);
-        setAdStatus('ready');
-      } catch (e) {
-        setAdStatus('error');
-      }
-    };
-    loadAd();
-  }, []);
-
-  if (adStatus === 'error' || adStatus === 'loading') return null;
-
-  return (
-    <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full hover:shadow-md", 
-      className
-    )}>
-      {/* Media layer */}
-      <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden group cursor-pointer">
-        <Image 
-          src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
-          alt="Promoted content" 
-          fill
-          className={cn(
-            "object-cover transition-opacity duration-500",
-            mediaType === 'image' ? "opacity-90" : "opacity-70"
-          )}
-          sizes="(max-width: 480px) 33vw, 25vw"
-          data-ai-hint="sponsored content"
-        />
-        
-        {/* Top badge */}
-        <div className="absolute top-1.5 left-1.5 z-10">
-          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
-            <span className="text-[5px] font-black text-gray-900 tracking-tight uppercase">Ad</span>
-          </div>
-        </div>
-
-        {/* Labels moved onto media bottom with truncation logic */}
-        <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
-          <ShieldCheck className="w-2 h-2 text-white/70" />
-          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block tracking-wider">
-            {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
-          </span>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-      </div>
-
-      {/* Tiny CTA with resize logic */}
-      <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
-        <button className="bg-primary text-white px-[clamp(8px,2vw,14px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
-          {mediaType === 'reels' ? 'Watch' : 'Install'}
-        </button>
-      </div>
-    </div>
-  );
-}
-
 function AdOverlayLayout({ 
   isOpen, 
   title, 
@@ -151,7 +82,7 @@ function AdOverlayLayout({
             isRewarded ? "border-amber-500/30" : "border-white/10"
           )}>
             <Image 
-              src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v5/600/1067`} 
+              src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v6/600/1067`} 
               alt="Ad content" 
               fill 
               className="object-cover"
@@ -160,7 +91,6 @@ function AdOverlayLayout({
               data-ai-hint="ad content"
             />
             
-            {/* Visual Differentiation for Rewarded Ad */}
             {isRewarded && (
               <div className="absolute top-4 right-4 bg-amber-500/90 text-black p-2 rounded-xl backdrop-blur-md shadow-xl animate-bounce">
                 <Sparkles className="w-4 h-4" />
@@ -191,7 +121,7 @@ function AdOverlayLayout({
               {buttonText}
             </Button>
             <p className="text-[9px] text-center text-white/30 font-bold tracking-widest uppercase">
-              {isRewarded ? "Claim your reward after watching" : "Remove ads in settings permanently"}
+              {isRewarded ? "Claim reward after watching" : "Remove ads in settings permanently"}
             </p>
           </div>
         </div>
@@ -287,5 +217,69 @@ export function RewardedAdOverlay({
       buttonText="Claim 24h premium"
       variant="rewarded"
     />
+  );
+}
+
+export function NativeVideoAd({ className }: { className?: string }) {
+  const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [mediaType, setMediaType] = useState<'image' | 'video' | 'reels'>('image');
+
+  useEffect(() => {
+    const loadAd = async () => {
+      try {
+        setAdStatus('loading');
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        const types: ('image' | 'video' | 'reels')[] = ['image', 'video', 'reels'];
+        setMediaType(types[Math.floor(Math.random() * types.length)]);
+        setAdStatus('ready');
+      } catch (e) {
+        setAdStatus('error');
+      }
+    };
+    loadAd();
+  }, []);
+
+  if (adStatus === 'error' || adStatus === 'loading') return null;
+
+  return (
+    <div className={cn(
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full hover:shadow-md", 
+      className
+    )}>
+      <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden group cursor-pointer">
+        <Image 
+          src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
+          alt="Promoted content" 
+          fill
+          className={cn(
+            "object-cover transition-opacity duration-500",
+            mediaType === 'image' ? "opacity-90" : "opacity-70"
+          )}
+          sizes="(max-width: 480px) 33vw, 25vw"
+          data-ai-hint="sponsored content"
+        />
+        
+        <div className="absolute top-1.5 left-1.5 z-10">
+          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
+            <span className="text-[5px] font-black text-gray-900 tracking-tight uppercase">Ad</span>
+          </div>
+        </div>
+
+        <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
+          <ShieldCheck className="w-2 h-2 text-white/70" />
+          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block tracking-wider">
+            {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
+          </span>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+      </div>
+
+      <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
+        <button className="bg-primary text-white px-[clamp(8px,2vw,14px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
+          {mediaType === 'reels' ? 'Watch' : 'Install'}
+        </button>
+      </div>
+    </div>
   );
 }
