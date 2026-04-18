@@ -10,8 +10,8 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
- * AdOverlay - Robust and clean Dialog-based ad presentation.
- * Replaces the problematic manual fixed overlay.
+ * AdOverlay - Immersive full-screen ad presentation.
+ * Uses fixed inset-0 and top-tier z-index to cover everything including navigation.
  */
 function AdOverlay({ 
   isOpen, 
@@ -36,35 +36,34 @@ function AdOverlay({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !disabledClose && onClose()}>
-      <DialogContent className="max-w-none w-screen h-screen p-0 bg-black border-none flex flex-col items-center justify-center z-[200] outline-none overflow-hidden rounded-none shadow-none">
+      <DialogContent className="fixed inset-0 z-[1000] w-screen h-screen max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col items-center justify-center outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
         <DialogTitle>
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Background Media */}
+        {/* Immersive Background */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v9/1080/1920`} 
+            src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v10/1080/1920`} 
             alt="Ad background" 
             fill 
-            className="object-cover opacity-60"
+            className="object-cover opacity-70"
             priority
             sizes="100vw"
-            data-ai-hint="ad immersive background"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
         </div>
 
-        {/* Header Bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-safe bg-black/20 backdrop-blur-sm border-b border-white/5">
-          <div className="p-4 flex justify-between items-center max-w-lg mx-auto w-full">
-            <div className="flex items-center gap-1.5">
+        {/* Global Action Bar */}
+        <div className="absolute top-0 left-0 right-0 z-20 pt-safe">
+          <div className="p-4 flex justify-between items-center w-full">
+            <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
               {isRewarded ? (
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
               )}
-              <span className="text-[10px] font-black text-white/70 tracking-tight uppercase">
+              <span className="text-[10px] font-black text-white/90 tracking-tight">
                 {isRewarded ? 'Reward video' : 'Sponsored'}
               </span>
             </div>
@@ -72,20 +71,20 @@ function AdOverlay({
               disabled={disabledClose} 
               onClick={onClose} 
               className={cn(
-                "h-8 px-4 rounded-full flex items-center gap-2 transition-all active:scale-95 border-none", 
+                "h-9 px-5 rounded-full flex items-center gap-2 transition-all active:scale-95 border-none", 
                 disabledClose 
                   ? "bg-white/10 text-white/30" 
                   : isRewarded 
-                    ? "bg-amber-500 text-black shadow-lg" 
-                    : "bg-primary text-white shadow-lg"
+                    ? "bg-amber-500 text-black shadow-lg font-black" 
+                    : "bg-primary text-white shadow-lg font-black"
               )}
             >
               {disabledClose ? (
-                <span className="text-[9px] font-black tracking-tight">Wait {timerLabel}</span>
+                <span className="text-[10px] font-black tracking-tight">Wait {timerLabel}</span>
               ) : (
                 <>
-                  <span className="text-[9px] font-black tracking-tight">Skip ad</span>
-                  <X className="w-3.5 h-3.5" />
+                  <span className="text-[10px] font-black tracking-tight">Skip ad</span>
+                  <X className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -93,36 +92,36 @@ function AdOverlay({
         </div>
 
         {/* Content Area */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-12 w-full max-w-sm">
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-sm">
           <div className="space-y-6">
             <div className="space-y-2">
               {isRewarded && (
-                <div className="inline-flex items-center gap-1.5 bg-amber-500 text-black px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-wider mb-2">
-                  <Sparkles className="w-2.5 h-2.5" />
+                <div className="inline-flex items-center gap-1.5 bg-amber-500 text-black px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3 h-3" />
                   <span>Premium reward</span>
                 </div>
               )}
               <h2 className={cn(
-                "text-2xl font-black tracking-tighter leading-none drop-shadow-lg",
+                "text-3xl font-black tracking-tighter leading-none drop-shadow-2xl",
                 isRewarded ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
-              <p className="text-xs text-white/80 font-medium tracking-tight leading-relaxed line-clamp-3 drop-shadow-md">
+              <p className="text-sm text-white/90 font-medium tracking-tight leading-relaxed line-clamp-3 drop-shadow-xl">
                 {subtitle}
               </p>
             </div>
 
             <div className="space-y-4">
               <Button className={cn(
-                "w-full h-12 rounded-xl font-black tracking-tight text-xs active:scale-95 transition-all border-none shadow-2xl",
+                "w-full h-14 rounded-2xl font-black tracking-tight text-sm active:scale-95 transition-all border-none shadow-2xl",
                 isRewarded 
                   ? "bg-amber-500 text-black hover:bg-amber-400" 
                   : "bg-primary text-white hover:bg-primary/90"
               )}>
                 {buttonText}
               </Button>
-              <p className="text-[8px] text-center text-white/30 font-bold tracking-[0.2em] uppercase">
+              <p className="text-[9px] text-center text-white/40 font-bold tracking-[0.25em] uppercase">
                 {isRewarded ? "Watch until end to claim" : "Status keeper stable build"}
               </p>
             </div>
@@ -155,7 +154,7 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
       title="Status keeper pro"
-      subtitle="Enjoy an enhanced experience by going ad-free today."
+      subtitle="Enjoy an enhanced experience by going ad-free today. Support the stable build development."
       buttonText="Learn more"
       variant="interstitial"
     />
@@ -213,7 +212,7 @@ export function RewardedAdOverlay({
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
       title="Unlock elite access"
-      subtitle="Complete this short video to unlock 24 hours of premium features."
+      subtitle="Complete this video to unlock 24 hours of premium ad-free features instantly."
       buttonText="Claim reward"
       variant="rewarded"
     />
@@ -256,28 +255,31 @@ export function NativeVideoAd({ className }: { className?: string }) {
             mediaType === 'image' ? "opacity-90" : "opacity-70"
           )}
           sizes="(max-width: 480px) 33vw, 25vw"
-          data-ai-hint="sponsored content"
         />
         
-        {/* Ad Label on Media Surface */}
+        {/* Ad Label */}
         <div className="absolute top-1.5 left-1.5 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
-            <span className="text-[5px] font-black text-gray-900 tracking-tight uppercase">Ad</span>
+            <span className="text-[5px] font-black text-gray-900 tracking-tight">Ad</span>
           </div>
         </div>
 
-        <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
-          <ShieldCheck className="w-2 h-2 text-white/70" />
-          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block tracking-wider">
-            {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
-          </span>
+        {/* Media Overlay Info */}
+        <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex flex-col gap-0.5 opacity-90 pointer-events-none">
+          <div className="flex items-center gap-1">
+            <ShieldCheck className="w-2 h-2 text-white" />
+            <span className="text-[6px] font-black text-white truncate block tracking-wider">
+              {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
+            </span>
+          </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
       </div>
 
+      {/* Simplified Footer Button */}
       <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
-        <button className="bg-primary text-white px-[clamp(8px,2vw,14px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
+        <button className="bg-primary text-white w-full h-4 rounded-md text-[7px] font-black uppercase tracking-tighter active:scale-95 transition-all flex items-center justify-center leading-none">
           {mediaType === 'reels' ? 'Watch' : 'Install'}
         </button>
       </div>

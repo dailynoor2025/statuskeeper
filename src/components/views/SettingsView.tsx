@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * SettingsView - System preferences and storage management.
- * Fixed ReferenceError: e replaced with isClearing.
+ * Fixed ReferenceError: isClearing replaces undefined 'e'.
  */
 export function SettingsView() {
   const [isClearing, setIsClearing] = useState(false);

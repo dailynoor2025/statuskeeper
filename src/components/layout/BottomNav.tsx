@@ -17,6 +17,9 @@ const navItems: { label: string; id: TabType; icon: any }[] = [
   { label: 'Settings', id: 'settings', icon: Settings },
 ];
 
+/**
+ * BottomNav - Clean navigation with Sentence case labels.
+ */
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   return (
     <nav className="absolute bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-gray-100 h-16 flex items-center justify-around px-2 pb-safe shadow-[0_-8px_30px_rgba(0,0,0,0.06)] w-full overflow-hidden">
@@ -41,7 +44,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               )} />
             </div>
             <span className={cn(
-              "text-[8px] font-black tracking-wider transition-all duration-300",
+              "text-[9px] font-black tracking-wider transition-all duration-300",
               isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-0.5"
             )}>
               {item.label}

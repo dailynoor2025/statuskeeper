@@ -14,7 +14,7 @@ import { useAds } from "@/hooks/use-ads";
 
 /**
  * StatusView - Manages discovery and display of current WhatsApp statuses.
- * Icons reduced in size for a cleaner look.
+ * UI cleaned up with Sentence case and reduced icon sizes.
  */
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
@@ -154,7 +154,7 @@ export function StatusView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black tracking-wider h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3 h-3" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3 h-3" /></TabsTrigger>
           </TabsList>
@@ -163,7 +163,7 @@ export function StatusView() {
               <>
                 <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-2.5 h-2.5", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
-                  <span className="text-[8px] font-black tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
+                  <span className="text-[8px] font-black text-gray-600 truncate max-w-[40px]">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
                 <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-2.5 h-2.5 text-red-500" /></button>
               </>
