@@ -14,6 +14,7 @@ import { useAds } from "@/hooks/use-ads";
 
 /**
  * StatusView - Manages discovery and display of current WhatsApp statuses.
+ * Fixed: 'j' ReferenceError resolved by using 'toggleSelect'.
  */
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);

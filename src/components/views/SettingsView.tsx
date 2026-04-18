@@ -16,6 +16,10 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
+/**
+ * SettingsView - System preferences and storage management.
+ * Fixed: 'e' ReferenceError resolved by using 'isClearing'.
+ */
 export function SettingsView() {
   const [isClearing, setIsClearing] = useState(false);
   const [cacheSize, setCacheSize] = useState("4.8 mb");

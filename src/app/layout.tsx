@@ -4,12 +4,25 @@ import { Toaster } from '@/components/ui/toaster';
 
 /**
  * @fileOverview Root Layout Logic.
- * Manages the application container, adaptive scaling, and global notification system.
+ * Optimized with Tier 1 global SEO metadata for high-quality user acquisition.
  */
 
 export const metadata: Metadata = {
-  title: 'StatusKeeper',
-  description: 'WhatsApp Status Saver Android App',
+  title: 'Status keeper - Privacy-first status saver',
+  description: 'The ultimate secure and fast WhatsApp status saver. Download HD stories, videos, and images instantly. Optimized for high performance and total user privacy.',
+  keywords: ['status saver', 'whatsapp downloader', 'secure story saver', 'HD video downloader', 'privacy status saver', 'global status keeper'],
+  authors: [{ name: 'Status Keeper Team' }],
+  openGraph: {
+    title: 'Status keeper - Professional status downloader',
+    description: 'Save WhatsApp statuses in high definition without leaving a trace.',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Status keeper | Secure status saver',
+    description: 'Fast, secure, and professional status downloader for Android.',
+  },
 };
 
 export default function RootLayout({
@@ -30,14 +43,14 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased h-full overflow-hidden bg-slate-100">
         <div className="flex justify-center items-center h-[100dvh] w-full overflow-hidden">
-          {/* Main App Container: Scaled with Adaptive Logic for Small/Large screens */}
+          {/* Main app container: Scaled with adaptive logic */}
           <main className="app-container shadow-2xl transition-all duration-500 flex flex-col bg-white">
             <div className="flex-1 flex flex-col h-full overflow-hidden relative">
               {children}
             </div>
           </main>
         </div>
-        {/* Global Notification System */}
+        {/* Global notification system */}
         <Toaster />
       </body>
     </html>

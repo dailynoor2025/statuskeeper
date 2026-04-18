@@ -9,7 +9,7 @@ import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions.
- * Removed the pulsating icon layer for a cleaner look.
+ * Labels moved to media area to protect layout integrity.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -37,7 +37,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
       "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full hover:shadow-md", 
       className
     )}>
-      {/* Media Image Layer */}
+      {/* Media layer */}
       <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden group cursor-pointer">
         <Image 
           src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
@@ -51,25 +51,25 @@ export function NativeVideoAd({ className }: { className?: string }) {
           data-ai-hint="sponsored content"
         />
         
-        {/* Ad Badge Over Media */}
+        {/* Top badge */}
         <div className="absolute top-1.5 left-1.5 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
             <span className="text-[5px] font-black text-gray-900 tracking-tight uppercase">Ad</span>
           </div>
         </div>
 
-        {/* Promoted Text Over Media Bottom - Now with truncation logic for small screens */}
+        {/* Labels moved onto media bottom to prevent layout breaks */}
         <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
           <ShieldCheck className="w-2 h-2 text-white/70" />
           <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block uppercase tracking-wider">
-            {mediaType === 'reels' ? 'Trending' : 'Promoted content'}
+            {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
           </span>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </div>
 
-      {/* Card Footer - Tiny CTA with Resize logic */}
+      {/* Tiny CTA with resize logic */}
       <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
         <button className="bg-primary text-white px-[clamp(8px,2vw,14px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
           {mediaType === 'reels' ? 'Watch' : 'Install'}
