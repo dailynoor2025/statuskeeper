@@ -76,14 +76,14 @@ export function SettingsView() {
           <div className="flex items-center justify-between p-4 hover:bg-gray-50 active:bg-gray-100 active:scale-[0.99] transition-all cursor-pointer group">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-primary/10 text-primary shadow-sm">
-                <FolderSearch className="w-3.5 h-3.5" />
+                <FolderSearch className="w-4 h-4" />
               </div>
               <div className="min-w-0">
                 <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900 truncate">Status directory</p>
                 <p className="text-[clamp(7px,1.8vw,8px)] text-gray-400 font-bold tracking-tight leading-none mt-0.5 truncate">Android/media/com.whatsapp/WhatsApp/Media/.Statuses</p>
               </div>
             </div>
-            <ChevronRight className="w-2.5 h-2.5 text-gray-300 flex-shrink-0" />
+            <ChevronRight className="w-3 h-3 text-gray-300 flex-shrink-0" />
           </div>
 
           <div 
@@ -92,14 +92,14 @@ export function SettingsView() {
           >
             <div className="flex items-center gap-3">
               <div className={cn("p-2 rounded-xl bg-gray-100 text-gray-500 shadow-sm transition-all", isClearing && "animate-pulse bg-primary/10 text-primary")}>
-                {isClearing ? <RefreshCcw className="w-3.5 h-3.5 animate-spin" /> : <Database className="w-3.5 h-3.5" />}
+                {isClearing ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Database className="w-4 h-4" />}
               </div>
               <div>
                 <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">Clear temp cache</p>
                 <p className="text-[clamp(8px,2vw,9px)] text-primary font-black tracking-tight leading-none mt-0.5">{cacheSize} identified</p>
               </div>
             </div>
-            <Trash2 className="w-2.5 h-2.5 text-gray-300 group-hover:text-destructive transition-colors flex-shrink-0" />
+            <Trash2 className="w-3 h-3 text-gray-300 group-hover:text-destructive transition-colors flex-shrink-0" />
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@ export function SettingsView() {
           >
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-orange-500/10 text-orange-500 shadow-sm">
-                <DownloadCloud className="w-3.5 h-3.5" />
+                <DownloadCloud className="w-4 h-4" />
               </div>
               <div>
                 <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">Auto-download</p>
@@ -131,7 +131,7 @@ export function SettingsView() {
           >
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500 shadow-sm">
-                <Bell className="w-3.5 h-3.5" />
+                <Bell className="w-4 h-4" />
               </div>
               <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight text-gray-900">New status alert</p>
             </div>
@@ -141,7 +141,7 @@ export function SettingsView() {
           <div className="flex items-center justify-between p-4 hover:bg-gray-50 active:bg-gray-100 active:scale-[0.99] transition-all cursor-pointer">
             <div className="flex items-center gap-3 min-w-0 flex-1">
               <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 shadow-sm">
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-4 h-4" />
               </div>
               <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight truncate text-gray-900">App language</p>
               <span className="ml-auto text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 whitespace-nowrap">English only</span>
@@ -152,7 +152,7 @@ export function SettingsView() {
 
       <div className="p-4 text-center space-y-1.5 opacity-30">
         <div className="flex items-center justify-center gap-1 text-gray-400 font-black tracking-tight text-[8px]">
-          <ShieldCheck className="w-2.5 h-2.5" />
+          <ShieldCheck className="w-3 h-3" />
           <span>Secured status keeper network</span>
         </div>
         <p className="text-[7px] font-bold text-gray-300">Version 1.5.0 stable build</p>
