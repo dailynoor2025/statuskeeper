@@ -87,7 +87,7 @@ export function SettingsView() {
             onClick={handleClearCache}
           >
             <div className="flex items-center gap-3">
-              <div className={cn("p-2 rounded-xl bg-gray-100 text-gray-500 shadow-sm transition-all", e && "animate-pulse bg-primary/10 text-primary")}>
+              <div className={cn("p-2 rounded-xl bg-gray-100 text-gray-500 shadow-sm transition-all", isClearing && "animate-pulse bg-primary/10 text-primary")}>
                 {isClearing ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Database className="w-4 h-4" />}
               </div>
               <div>
