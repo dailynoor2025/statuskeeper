@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { AD_CONFIG } from '@/lib/ad-config';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
- * AdOverlayLayout - Full-screen immersive layout for Interstitial and Rewarded ads.
- * Covers the entire screen with object-cover media to match real AdMob behavior.
+ * AdOverlay - Robust and clean Dialog-based ad presentation.
+ * Replaces the problematic manual fixed overlay.
  */
-function AdOverlayLayout({ 
+function AdOverlay({ 
   isOpen, 
   title, 
   subtitle, 
@@ -30,102 +32,106 @@ function AdOverlayLayout({
   timerLabel?: string;
   variant?: 'interstitial' | 'rewarded';
 }) {
-  if (!isOpen) return null;
-
   const isRewarded = variant === 'rewarded';
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black flex flex-col animate-in fade-in duration-500 overflow-hidden text-white">
-      {/* Background Media - Immersive Full Screen */}
-      <div className="absolute inset-0 z-0">
-        <Image 
-          src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v9/1080/1920`} 
-          alt="Ad background" 
-          fill 
-          className="object-cover opacity-60"
-          priority
-          sizes="100vw"
-          data-ai-hint="ad immersive background"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
-      </div>
-
-      {/* Header Bar - Floats above background */}
-      <div className="relative z-20 pt-safe bg-black/20 backdrop-blur-sm border-b border-white/5">
-        <div className="p-4 flex justify-between items-center max-w-lg mx-auto w-full">
-          <div className="flex items-center gap-1.5">
-            {isRewarded ? (
-              <Trophy className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-            )}
-            <span className="text-[10px] font-black text-white/70 tracking-tight uppercase">
-              {isRewarded ? 'Reward video' : 'Sponsored'}
-            </span>
-          </div>
-          <button 
-            disabled={disabledClose} 
-            onClick={onClose} 
-            className={cn(
-              "h-9 px-5 rounded-full flex items-center gap-2 transition-all active:scale-95 border-none", 
-              disabledClose 
-                ? "bg-white/10 text-white/30" 
-                : isRewarded 
-                  ? "bg-amber-500 text-black shadow-lg" 
-                  : "bg-primary text-white shadow-lg"
-            )}
-          >
-            {disabledClose ? (
-              <span className="text-[10px] font-black tracking-tight">Wait {timerLabel}</span>
-            ) : (
-              <>
-                <span className="text-[10px] font-black tracking-tight">Skip ad</span>
-                <X className="w-4 h-4" />
-              </>
-            )}
-          </button>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && !disabledClose && onClose()}>
+      <DialogContent className="max-w-none w-screen h-screen p-0 bg-black border-none flex flex-col items-center justify-center z-[200] outline-none overflow-hidden rounded-none shadow-none">
+        <DialogTitle>
+          <VisuallyHidden>{title}</VisuallyHidden>
+        </DialogTitle>
+        
+        {/* Background Media */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v9/1080/1920`} 
+            alt="Ad background" 
+            fill 
+            className="object-cover opacity-60"
+            priority
+            sizes="100vw"
+            data-ai-hint="ad immersive background"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
         </div>
-      </div>
 
-      {/* Content Area */}
-      <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-12">
-        <div className="max-w-sm w-full mx-auto space-y-6">
-          <div className="space-y-2">
-            {isRewarded && (
-              <div className="inline-flex items-center gap-1.5 bg-amber-500 text-black px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider mb-2 animate-bounce">
-                <Sparkles className="w-3 h-3" />
-                <span>Premium reward</span>
-              </div>
-            )}
-            <h2 className={cn(
-              "text-3xl font-black tracking-tighter leading-none drop-shadow-lg",
-              isRewarded ? "text-amber-400" : "text-white"
-            )}>
-              {title}
-            </h2>
-            <p className="text-sm text-white/80 font-medium tracking-tight leading-relaxed line-clamp-3 drop-shadow-md">
-              {subtitle}
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <Button className={cn(
-              "w-full h-14 rounded-2xl font-black tracking-tight text-base active:scale-95 transition-all border-none shadow-2xl",
-              isRewarded 
-                ? "bg-amber-500 text-black hover:bg-amber-400" 
-                : "bg-primary text-white hover:bg-primary/90"
-            )}>
-              {buttonText}
-            </Button>
-            <p className="text-[9px] text-center text-white/40 font-bold tracking-[0.2em] uppercase">
-              {isRewarded ? "Watch until end to claim" : "Status keeper stable build"}
-            </p>
+        {/* Header Bar */}
+        <div className="absolute top-0 left-0 right-0 z-20 pt-safe bg-black/20 backdrop-blur-sm border-b border-white/5">
+          <div className="p-4 flex justify-between items-center max-w-lg mx-auto w-full">
+            <div className="flex items-center gap-1.5">
+              {isRewarded ? (
+                <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              ) : (
+                <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+              )}
+              <span className="text-[10px] font-black text-white/70 tracking-tight uppercase">
+                {isRewarded ? 'Reward video' : 'Sponsored'}
+              </span>
+            </div>
+            <button 
+              disabled={disabledClose} 
+              onClick={onClose} 
+              className={cn(
+                "h-8 px-4 rounded-full flex items-center gap-2 transition-all active:scale-95 border-none", 
+                disabledClose 
+                  ? "bg-white/10 text-white/30" 
+                  : isRewarded 
+                    ? "bg-amber-500 text-black shadow-lg" 
+                    : "bg-primary text-white shadow-lg"
+              )}
+            >
+              {disabledClose ? (
+                <span className="text-[9px] font-black tracking-tight">Wait {timerLabel}</span>
+              ) : (
+                <>
+                  <span className="text-[9px] font-black tracking-tight">Skip ad</span>
+                  <X className="w-3.5 h-3.5" />
+                </>
+              )}
+            </button>
           </div>
         </div>
-      </div>
 
-      <div className="pb-safe" />
-    </div>
+        {/* Content Area */}
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-12 w-full max-w-sm">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              {isRewarded && (
+                <div className="inline-flex items-center gap-1.5 bg-amber-500 text-black px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-wider mb-2">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  <span>Premium reward</span>
+                </div>
+              )}
+              <h2 className={cn(
+                "text-2xl font-black tracking-tighter leading-none drop-shadow-lg",
+                isRewarded ? "text-amber-400" : "text-white"
+              )}>
+                {title}
+              </h2>
+              <p className="text-xs text-white/80 font-medium tracking-tight leading-relaxed line-clamp-3 drop-shadow-md">
+                {subtitle}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <Button className={cn(
+                "w-full h-12 rounded-xl font-black tracking-tight text-xs active:scale-95 transition-all border-none shadow-2xl",
+                isRewarded 
+                  ? "bg-amber-500 text-black hover:bg-amber-400" 
+                  : "bg-primary text-white hover:bg-primary/90"
+              )}>
+                {buttonText}
+              </Button>
+              <p className="text-[8px] text-center text-white/30 font-bold tracking-[0.2em] uppercase">
+                {isRewarded ? "Watch until end to claim" : "Status keeper stable build"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="pb-safe" />
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -142,17 +148,15 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   return (
-    <AdOverlayLayout 
+    <AdOverlay 
       isOpen={isOpen}
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
       title="Status keeper pro"
-      subtitle="Remove all advertisements and enjoy an enhanced status saving experience today."
-      buttonText="Upgrade now"
+      subtitle="Enjoy an enhanced experience by going ad-free today."
+      buttonText="Learn more"
       variant="interstitial"
     />
   );
@@ -202,15 +206,14 @@ export function RewardedAdOverlay({
   countdown: number; 
   onClose: () => void 
 }) {
-  if (!isOpen) return null;
   return (
-    <AdOverlayLayout 
+    <AdOverlay 
       isOpen={isOpen}
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
       title="Unlock elite access"
-      subtitle="Complete this short video to unlock 24 hours of premium ad-free features instantly."
+      subtitle="Complete this short video to unlock 24 hours of premium features."
       buttonText="Claim reward"
       variant="rewarded"
     />

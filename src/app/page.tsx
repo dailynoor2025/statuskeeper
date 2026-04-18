@@ -21,8 +21,7 @@ type ExtendedTabType = TabType | 'help';
 
 /**
  * MainApp - Entry point for the Status Keeper application.
- * Handles lifecycle, global state, and view routing.
- * Restored: Custom app splash screen enabled.
+ * Optimized with clean ad state control and fixed Settings reference error.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -69,7 +68,7 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Small delay for branding visibility
+      // Branding visibility delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       try {
