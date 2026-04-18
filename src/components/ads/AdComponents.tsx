@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { PlayCircle, X, ShieldCheck, ExternalLink, Film, Image as ImageIcon } from 'lucide-react';
+import { PlayCircle, X, ShieldCheck, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions.
- * Updated: Footer button changed to tiny text-based CTA with resize logic.
+ * Labels moved over media area to maintain layout consistency.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -34,10 +34,11 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-slate-50 border border-slate-100 transition-all duration-300 h-full", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full hover:shadow-md", 
       className
     )}>
-      <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
+      {/* Media Image Layer */}
+      <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden group cursor-pointer">
         <Image 
           src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
           alt="Promoted content" 
@@ -50,12 +51,14 @@ export function NativeVideoAd({ className }: { className?: string }) {
           data-ai-hint="sponsored content"
         />
         
+        {/* Ad Badge Over Media */}
         <div className="absolute top-1.5 left-1.5 z-10">
-          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[2px] rounded-md shadow-sm border border-slate-200 flex items-center gap-1">
-            <span className="text-[6px] font-black text-slate-900 tracking-tight leading-none uppercase">Ad</span>
+          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
+            <span className="text-[5px] font-black text-gray-900 tracking-tight uppercase">Ad</span>
           </div>
         </div>
 
+        {/* Media Icon Over Media */}
         <div className="absolute top-1.5 right-1.5 pointer-events-none">
           <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
             {mediaType === 'image' ? (
@@ -66,29 +69,20 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
         </div>
 
-        {mediaType !== 'image' && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors group-hover:bg-transparent">
-            <div className="bg-primary/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 shadow-2xl">
-              <PlayCircle className="w-5 h-5 text-white shadow-lg" />
-            </div>
-          </div>
-        )}
-
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-      </div>
-
-      <div className="flex items-center justify-between px-1.5 py-1 bg-white border-t border-slate-50 min-h-[28px]">
-        <div className="flex items-center overflow-hidden gap-1 min-w-0 flex-1">
-          <div className="bg-blue-500/10 p-0.5 rounded flex-shrink-0">
-            <ShieldCheck className="w-2.5 h-2.5 text-blue-600" />
-          </div>
-          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-slate-400 truncate block">
-            {mediaType === 'reels' ? 'Trending content' : 'Promoted content'}
+        {/* Promoted Text Over Media Bottom */}
+        <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
+          <ShieldCheck className="w-2 h-2 text-white/70" />
+          <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block uppercase tracking-wider">
+            {mediaType === 'reels' ? 'Trending' : 'Promoted'}
           </span>
         </div>
-        
-        {/* Updated Button: Tiny text-based CTA with resize logic */}
-        <button className="bg-primary text-white px-[clamp(6px,1.5vw,10px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
+
+        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+      </div>
+
+      {/* Card Footer - Minimal CTA */}
+      <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
+        <button className="bg-primary text-white px-[clamp(8px,2vw,14px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
           {mediaType === 'reels' ? 'Watch' : 'Install'}
         </button>
       </div>
