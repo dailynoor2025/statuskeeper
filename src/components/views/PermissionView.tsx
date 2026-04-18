@@ -2,17 +2,7 @@
 
 import { ShieldCheck, FolderOpen, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-
-const LogoIcon = ({ className }: { className?: string }) => (
-  <div className={cn("relative", className)}>
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-primary">
-      <path d="M12 2C6.477 2 2 6.477 2 12C2 13.891 2.525 15.66 3.438 17.168L2 22L7.023 20.692C8.523 21.523 10.223 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" fill="currentColor"/>
-      <path d="M12 7V14M12 14L9 11M12 14L15 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M8 17H16" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  </div>
-);
+import { LogoIcon } from '@/components/layout/AppHeader';
 
 interface PermissionViewProps {
   onGrant: () => void;

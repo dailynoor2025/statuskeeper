@@ -10,6 +10,17 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { cn } from '@/lib/utils';
+
+export const LogoIcon = ({ className }: { className?: string }) => (
+  <div className={cn("relative", className)}>
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-primary">
+      <path d="M12 2C6.477 2 2 6.477 2 12C2 13.891 2.525 15.66 3.438 17.168L2 22L7.023 20.692C8.523 21.523 10.223 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" fill="currentColor"/>
+      <path d="M12 7V14M12 14L9 11M12 14L15 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M8 17H16" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </div>
+);
 
 interface AppHeaderProps {
   isPro?: boolean;
@@ -17,15 +28,16 @@ interface AppHeaderProps {
 }
 
 /**
- * AppHeader - Minimalist header. 
- * Logo removed as per user request.
+ * AppHeader - Minimalist header with restored brand logo.
  */
 export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 px-4 pt-safe w-full flex-shrink-0 shadow-sm transition-all duration-300">
       <div className="flex items-center justify-between h-14 w-full">
         <div className="flex items-center gap-2">
-          {/* Logo removed as per user request for minimal look */}
+          <div className="bg-primary/10 p-1.5 rounded-xl shadow-inner">
+            <LogoIcon className="w-5 h-5" />
+          </div>
           <h1 className="text-[clamp(12px,3vw,14px)] font-black tracking-tight text-gray-900">
             Status <span className="text-primary">keeper</span>
           </h1>

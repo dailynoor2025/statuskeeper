@@ -10,8 +10,9 @@ import { SettingsView } from "@/components/views/SettingsView";
 import { HelpView } from "@/components/views/HelpView";
 import { PermissionView } from "@/components/views/PermissionView";
 import { NoInternetView } from "@/components/views/NoInternetView";
+import { SplashScreen } from "@/components/views/SplashScreen";
 import { InterstitialAd } from "@/components/ads/AdComponents";
-import { SplashScreen } from '@capacitor/splash-screen';
+import { SplashScreen as NativeSplashScreen } from '@capacitor/splash-screen';
 import { Network } from '@capacitor/network';
 import { Filesystem } from '@capacitor/filesystem';
 
@@ -21,7 +22,7 @@ type ExtendedTabType = TabType | 'help';
 /**
  * MainApp - Entry point for the Status Keeper application.
  * Handles lifecycle, global state, and view routing.
- * Updated: Removed branding splash screen and delay.
+ * Restored: Custom app splash screen enabled.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -36,7 +37,7 @@ export default function MainApp() {
     }
 
     const hideNativeSplash = async () => {
-      try { await SplashScreen.hide(); } catch (e) {}
+      try { await NativeSplashScreen.hide(); } catch (e) {}
     };
     hideNativeSplash();
     
@@ -68,7 +69,9 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Immediate check without branding delay
+      // Small delay for branding visibility
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       try {
         const status = await Filesystem.checkPermissions();
         if (status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true') {
@@ -125,7 +128,7 @@ export default function MainApp() {
   };
 
   if (!isOnline) return <NoInternetView />;
-  if (lifecycle === 'splash') return null; // Show nothing or a small spinner while checking
+  if (lifecycle === 'splash') return <SplashScreen />;
   if (lifecycle === 'permission') return <PermissionView onGrant={handleGrantPermission} />;
 
   return (
