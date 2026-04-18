@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { PlayCircle, X, ShieldCheck, Image as ImageIcon } from 'lucide-react';
+import { X, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import { AD_CONFIG } from '@/lib/ad-config';
 
 /**
  * NativeVideoAd - Precisely matched to StatusCard dimensions.
- * Labels moved over media area to maintain layout consistency.
+ * Removed the pulsating icon layer for a cleaner look.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -58,29 +58,18 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
         </div>
 
-        {/* Media Icon Over Media */}
-        <div className="absolute top-1.5 right-1.5 pointer-events-none">
-          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
-            {mediaType === 'image' ? (
-              <ImageIcon className="w-2.5 h-2.5 text-white/90" />
-            ) : (
-              <PlayCircle className="w-2.5 h-2.5 text-white fill-white animate-pulse" />
-            )}
-          </div>
-        </div>
-
-        {/* Promoted Text Over Media Bottom */}
+        {/* Promoted Text Over Media Bottom - Now with truncation logic for small screens */}
         <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex items-center gap-1 opacity-80 pointer-events-none">
           <ShieldCheck className="w-2 h-2 text-white/70" />
           <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/70 truncate block uppercase tracking-wider">
-            {mediaType === 'reels' ? 'Trending' : 'Promoted'}
+            {mediaType === 'reels' ? 'Trending' : 'Promoted content'}
           </span>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </div>
 
-      {/* Card Footer - Minimal CTA */}
+      {/* Card Footer - Tiny CTA with Resize logic */}
       <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
         <button className="bg-primary text-white px-[clamp(8px,2vw,14px)] h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tighter active:scale-95 transition-all shrink-0 flex items-center justify-center leading-none">
           {mediaType === 'reels' ? 'Watch' : 'Install'}
