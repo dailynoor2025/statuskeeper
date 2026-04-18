@@ -43,14 +43,12 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased h-full overflow-hidden bg-slate-100">
         <div className="flex justify-center items-center h-[100dvh] w-full overflow-hidden">
-          {/* Main app container: Scaled with adaptive logic */}
           <main className="app-container shadow-2xl transition-all duration-500 flex flex-col bg-white">
             <div className="flex-1 flex flex-col h-full overflow-hidden relative">
               {children}
             </div>
           </main>
         </div>
-        {/* Global notification system */}
         <Toaster />
       </body>
     </html>

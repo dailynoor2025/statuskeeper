@@ -28,7 +28,7 @@ interface AppHeaderProps {
 }
 
 /**
- * AppHeader - Minimalist header with restored brand logo.
+ * AppHeader - Minimalist header with restored brand logo and smaller icons.
  */
 export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
   return (
@@ -36,7 +36,7 @@ export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
       <div className="flex items-center justify-between h-14 w-full">
         <div className="flex items-center gap-2">
           <div className="bg-primary/10 p-1.5 rounded-xl shadow-inner">
-            <LogoIcon className="w-5 h-5" />
+            <LogoIcon className="w-4 h-4" />
           </div>
           <h1 className="text-[clamp(12px,3vw,14px)] font-black tracking-tight text-gray-900">
             Status <span className="text-primary">keeper</span>
@@ -46,7 +46,7 @@ export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
         <div className="flex items-center gap-1">
           {isPro && (
             <Badge className="bg-primary/10 text-primary border-none px-2 py-0.5 text-[8px] font-black flex items-center gap-1 mr-1">
-              <ShieldCheck className="w-2.5 h-2.5" />
+              <ShieldCheck className="w-2 h-2" />
               Pro
             </Badge>
           )}
@@ -54,7 +54,7 @@ export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full text-gray-400">
-                <MoreVertical className="w-4 h-4" />
+                <MoreVertical className="w-3.5 h-3.5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 rounded-2xl p-1.5 shadow-2xl border-none glass-morphism">

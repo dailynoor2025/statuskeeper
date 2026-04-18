@@ -110,22 +110,22 @@ export function StatusCard({
         {isSelectionMode && (
           <div className="absolute top-1.5 right-1.5 z-10">
             {isSelected ? (
-              <CheckCircle className="w-4 h-4 text-primary fill-white shadow-sm" />
+              <CheckCircle className="w-3.5 h-3.5 text-primary fill-white shadow-sm" />
             ) : (
-              <div className="w-4 h-4 rounded-full border-2 border-white/50 bg-black/20" />
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-white/50 bg-black/20" />
             )}
           </div>
         )}
 
         <div className="absolute top-1.5 left-1.5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
-            {type === 'video' ? <Play className="w-2.5 h-2.5 text-white fill-white" /> : <Sparkles className="w-2.5 h-2.5 text-white/90" />}
+            {type === 'video' ? <Play className="w-2 h-2 text-white fill-white" /> : <Sparkles className="w-2 h-2 text-white/90" />}
           </div>
         </div>
         
         {isSaved && mode === 'status' && !isSelectionMode && (
           <div className="absolute top-1.5 right-1.5 bg-primary p-0.5 rounded-full shadow-lg border border-white/20">
-            <CheckCircle2 className="w-2.5 h-2.5 text-white" />
+            <CheckCircle2 className="w-2 h-2 text-white" />
           </div>
         )}
 
@@ -135,7 +135,7 @@ export function StatusCard({
       {/* Card Footer with Ellipsis logic for small screens */}
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
         <div className="flex items-center gap-1 overflow-hidden min-w-0 flex-1">
-          <Clock className="w-2.5 h-2.5 text-primary/60 shrink-0" />
+          <Clock className="w-2 h-2 text-primary/60 shrink-0" />
           <span className="text-[clamp(5px,1.5vw,7px)] font-black tracking-tight text-primary truncate block">{timeAgo}</span>
         </div>
         {!isSelectionMode && (
@@ -145,7 +145,7 @@ export function StatusCard({
               className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200"
               title="Share status"
             >
-              <Share2 className="w-2.5 h-2.5" />
+              <Share2 className="w-2 h-2" />
             </button>
             {mode === 'status' ? (
               <button 
@@ -157,7 +157,7 @@ export function StatusCard({
                 )}
                 title="Download status"
               >
-                <Download className="w-2.5 h-2.5" />
+                <Download className="w-2 h-2" />
               </button>
             ) : (
               <button 
@@ -165,7 +165,7 @@ export function StatusCard({
                 className="p-0.5 text-destructive hover:bg-destructive/10 rounded-md active:scale-90 transition-all duration-200"
                 title="Delete status"
               >
-                <Trash2 className="w-2.5 h-2.5" />
+                <Trash2 className="w-2 h-2" />
               </button>
             )}
           </div>

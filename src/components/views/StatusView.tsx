@@ -14,7 +14,7 @@ import { useAds } from "@/hooks/use-ads";
 
 /**
  * StatusView - Manages discovery and display of current WhatsApp statuses.
- * Fixed: 'j' ReferenceError resolved by using 'toggleSelect'.
+ * Icons reduced in size for a cleaner look.
  */
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
@@ -136,10 +136,10 @@ export function StatusView() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] w-full space-y-4">
         <div className="relative">
           <div className="bg-primary/5 p-8 rounded-full animate-pulse border border-primary/10">
-            <RefreshCcw className="w-6 h-6 text-primary/30" />
+            <RefreshCcw className="w-5 h-5 text-primary/30" />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <RefreshCcw className="w-4 h-4 text-primary animate-spin" />
+            <RefreshCcw className="w-3.5 h-3.5 text-primary animate-spin" />
           </div>
         </div>
         <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em]">Locating media...</p>
@@ -155,22 +155,22 @@ export function StatusView() {
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
             <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black tracking-wider h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
-            <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
-            <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
+            <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3 h-3" /></TabsTrigger>
+            <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3 h-3" /></TabsTrigger>
           </TabsList>
           <div className="flex items-center gap-1">
             {isSelectionMode ? (
               <>
                 <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
-                  <CheckSquare2 className={cn("w-3 h-3", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
+                  <CheckSquare2 className={cn("w-2.5 h-2.5", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
                   <span className="text-[8px] font-black tracking-tight text-gray-600">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
-                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-3 h-3 text-red-500" /></button>
+                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-2.5 h-2.5 text-red-500" /></button>
               </>
             ) : (
               <>
-                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><CheckSquare className="w-3 h-3 text-gray-400" /></button>}
-                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><RefreshCcw className={cn("w-3 h-3 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
+                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><CheckSquare className="w-2.5 h-2.5 text-gray-400" /></button>}
+                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><RefreshCcw className={cn("w-2.5 h-2.5 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
               </>
             )}
           </div>
@@ -178,7 +178,7 @@ export function StatusView() {
         <div className="p-0 mt-0">
           {isEmpty ? (
             <div className="flex-1 flex flex-col items-center justify-center py-24 text-center px-8 animate-in fade-in zoom-in duration-700">
-              <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-10 h-10 text-gray-300" /></div>
+              <div className="bg-gray-100 p-6 rounded-3xl mb-6 shadow-inner"><FileWarning className="w-8 h-8 text-gray-300" /></div>
               <h3 className="text-sm font-black text-gray-900 tracking-tight mb-2">No statuses found</h3>
               <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[220px] tracking-tight">Statuses appear here only after you watch them in WhatsApp. Please view some media and return.</p>
               <Button variant="outline" onClick={handleRefresh} className="mt-8 h-10 rounded-xl px-6 font-black text-[10px] tracking-tight border-gray-200">Check directory again</Button>

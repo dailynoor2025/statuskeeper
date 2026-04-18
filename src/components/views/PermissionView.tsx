@@ -15,10 +15,10 @@ export function PermissionView({ onGrant }: PermissionViewProps) {
         <div className="w-full max-w-sm flex flex-col items-center space-y-6 sm:space-y-8">
           <div className="relative">
             <div className="bg-primary/10 p-6 sm:p-10 rounded-[2.5rem] sm:rounded-[3rem] shadow-inner transition-all duration-500">
-              <LogoIcon className="w-14 h-14 sm:w-20 sm:h-20" />
+              <LogoIcon className="w-12 h-12 sm:w-16 sm:h-16" />
             </div>
             <div className="absolute -bottom-1 -right-1 bg-accent p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-xl border-4 border-white">
-              <ShieldCheck className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              <ShieldCheck className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
           </div>
 
@@ -32,13 +32,13 @@ export function PermissionView({ onGrant }: PermissionViewProps) {
           <div className="w-full">
             <div className="flex items-center gap-3 sm:gap-4 bg-gray-50 p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm transition-all">
               <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
-                <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                <FolderOpen className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
               </div>
               <div className="text-left flex-1 min-w-0">
                 <p className="text-xs sm:text-sm font-black text-gray-800 tracking-tight truncate">Storage access</p>
                 <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold tracking-tight truncate">Images & videos only</p>
               </div>
-              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary ml-auto fill-primary/10 flex-shrink-0" />
+              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 text-primary ml-auto fill-primary/10 flex-shrink-0" />
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export function PermissionView({ onGrant }: PermissionViewProps) {
             Your privacy is protected
           </p>
           <div className="flex items-center gap-1 opacity-40">
-            <ShieldCheck className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+            <ShieldCheck className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
             <span className="text-[7px] sm:text-[8px] font-black">Local storage only</span>
           </div>
         </div>
