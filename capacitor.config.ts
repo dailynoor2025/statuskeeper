@@ -1,4 +1,3 @@
-
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -18,6 +17,9 @@ const config: CapacitorConfig = {
       backgroundColor: "#25D366",
       androidScaleType: "CENTER_CROP",
       showSpinner: false
+    },
+    AdMob: {
+      initializeOnIdfv: true
     }
   }
 };
