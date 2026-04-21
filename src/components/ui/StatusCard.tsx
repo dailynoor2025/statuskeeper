@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -7,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { Share } from '@capacitor/share';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
 import { useTranslation } from '@/hooks/use-translation';
 
 export interface StatusCardProps {
@@ -21,6 +22,9 @@ export interface StatusCardProps {
   onView?: (media: { id: string; imageUrl: string; type: 'image' | 'video' }) => void;
 }
 
+/**
+ * StatusCard - UI Component with Haptic Feedback integration.
+ */
 export function StatusCard({ 
   id, 
   imageUrl, 
@@ -49,11 +53,18 @@ export function StatusCard({
     }
   }, [id, mode]);
 
+  const triggerHaptics = async (style: ImpactStyle = ImpactStyle.Light) => {
+    if (Capacitor.isNativePlatform()) {
+      try { await Haptics.impact({ style }); } catch (e) {}
+    }
+  };
+
   const handleSave = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isSaved) return;
 
     setIsAnimating(true);
+    await triggerHaptics(ImpactStyle.Medium);
     
     try {
       const savedItems = JSON.parse(localStorage.getItem('saved_statuses') || '[]');
@@ -61,14 +72,7 @@ export function StatusCard({
         savedItems.push({ id, imageUrl, type });
         localStorage.setItem('saved_statuses', JSON.stringify(savedItems));
         setIsSaved(true);
-        
-        toast({ 
-          title: "Status saved", 
-          description: "Media captured to gallery", 
-          variant: "success" 
-        });
-
-        // Smart trigger: Dispatch event to decide between Ad or Rate Us centrally in page.tsx
+        toast({ title: "Status saved", description: "Media captured to gallery", variant: "success" });
         window.dispatchEvent(new CustomEvent('request-interstitial'));
       }
     } catch (err) {
@@ -80,6 +84,7 @@ export function StatusCard({
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    await triggerHaptics();
     try {
       await Share.share({
         title: 'Status keeper share',
@@ -88,12 +93,13 @@ export function StatusCard({
         dialogTitle: 'Share with friends',
       });
     } catch (err) {
-      toast({ title: "Share failed", description: "Could not open sharing menu" });
+      toast({ title: "Share failed", variant: "destructive" });
     }
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (isSelectionMode) {
+      await triggerHaptics();
       onToggleSelect?.(id);
     } else {
       onView?.({ id, imageUrl, type });
@@ -106,7 +112,6 @@ export function StatusCard({
       isAnimating ? "ring-2 ring-primary scale-95" : "hover:shadow-md",
       isSelected && "ring-2 ring-primary bg-primary/5"
     )}>
-      {/* Media Image Layer */}
       <div onClick={handleClick} className="relative aspect-[9/14] w-full cursor-pointer overflow-hidden group bg-gray-900">
         <Image 
           src={imageUrl} 
@@ -126,22 +131,13 @@ export function StatusCard({
           </div>
         )}
 
-        <div className="absolute top-1.5 left-1.5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="bg-black/40 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
-            {type === 'video' ? <Play className="w-2 h-2 text-white fill-white" /> : <Sparkles className="w-2 h-2 text-white/90" />}
-          </div>
-        </div>
-        
         {isSaved && mode === 'status' && !isSelectionMode && (
           <div className="absolute top-1.5 right-1.5 bg-primary p-0.5 rounded-full shadow-lg border border-white/20">
             <CheckCircle2 className="w-2 h-2 text-white" />
           </div>
         )}
-
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      {/* Card Footer with Ellipsis logic for small screens */}
       <div className="flex items-center justify-between px-1.5 py-1 border-t border-gray-50 bg-primary/5 min-h-[28px]">
         <div className="flex items-center gap-1 overflow-hidden min-w-0 flex-1">
           <Clock className="w-2 h-2 text-primary/60 shrink-0" />
@@ -149,33 +145,11 @@ export function StatusCard({
         </div>
         {!isSelectionMode && (
           <div className="flex items-center gap-1 shrink-0">
-            <button 
-              onClick={handleShare} 
-              className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all duration-200"
-              title="Share status"
-            >
-              <Share2 className="w-2 h-2" />
-            </button>
+            <button onClick={handleShare} className="p-0.5 text-primary hover:bg-primary/10 rounded-md active:scale-90 transition-all"><Share2 className="w-2.5 h-2.5" /></button>
             {mode === 'status' ? (
-              <button 
-                onClick={handleSave} 
-                disabled={isSaved} 
-                className={cn(
-                  "p-0.5 active:scale-90 transition-all rounded-md duration-200", 
-                  isSaved ? "text-emerald-600 bg-emerald-50" : "text-primary hover:bg-primary/10"
-                )}
-                title="Download status"
-              >
-                <Download className="w-2 h-2" />
-              </button>
+              <button onClick={handleSave} disabled={isSaved} className={cn("p-0.5 active:scale-90 transition-all rounded-md", isSaved ? "text-emerald-600 bg-emerald-50" : "text-primary hover:bg-primary/10")}><Download className="w-2.5 h-2.5" /></button>
             ) : (
-              <button 
-                onClick={(e) => { e.stopPropagation(); onDelete?.(id); }} 
-                className="p-0.5 text-destructive hover:bg-destructive/10 rounded-md active:scale-90 transition-all duration-200"
-                title="Delete status"
-              >
-                <Trash2 className="w-2 h-2" />
-              </button>
+              <button onClick={(e) => { e.stopPropagation(); triggerHaptics(); onDelete?.(id); }} className="p-0.5 text-destructive hover:bg-destructive/10 rounded-md active:scale-90 transition-all"><Trash2 className="w-2.5 h-2.5" /></button>
             )}
           </div>
         )}
