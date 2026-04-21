@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -27,7 +28,7 @@ import {
 
 /**
  * SettingsView - System preferences and storage management.
- * Optimized for Stable Build with correct imports and sentence case labels.
+ * Optimized for Stable Build with fixed import paths and minimalist UI.
  */
 export function SettingsView() {
   const { t, lang, changeLanguage } = useTranslation();
@@ -78,7 +79,6 @@ export function SettingsView() {
 
   return (
     <div className="px-3 py-4 animate-in slide-in-from-right-2 duration-500 w-full h-full pb-20 overflow-y-auto no-scrollbar bg-gray-50/10">
-      {/* Storage Section */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
         <div className="p-4 border-b border-gray-50 bg-gray-50/50">
           <div className="flex justify-between items-end mb-2">
@@ -123,7 +123,6 @@ export function SettingsView() {
         </div>
       </div>
 
-      {/* Logic Section */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
         <div className="px-4 py-3 border-b border-gray-50">
           <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight">Automation & logic</p>
@@ -184,7 +183,6 @@ export function SettingsView() {
         </div>
       </div>
 
-      {/* Footer info */}
       <div className="p-4 text-center space-y-1.5 opacity-30">
         <div className="flex items-center justify-center gap-1 text-gray-400 font-black tracking-tight text-[8px]">
           <RefreshCcw className="w-3 h-3" />

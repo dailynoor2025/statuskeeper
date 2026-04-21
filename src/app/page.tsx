@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { BottomNav, type TabType } from "@/components/layout/BottomNav";
 import { StatusView } from "@/components/views/StatusView";
@@ -21,9 +22,8 @@ type AppLifecycle = 'splash' | 'ad' | 'permission' | 'main';
 type ExtendedTabType = TabType | 'help';
 
 /**
- * MainApp - Entry point for the Status Peeker application.
- * Enhanced with activated App Open Ad logics for the "Stable Build".
- * Integrated with Smart Rating and AdMob logic for high quality markets.
+ * MainApp - Entry point for the Status Keeper application.
+ * Integrated with custom Strategic Prompting logic for rating.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -35,7 +35,7 @@ export default function MainApp() {
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // 1. Session Counting for Rating Logic
+    // Session Counting for Rating Logic
     const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
     localStorage.setItem('app_session_count', sessionCount.toString());
 
@@ -114,18 +114,17 @@ export default function MainApp() {
   const handleAppOpenAdClose = () => {
     setShowAppOpenAd(false);
     localStorage.setItem('last_app_open_ad_time', Date.now().toString());
+    setLifecycle('main');
     checkPermissionsAndProceed();
   };
 
   const triggerRatingLogic = () => {
     const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
     const hasRated = localStorage.getItem('has_rated_app') === 'true';
-    const hasSeen = localStorage.getItem('has_seen_rate_prompt') === 'true';
 
-    // Criteria: 12+ sessions, never seen before, and not already rated
-    if (!hasRated && !hasSeen && sessions >= 12) {
+    // Strategic Prompting: 12+ sessions and only show once
+    if (!hasRated && sessions >= 12) {
       setShowRateUs(true);
-      localStorage.setItem('has_seen_rate_prompt', 'true');
     }
   };
 
@@ -137,7 +136,6 @@ export default function MainApp() {
     const adInterval = AD_CONFIG.SETTINGS.INTERSTITIAL_INTERVAL_MS;
     const isAdDue = (Date.now() - lastAdShown > adInterval);
 
-    // If ad is NOT due or pro is active, try showing rating prompt instead
     if (proActive || !isAdDue) {
       triggerRatingLogic();
       return;
