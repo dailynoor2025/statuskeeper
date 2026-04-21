@@ -1016,6 +1016,9 @@ video {
 .min-h-\[32px\] {
   min-height: 32px;
 }
+.min-h-\[26px\] {
+  min-height: 26px;
+}
 .w-0 {
   width: 0px;
 }
@@ -2453,6 +2456,14 @@ video {
 }
 .shadow-amber-500\/20 {
   --tw-shadow-color: rgb(245 158 11 / 0.2);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+.shadow-amber-500\/10 {
+  --tw-shadow-color: rgb(245 158 11 / 0.1);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+.shadow-primary\/10 {
+  --tw-shadow-color: hsl(var(--primary) / 0.1);
   --tw-shadow: var(--tw-shadow-colored);
 }
 .outline-none {

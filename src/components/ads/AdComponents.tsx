@@ -12,7 +12,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 /**
  * AdOverlay - Immersive full-screen ad presentation for Stable Build.
  * Optimized with object-cover and minimalist controls (no backgrounds).
- * z-index set to 1200+ to ensure it covers Header and Bottom Nav.
+ * z-index set to 1500+ to ensure it covers Header and Bottom Nav.
  */
 function AdOverlay({ 
   isOpen, 
@@ -46,7 +46,7 @@ function AdOverlay({
         {/* Full-Screen Immersive Media with Resize Logic */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-stable-v5/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-stable-v8/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-1000"
@@ -55,21 +55,21 @@ function AdOverlay({
             data-ai-hint="full screen video"
           />
           {/* Heavy gradient for text clarity on top of video */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
         </div>
 
-        {/* Minimalist Top Bar - No backgrounds as requested */}
+        {/* Minimalist Top Bar */}
         <div className="relative z-20 pt-safe w-full">
           <div className="p-5 flex justify-between items-center w-full">
-            <div className="flex items-center gap-2 drop-shadow-lg">
+            <div className="flex items-center gap-1.5 drop-shadow-lg">
               {isRewarded ? (
-                <Trophy className="w-4 h-4 text-amber-400" />
+                <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : isAppOpen ? (
-                <Sparkles className="w-4 h-4 text-primary" />
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
               ) : (
-                <ShieldCheck className="w-4 h-4 text-primary/90" />
+                <ShieldCheck className="w-3.5 h-3.5 text-primary/90" />
               )}
-              <span className="text-[8px] font-black text-white/90 tracking-[0.25em] uppercase">
+              <span className="text-[7px] font-black text-white/80 tracking-[0.2em] uppercase">
                 {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome' : 'Sponsored'}
               </span>
             </div>
@@ -79,51 +79,51 @@ function AdOverlay({
               onClick={onClose} 
               className={cn(
                 "w-10 h-10 flex items-center justify-center transition-all active:scale-75 border-none outline-none bg-transparent drop-shadow-2xl", 
-                disabledClose ? "opacity-40" : "text-white hover:text-primary"
+                disabledClose ? "opacity-30" : "text-white hover:text-primary"
               )}
             >
               {disabledClose ? (
-                <span className="text-[10px] font-black tracking-tighter tabular-nums text-white">{timerLabel}</span>
+                <span className="text-[9px] font-black tracking-tighter tabular-nums text-white">{timerLabel}</span>
               ) : (
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               )}
             </button>
           </div>
         </div>
 
         {/* Immersive Bottom Actions */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-[340px] mx-auto">
-          <div className="space-y-5">
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-[320px] mx-auto text-center">
+          <div className="space-y-4">
             <div className="space-y-1">
               {(isRewarded || isAppOpen) && (
-                <div className="inline-flex items-center gap-1.5 text-amber-400 text-[7px] font-black uppercase tracking-[0.3em] mb-1 drop-shadow-md">
-                  <Sparkles className="w-2.5 h-2.5" />
-                  <span>Elite access bonus</span>
+                <div className="inline-flex items-center gap-1 text-amber-400 text-[6px] font-black uppercase tracking-[0.25em] mb-1 drop-shadow-md mx-auto">
+                  <Sparkles className="w-2 h-2" />
+                  <span>Elite access active</span>
                 </div>
               )}
               <h2 className={cn(
-                "text-xl font-black tracking-tight leading-none drop-shadow-2xl",
+                "text-lg font-black tracking-tight leading-tight drop-shadow-2xl",
                 isRewarded || isAppOpen ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
-              <p className="text-[10px] text-white/80 font-bold tracking-tight leading-relaxed line-clamp-2 mt-2 drop-shadow-lg">
+              <p className="text-[9px] text-white/70 font-bold tracking-tight leading-relaxed line-clamp-2 mt-1 drop-shadow-lg px-4">
                 {subtitle}
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <Button className={cn(
-                "w-full h-14 rounded-[1.25rem] font-black tracking-widest text-[11px] uppercase active:scale-95 transition-all border-none shadow-2xl",
+                "w-full h-12 rounded-2xl font-black tracking-widest text-[10px] uppercase active:scale-95 transition-all border-none shadow-2xl",
                 isRewarded || isAppOpen
-                  ? "bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/20" 
-                  : "bg-primary text-white hover:bg-primary/90 shadow-primary/20"
+                  ? "bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/10" 
+                  : "bg-primary text-white hover:bg-primary/90 shadow-primary/10"
               )}>
                 {buttonText}
               </Button>
               
-              <div className="flex flex-col items-center opacity-20">
-                <span className="text-[6px] font-black text-white uppercase tracking-[0.6em]">
+              <div className="flex flex-col items-center opacity-10">
+                <span className="text-[5px] font-black text-white uppercase tracking-[0.5em]">
                   Secure stable architecture
                 </span>
               </div>
@@ -241,7 +241,7 @@ export function RewardedAdOverlay({
       timerLabel={`${countdown}s`}
       title="Premium bonus unlocked"
       subtitle="Complete this video to activate your 24-hour elite ad-free pass."
-      buttonText="Claim 24h pro"
+      buttonText="Claim reward"
       variant="rewarded"
     />
   );
@@ -249,6 +249,7 @@ export function RewardedAdOverlay({
 
 /**
  * NativeVideoAd - Optimized for grid presentation with high-quality badge.
+ * Badge and CTA button reduced in size as requested.
  */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -275,24 +276,24 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v7/400/622`} 
+          src={`https://picsum.photos/seed/native-v9/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Redesigned Ad Badge - Premium Primary Style */}
-        <div className="absolute top-2 left-2 z-10">
-          <div className="bg-primary px-1.5 py-0.5 rounded-[4px] shadow-lg border border-primary/20 flex items-center">
-            <span className="text-[6px] font-black text-white uppercase tracking-tighter">Ad</span>
+        {/* Redesigned Ad Badge - Tighter and smaller */}
+        <div className="absolute top-1.5 left-1.5 z-10">
+          <div className="bg-primary px-1 py-0 rounded-[3px] shadow-sm border border-primary/10 flex items-center">
+            <span className="text-[5px] font-black text-white uppercase tracking-tighter">Ad</span>
           </div>
         </div>
 
-        {/* Featured Overlay Label */}
-        <div className="absolute bottom-2 left-2 z-10">
-          <div className="bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
-            <span className="text-[7px] font-black text-white/90 tracking-widest uppercase">Promoted</span>
+        {/* Subtle Featured Label */}
+        <div className="absolute bottom-1.5 left-1.5 z-10">
+          <div className="bg-black/30 backdrop-blur-sm px-1.5 py-0.5 rounded-full border border-white/5">
+            <span className="text-[6px] font-black text-white/80 tracking-widest uppercase">Promoted</span>
           </div>
         </div>
         
@@ -300,8 +301,8 @@ export function NativeVideoAd({ className }: { className?: string }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      <div className="flex items-center justify-center p-1.5 bg-primary/5 border-t border-gray-50 min-h-[32px]">
-        <button className="bg-primary text-white w-full h-6 rounded-lg text-[8px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all hover:bg-primary/90">
+      <div className="flex items-center justify-center p-1 bg-primary/5 border-t border-gray-50 min-h-[26px]">
+        <button className="bg-primary text-white w-full h-5 rounded-md text-[7px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all hover:bg-primary/90">
           Learn more
         </button>
       </div>
