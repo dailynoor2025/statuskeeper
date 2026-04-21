@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -7,7 +8,6 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { Share } from '@capacitor/share';
 import { useTranslation } from '@/hooks/use-translation';
-import { ToastAction } from '@/components/ui/toast';
 
 export interface StatusCardProps {
   id: string;
@@ -68,22 +68,7 @@ export function StatusCard({
           variant: "success" 
         });
 
-        // Strategic Rate Us Prompt after success
-        const hasRated = localStorage.getItem('has_rated_app') === 'true';
-        if (!hasRated) {
-          setTimeout(() => {
-            toast({
-              title: t.rating.enjoying,
-              description: t.rating.give_5_stars,
-              action: (
-                <ToastAction altText="Rate" onClick={() => window.dispatchEvent(new CustomEvent('request-rate-us'))}>
-                  Rate
-                </ToastAction>
-              ),
-            });
-          }, 1500);
-        }
-
+        // Smart trigger: Dispatch event to decide between Ad or Rate Us centrally in page.tsx
         window.dispatchEvent(new CustomEvent('request-interstitial'));
       }
     } catch (err) {

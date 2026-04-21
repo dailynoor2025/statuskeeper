@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -22,7 +23,7 @@ type ExtendedTabType = TabType | 'help';
 
 /**
  * MainApp - Entry point for the Status Keeper application.
- * Optimized with Rate Us integration and event-driven triggers.
+ * Optimized for Tier 1 markets with intelligent Rate Us logic and ad-conflict management.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -33,6 +34,10 @@ export default function MainApp() {
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
+    // 1. Session Counting: Track how many times user returns to the app
+    const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
+    localStorage.setItem('app_session_count', sessionCount.toString());
+
     if (!localStorage.getItem('last_interstitial_time')) {
       localStorage.setItem('last_interstitial_time', Date.now().toString());
     }
@@ -85,7 +90,7 @@ export default function MainApp() {
     };
     initApp();
 
-    const handleInterstitialRequest = () => triggerInterstitialLogic();
+    const handleInterstitialRequest = () => triggerSmartActionLogic();
     const handleRateUsRequest = () => setShowRateUs(true);
 
     window.addEventListener('request-interstitial', handleInterstitialRequest);
@@ -101,15 +106,27 @@ export default function MainApp() {
     };
   }, []);
 
-  const triggerInterstitialLogic = () => {
+  const triggerSmartActionLogic = () => {
     const expiry = localStorage.getItem('ad_free_expiry');
     const proActive = expiry ? parseInt(expiry) > Date.now() : false;
-    if (proActive) return;
     
-    const lastShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
-    const interval = 10 * 60 * 1000;
-    
-    if (Date.now() - lastShown > interval) {
+    const lastAdShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
+    const adInterval = 10 * 60 * 1000;
+    const isAdDue = (Date.now() - lastAdShown > adInterval);
+
+    // LOGIC: Check if it's time for Rate Us instead of Ad
+    const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
+    const hasPromptedRate = localStorage.getItem('has_seen_rate_prompt') === 'true';
+
+    // Tier 1 logic: Prompt only once ever, after 12 sessions, and when ad IS NOT showing
+    if (!hasPromptedRate && sessions >= 12 && (!isAdDue || proActive)) {
+      setShowRateUs(true);
+      localStorage.setItem('has_seen_rate_prompt', 'true');
+      return; // Stop here, don't show ad
+    }
+
+    // Standard Ad Logic
+    if (!proActive && isAdDue) {
       setShowInterstitial(true);
       localStorage.setItem('last_interstitial_time', Date.now().toString());
     }
