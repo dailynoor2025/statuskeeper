@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/use-translation';
 
 export const LogoIcon = ({ className }: { className?: string }) => (
   <div className={cn("relative", className)}>
@@ -31,6 +32,8 @@ interface AppHeaderProps {
  * AppHeader - Minimalist header with restored brand logo and smaller icons.
  */
 export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
+  const { t } = useTranslation();
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 px-4 pt-safe w-full flex-shrink-0 shadow-sm transition-all duration-300">
       <div className="flex items-center justify-between h-14 w-full">
@@ -39,7 +42,7 @@ export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
             <LogoIcon className="w-4 h-4" />
           </div>
           <h1 className="text-[clamp(12px,3vw,14px)] font-black tracking-tight text-gray-900">
-            Status <span className="text-primary">keeper</span>
+            {t.app_name.split(' ')[0]} <span className="text-primary">{t.app_name.split(' ')[1]}</span>
           </h1>
         </div>
         

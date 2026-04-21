@@ -9,18 +9,29 @@ import {
   RefreshCcw,
   Trash2,
   ShieldCheck,
-  DownloadCloud
+  DownloadCloud,
+  Languages
 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Progress } from '@/components/ui/progress';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/use-translation';
+import { Language } from '@/lib/translations';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 /**
  * SettingsView - System preferences and storage management.
- * Standardized with Sentence case and fixed ReferenceError for isClearing.
+ * Integrated with i18n language switcher and fixed ReferenceError.
  */
 export function SettingsView() {
+  const { t, lang, changeLanguage } = useTranslation();
   const [isClearing, setIsClearing] = useState(false);
   const [cacheSize, setCacheSize] = useState("4.8 mb");
   const [autoDownload, setAutoDownload] = useState(false);
@@ -57,6 +68,13 @@ export function SettingsView() {
     setAutoDownload(val);
     localStorage.setItem('auto_download', val.toString());
   };
+
+  const languages: { id: Language; name: string }[] = [
+    { id: 'en', name: 'English' },
+    { id: 'es', name: 'Español' },
+    { id: 'fr', name: 'Français' },
+    { id: 'de', name: 'Deutsch' },
+  ];
 
   return (
     <div className="px-3 py-4 animate-in slide-in-from-right-2 duration-500 w-full h-full pb-20 overflow-y-auto no-scrollbar bg-gray-50/10">
@@ -143,10 +161,24 @@ export function SettingsView() {
           <div className="flex items-center justify-between p-4 hover:bg-gray-50 active:bg-gray-100 active:scale-[0.99] transition-all cursor-pointer">
             <div className="flex items-center gap-3 min-w-0 flex-1">
               <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 shadow-sm">
-                <ShieldCheck className="w-4 h-4" />
+                <Languages className="w-4 h-4" />
               </div>
               <p className="text-[clamp(10px,2.5vw,11px)] font-black tracking-tight truncate text-gray-900">App language</p>
-              <span className="ml-auto text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 whitespace-nowrap">English only</span>
+              
+              <div className="ml-auto">
+                <Select value={lang} onValueChange={(val) => changeLanguage(val as Language)}>
+                  <SelectTrigger className="h-8 border-none bg-transparent shadow-none font-black text-[clamp(9px,2.2vw,10px)] text-gray-400 focus:ring-0 focus:ring-offset-0 px-0 gap-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-none shadow-2xl glass-morphism">
+                    {languages.map((l) => (
+                      <SelectItem key={l.id} value={l.id} className="text-[10px] font-bold rounded-lg focus:bg-primary/10 focus:text-primary">
+                        {l.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         </div>

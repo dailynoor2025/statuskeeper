@@ -11,12 +11,14 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useAds } from "@/hooks/use-ads";
+import { useTranslation } from "@/hooks/use-translation";
 
 /**
  * StatusView - Manages discovery and display of current WhatsApp statuses.
  * UI cleaned up with Sentence case and standardized icon sizing.
  */
 export function StatusView() {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
@@ -154,7 +156,7 @@ export function StatusView() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
-            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">{t.common.all}</TabsTrigger>
             <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
             <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
@@ -163,7 +165,7 @@ export function StatusView() {
               <>
                 <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
                   <CheckSquare2 className={cn("w-2.5 h-2.5", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
-                  <span className="text-[8px] font-black text-gray-600 truncate max-w-[40px]">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
+                  <span className="text-[8px] font-black text-gray-600 truncate max-w-[40px]">{isAllActiveSelected ? t.common.cancel : t.common.all}</span>
                 </button>
                 <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-2.5 h-2.5 text-red-500" /></button>
               </>
@@ -191,7 +193,7 @@ export function StatusView() {
       {isSelectionMode && selectedIds.length > 0 && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-5 duration-300">
           <button onClick={handleBulkSave} className="h-8 px-4 rounded-full bg-primary text-white shadow-2xl flex items-center gap-2 active:scale-95 transition-all text-[10px] font-black whitespace-nowrap">
-            Download {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
+            {t.common.save} {selectedIds.length} {selectedIds.length === 1 ? 'item' : 'items'}
           </button>
         </div>
       )}

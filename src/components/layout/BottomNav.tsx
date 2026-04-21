@@ -2,6 +2,7 @@
 
 import { Smartphone, Download, Crown, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/use-translation';
 
 export type TabType = 'status' | 'saved' | 'premium' | 'settings';
 
@@ -10,17 +11,19 @@ interface BottomNavProps {
   onTabChange: (tab: TabType) => void;
 }
 
-const navItems: { label: string; id: TabType; icon: any }[] = [
-  { label: 'Status', id: 'status', icon: Smartphone },
-  { label: 'Saved', id: 'saved', icon: Download },
-  { label: 'Premium', id: 'premium', icon: Crown },
-  { label: 'Settings', id: 'settings', icon: Settings },
-];
-
 /**
  * BottomNav - Clean navigation with Sentence case labels.
  */
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
+  const { t } = useTranslation();
+
+  const navItems: { label: string; id: TabType; icon: any }[] = [
+    { label: t.tabs.status, id: 'status', icon: Smartphone },
+    { label: t.tabs.saved, id: 'saved', icon: Download },
+    { label: t.tabs.premium, id: 'premium', icon: Crown },
+    { label: t.tabs.settings, id: 'settings', icon: Settings },
+  ];
+
   return (
     <nav className="absolute bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-gray-100 h-16 flex items-center justify-around px-2 pb-safe shadow-[0_-8px_30px_rgba(0,0,0,0.06)] w-full overflow-hidden">
       {navItems.map((item) => {
