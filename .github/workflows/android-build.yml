@@ -37,26 +37,31 @@ jobs:
       - name: Capacitor sync
         run: npx cap sync android
 
-      - name: Build Android APK
+      - name: Build Android Release
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease bundleRelease
 
-      - name: Build Android bundle (AAB)
-        run: |
-          cd android
-          ./gradlew bundleRelease
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: android/app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload APK
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: status-keeper-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: status-keeper-release-signed-apk
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
-      - name: Upload AAB
+      - name: Upload Release Bundle (AAB)
         uses: actions/upload-artifact@v4
         with:
           name: status-keeper-release-bundle
