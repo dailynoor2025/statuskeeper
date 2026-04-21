@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { X, ShieldCheck, Trophy, Sparkles, Loader2, RefreshCcw } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { X, ShieldCheck, Trophy, Sparkles, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -46,7 +46,7 @@ function AdOverlay({
         {/* Full-Screen Immersive Media with Resize Logic */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-stable-v10/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-stable-v12/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-1000"
@@ -57,7 +57,7 @@ function AdOverlay({
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
         </div>
 
-        {/* Minimalist Top Bar */}
+        {/* Minimalist Top Bar - No backgrounds/borders */}
         <div className="relative z-20 pt-safe w-full">
           <div className="p-5 flex justify-between items-center w-full">
             <div className="flex items-center gap-1.5 drop-shadow-lg">
@@ -68,7 +68,7 @@ function AdOverlay({
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary/90" />
               )}
-              <span className="text-[7px] font-black text-white/80 tracking-[0.2em] uppercase">
+              <span className="text-[8px] font-black text-white/80 tracking-[0.2em] uppercase">
                 {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome' : 'Sponsored'}
               </span>
             </div>
@@ -240,13 +240,28 @@ export function RewardedAdOverlay({
   );
 }
 
+const AD_DESCRIPTIONS = [
+  "Experience elite status saving features...",
+  "Remove ads for a seamless experience...",
+  "Unlock pro access and save instantly...",
+  "Premium status protector for your media...",
+  "", // some empty
+  "Promoted content for you...",
+  "Smart video saver for stories...",
+];
+
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [adDescription, setAdDescription] = useState('');
 
   useEffect(() => {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
+        // Randomly select a description on mount
+        const desc = AD_DESCRIPTIONS[Math.floor(Math.random() * AD_DESCRIPTIONS.length)];
+        setAdDescription(desc);
+        
         await new Promise(resolve => setTimeout(resolve, 800));
         setAdStatus('ready');
       } catch (e) {
@@ -265,11 +280,12 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v10/400/622`} 
+          src={`https://picsum.photos/seed/native-v12/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
           sizes="(max-width: 480px) 33vw, 25vw"
+          data-ai-hint="native ad video"
         />
         
         {/* Compact Ad Badge */}
@@ -279,18 +295,22 @@ export function NativeVideoAd({ className }: { className?: string }) {
           </div>
         </div>
 
-        {/* Refined Promoted Label */}
-        <div className="absolute bottom-1.5 left-1.5 z-10">
-          <div className="bg-black/20 backdrop-blur-sm px-1 py-0.5 rounded-[3px] border border-white/10">
-            <span className="text-[5px] font-black text-white/90 tracking-tight">Promoted</span>
+        {/* Dynamic Ad Description/Label */}
+        {adDescription && (
+          <div className="absolute bottom-1.5 left-1.5 z-10 max-w-[85%]">
+            <div className="bg-black/20 backdrop-blur-sm px-1 py-0.5 rounded-[3px] border border-white/10">
+              <span className="text-[5px] font-bold text-white/90 tracking-tight line-clamp-1">
+                {adDescription}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
       <div className="flex items-center justify-center p-1 bg-primary/5 border-t border-gray-50 min-h-[26px]">
-        <button className="bg-primary text-white w-full h-5 rounded-md text-[7px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all hover:bg-primary/90">
+        <button className="bg-primary text-white w-full h-5 rounded-md text-[7px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all hover:bg-primary/90 border-none outline-none">
           Learn more
         </button>
       </div>
