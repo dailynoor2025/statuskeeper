@@ -1,3 +1,4 @@
+
 "use client";
 
 import { X, Download, Share2, Trash2 } from 'lucide-react';
@@ -9,9 +10,9 @@ import { Share } from '@capacitor/share';
 import { toast } from '@/hooks/use-toast';
 
 /**
- * MediaViewer - Now optimized to fill the entire screen interface.
+ * MediaViewer - Fully optimized for true full-screen experience.
  * Implements intelligent resize logic using object-contain.
- * Buttons are sized perfectly for high-end mobile UX.
+ * Controls are minimalist and backgrounds are removed for immersive viewing.
  */
 
 interface MediaViewerProps {
@@ -50,28 +51,28 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="max-w-none w-screen h-screen p-0 bg-black border-none flex flex-col items-center justify-center z-[100] outline-none overflow-hidden rounded-none shadow-none">
+      <DialogContent className="fixed inset-0 z-[1300] w-screen h-[100dvh] max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
         <DialogTitle>
           <VisuallyHidden>Media viewer - {media.id}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Action Bar - Minimalist and accessible */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-[110] bg-gradient-to-b from-black/80 to-transparent pt-safe">
+        {/* Action Bar - Minimalist, no icon backgrounds */}
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-[1310] bg-gradient-to-b from-black/60 to-transparent pt-safe">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={handleClose} 
-            className="text-white hover:bg-white/20 rounded-full transition-transform active:scale-90"
+            className="text-white hover:text-white/60 transition-transform active:scale-90 border-none"
           >
             <X className="w-5 h-5" />
           </Button>
           
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={handleShare}
-              className="text-white hover:bg-white/20 rounded-full transition-transform active:scale-90"
+              className="text-white hover:text-white/60 transition-transform active:scale-90 border-none"
             >
               <Share2 className="w-4 h-4" />
             </Button>
@@ -81,7 +82,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                 variant="ghost" 
                 size="icon" 
                 onClick={() => onDownload?.(media.id)}
-                className="text-white hover:bg-primary/80 rounded-full transition-transform active:scale-90"
+                className="text-white hover:text-primary transition-transform active:scale-90 border-none"
               >
                 <Download className="w-4 h-4" />
               </Button>
@@ -93,7 +94,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                   onDelete?.(media.id);
                   handleClose();
                 }}
-                className="text-white hover:bg-destructive rounded-full transition-transform active:scale-90"
+                className="text-white hover:text-destructive transition-transform active:scale-90 border-none"
               >
                 <Trash2 className="w-4 h-4" />
               </Button>
@@ -101,25 +102,23 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
           </div>
         </div>
 
-        {/* Media Surface - Fills entire interface with resize logic */}
-        <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-          <div className="relative w-full h-full transition-all duration-500">
-            <Image 
-              src={media.imageUrl} 
-              alt="Status preview" 
-              fill 
-              className="object-contain animate-in fade-in duration-700"
-              priority
-              sizes="100vw"
-              data-ai-hint="media preview"
-            />
-          </div>
+        {/* Media Surface - Fills entire interface with object-contain resize logic */}
+        <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-black">
+          <Image 
+            src={media.imageUrl} 
+            alt="Status preview" 
+            fill 
+            className="object-contain animate-in fade-in duration-700"
+            priority
+            sizes="100vw"
+            data-ai-hint="media preview"
+          />
         </div>
 
-        {/* Brand Overlay - Minimal and transparent */}
-        <div className="absolute bottom-8 left-0 right-0 p-6 flex flex-col items-center gap-2 text-white/30 text-[clamp(7px,1.5vw,9px)] font-black uppercase tracking-[0.3em] pointer-events-none z-[110]">
-          <span>Status keeper stable build</span>
-          <div className="w-6 h-0.5 bg-primary/30 rounded-full" />
+        {/* Brand Overlay - Minimal and ultra-transparent */}
+        <div className="absolute bottom-8 left-0 right-0 p-6 flex flex-col items-center gap-1 text-white/20 text-[clamp(7px,1.2vw,8px)] font-black uppercase tracking-[0.4em] pointer-events-none z-[1310]">
+          <span>Stable build</span>
+          <div className="w-4 h-0.5 bg-primary/20 rounded-full" />
         </div>
       </DialogContent>
     </Dialog>

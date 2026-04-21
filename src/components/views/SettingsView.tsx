@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -8,7 +9,6 @@ import {
   FolderSearch,
   RefreshCcw,
   Trash2,
-  ShieldCheck,
   DownloadCloud,
   Languages
 } from 'lucide-react';
@@ -28,7 +28,7 @@ import {
 
 /**
  * SettingsView - System preferences and storage management.
- * Fixed ReferenceError: e is not defined by using isClearing state.
+ * Fixed import path and ensured sentence case UI.
  */
 export function SettingsView() {
   const { t, lang, changeLanguage } = useTranslation();
@@ -46,6 +46,7 @@ export function SettingsView() {
   const handleClearCache = (ev?: React.MouseEvent) => {
     if (ev) ev.stopPropagation();
     if (cacheSize === "0 kb") return;
+    
     setIsClearing(true);
     setTimeout(() => {
       setCacheSize("0 kb");
@@ -107,7 +108,7 @@ export function SettingsView() {
 
           <div 
             className="flex items-center justify-between p-4 hover:bg-gray-50 active:bg-gray-100 active:scale-[0.99] transition-all cursor-pointer group" 
-            onClick={handleClearCache}
+            onClick={() => handleClearCache()}
           >
             <div className="flex items-center gap-3">
               <div className={cn("p-2 rounded-xl bg-gray-100 text-gray-500 shadow-sm transition-all", isClearing && "animate-pulse bg-primary/10 text-primary")}>
@@ -126,7 +127,7 @@ export function SettingsView() {
       {/* Logic Section */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-4 w-full">
         <div className="px-4 py-3 border-b border-gray-50">
-          <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight uppercase tracking-widest">Automation & logic</p>
+          <p className="text-[clamp(9px,2.2vw,10px)] font-black text-gray-400 tracking-tight">Automation & logic</p>
         </div>
         <div className="divide-y divide-gray-50">
           <div 
@@ -187,7 +188,7 @@ export function SettingsView() {
       {/* Footer info */}
       <div className="p-4 text-center space-y-1.5 opacity-30">
         <div className="flex items-center justify-center gap-1 text-gray-400 font-black tracking-tight text-[8px]">
-          <ShieldCheck className="w-3 h-3" />
+          <RefreshCcw className="w-3 h-3" />
           <span>Secured status keeper network</span>
         </div>
         <p className="text-[7px] font-bold text-gray-300">Version 1.5.0 stable build</p>

@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, ShieldCheck, Trophy, Sparkles, Loader2 } from 'lucide-react';
+import { X, ShieldCheck, Trophy, Sparkles, Loader2, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -10,9 +11,9 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
- * AdOverlay - Immersive full-screen ad presentation.
- * Optimized with true full-screen video resize logics using object-cover.
- * Icons are transparent (no background) to maximize immersion.
+ * AdOverlay - True full-screen immersive ad presentation.
+ * Optimized with object-cover resize logics to fill entire device screen.
+ * UI elements reduced in size and backgrounds removed for professional aesthetic.
  */
 function AdOverlay({ 
   isOpen, 
@@ -38,30 +39,30 @@ function AdOverlay({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !disabledClose && onClose()}>
-      <DialogContent className="fixed inset-0 z-[1100] w-screen h-[100dvh] max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
+      <DialogContent className="fixed inset-0 z-[1200] w-screen h-[100dvh] max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
         <DialogTitle>
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Immersive Video/Media Background - Fills screen perfectly */}
-        <div className="absolute inset-0 z-0">
+        {/* Immersive Media Surface - Resizes to fill any screen completely */}
+        <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-video/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-video-v5/1080/1920`} 
             alt="Ad media" 
             fill 
-            className="object-cover"
+            className="object-cover animate-in fade-in duration-1000"
             priority
             sizes="100vw"
-            data-ai-hint="video ad"
+            data-ai-hint="full screen video"
           />
-          {/* Dark overlays for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
+          {/* Transparent gradient for content readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
         </div>
 
-        {/* Top Header - No background, minimal icons */}
+        {/* Minimalist Top Bar - No backgrounds on icons */}
         <div className="relative z-20 pt-safe w-full">
           <div className="p-4 flex justify-between items-center w-full">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10">
+            <div className="flex items-center gap-1.5 py-1">
               {isRewarded ? (
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : isAppOpen ? (
@@ -69,7 +70,7 @@ function AdOverlay({
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
               )}
-              <span className="text-[10px] font-black text-white tracking-tight uppercase">
+              <span className="text-[9px] font-black text-white/90 tracking-widest uppercase">
                 {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome gift' : 'Sponsored'}
               </span>
             </div>
@@ -78,14 +79,12 @@ function AdOverlay({
               disabled={disabledClose} 
               onClick={onClose} 
               className={cn(
-                "h-8 px-4 rounded-full flex items-center gap-2 transition-all active:scale-90 border-none", 
-                disabledClose 
-                  ? "text-white/40" 
-                  : "text-white hover:text-white/80"
+                "w-8 h-8 flex items-center justify-center transition-all active:scale-75 border-none outline-none", 
+                disabledClose ? "opacity-40" : "text-white/80 hover:text-white"
               )}
             >
               {disabledClose ? (
-                <span className="text-[10px] font-black tracking-tight tabular-nums">{timerLabel}</span>
+                <span className="text-[10px] font-black tracking-tighter tabular-nums text-white">{timerLabel}</span>
               ) : (
                 <X className="w-5 h-5" />
               )}
@@ -93,30 +92,30 @@ function AdOverlay({
           </div>
         </div>
 
-        {/* Content Area - Minimalist layout floating over media */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-lg mx-auto">
-          <div className="space-y-6">
-            <div className="space-y-2">
+        {/* Small Bottom Content - Floating over media without container bg */}
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-sm mx-auto">
+          <div className="space-y-4">
+            <div className="space-y-0.5">
               {(isRewarded || isAppOpen) && (
-                <div className="inline-flex items-center gap-1.5 text-amber-400 py-1 text-[9px] font-black uppercase tracking-[0.2em] drop-shadow-md">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Unlock pro features</span>
+                <div className="inline-flex items-center gap-1 text-amber-400 text-[8px] font-black uppercase tracking-[0.2em]">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  <span>Elite access</span>
                 </div>
               )}
               <h2 className={cn(
-                "text-3xl sm:text-4xl font-black tracking-tighter leading-none drop-shadow-2xl",
+                "text-xl font-black tracking-tight leading-none drop-shadow-md",
                 isRewarded || isAppOpen ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
-              <p className="text-[clamp(11px,2.5vw,13px)] text-white/80 font-medium tracking-tight leading-relaxed line-clamp-2 drop-shadow-xl">
+              <p className="text-[9px] text-white/70 font-bold tracking-tight leading-tight line-clamp-2 mt-1">
                 {subtitle}
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <Button className={cn(
-                "w-full h-14 rounded-2xl font-black tracking-tight text-sm active:scale-95 transition-all border-none shadow-2xl",
+                "w-full h-10 rounded-xl font-black tracking-tight text-[10px] uppercase active:scale-95 transition-all border-none shadow-xl",
                 isRewarded || isAppOpen
                   ? "bg-amber-500 text-black hover:bg-amber-400" 
                   : "bg-primary text-white hover:bg-primary/90"
@@ -124,16 +123,14 @@ function AdOverlay({
                 {buttonText}
               </Button>
               
-              <div className="flex flex-col items-center gap-1.5 opacity-40">
-                <span className="text-[8px] font-black text-white uppercase tracking-[0.3em]">
-                  {isRewarded ? "Watch until end to claim" : "Status keeper stable build"}
+              <div className="flex flex-col items-center opacity-30">
+                <span className="text-[7px] font-black text-white uppercase tracking-[0.4em]">
+                  Stable architecture
                 </span>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="pb-safe" />
       </DialogContent>
     </Dialog>
   );
@@ -158,9 +155,9 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
-      title="Go premium today"
-      subtitle="Remove all ads and get instant status saves. Support our stable build development."
-      buttonText="Learn more"
+      title="Go ad-free"
+      subtitle="Unlock instant downloads and remove all interruptions for a smoother experience."
+      buttonText="Upgrade now"
       variant="interstitial"
     />
   );
@@ -185,9 +182,9 @@ export function AppOpenAd({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
-      title="Quick start"
-      subtitle="Unlock pro features for this session and enjoy ad-free status saving."
-      buttonText="Get started"
+      title="Status keeper"
+      subtitle="Locating your viewed statuses. Start saving your favorite media instantly."
+      buttonText="Continue"
       variant="app-open"
     />
   );
@@ -201,7 +198,6 @@ export function useRewardedAd(onReward: () => void) {
   const showRewardedAd = () => {
     if (isProcessing || isWatching) return;
     setIsProcessing(true);
-    // Simulate loading/buffering
     setTimeout(() => {
       setIsProcessing(false);
       setIsWatching(true);
@@ -244,8 +240,8 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Elite access"
-      subtitle="Watch this short video to unlock 24 hours of premium ad-free features instantly."
+      title="Mission reward"
+      subtitle="Watch this short video to unlock 24 hours of elite premium features instantly."
       buttonText="Claim reward"
       variant="rewarded"
     />
@@ -254,15 +250,12 @@ export function RewardedAdOverlay({
 
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [mediaType, setMediaType] = useState<'image' | 'video' | 'reels'>('image');
 
   useEffect(() => {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
         await new Promise(resolve => setTimeout(resolve, 1200));
-        const types: ('image' | 'video' | 'reels')[] = ['image', 'video', 'reels'];
-        setMediaType(types[Math.floor(Math.random() * types.length)]);
         setAdStatus('ready');
       } catch (e) {
         setAdStatus('error');
@@ -275,44 +268,34 @@ export function NativeVideoAd({ className }: { className?: string }) {
 
   return (
     <div className={cn(
-      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full hover:shadow-md", 
+      "relative flex flex-col rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100 transition-all duration-300 h-full", 
       className
     )}>
       <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/ad-${mediaType}/400/622`} 
-          alt="Promoted content" 
+          src={`https://picsum.photos/seed/native-ad-v2/400/622`} 
+          alt="Ad" 
           fill
-          className={cn(
-            "object-cover transition-opacity duration-500",
-            mediaType === 'image' ? "opacity-90" : "opacity-70"
-          )}
+          className="object-cover opacity-80"
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Ad Label Overlay - Integrated on media as requested */}
-        <div className="absolute bottom-1.5 left-1.5 z-10">
-          <div className="bg-black/40 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-white/10 flex items-center">
-            <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/90 tracking-tight uppercase">
-              Promoted content
-            </span>
-          </div>
-        </div>
-
-        {/* Small Ad Badge at Top */}
         <div className="absolute top-1.5 left-1.5 z-10">
-          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
-            <span className="text-[5px] font-black text-gray-900 tracking-tight">Ad</span>
+          <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-[4px] shadow-sm border border-gray-100">
+            <span className="text-[5px] font-black text-gray-900 uppercase">Ad</span>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+        <div className="absolute bottom-1.5 left-1.5 z-10">
+          <div className="bg-black/40 backdrop-blur-md px-1.5 py-[1px] rounded-[4px] shadow-sm border border-white/10">
+            <span className="text-[6px] font-black text-white/90 tracking-tight uppercase">Promoted</span>
+          </div>
+        </div>
       </div>
 
-      {/* Card Footer with Tiny CTA with Resize Logic */}
       <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
-        <button className="bg-primary text-white w-full h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tight active:scale-95 transition-all flex items-center justify-center leading-none">
-          {mediaType === 'reels' ? 'Watch' : 'Install'}
+        <button className="bg-primary text-white w-full h-4 rounded-md text-[7px] font-black uppercase tracking-tight active:scale-95 transition-all">
+          Install
         </button>
       </div>
     </div>
