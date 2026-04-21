@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Status Keeper</string>
+    <!-- ASO Optimized English -->
+    <string name="app_name">Status Keeper - Status Downloader &amp; Video Saver</string>
+    <string name="app_description">Securely download and save WhatsApp statuses. HD Video Saver for stories and images.</string>
     <string name="title_activity_main">Status Keeper</string>
     <string name="package_name">com.qhaleelahmad.statuskeeper</string>
     <string name="custom_url_scheme">com.qhaleelahmad.statuskeeper</string>

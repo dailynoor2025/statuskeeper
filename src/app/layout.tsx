@@ -5,22 +5,23 @@ import { Toaster } from '@/components/ui/toaster';
 /**
  * @fileOverview Root Layout Logic.
  * Optimized with Tier 1 global SEO metadata for high-quality user acquisition.
+ * Enhanced for ASO with "Status Downloader" and "Video Saver" keywords.
  */
 
 export const metadata: Metadata = {
-  title: 'Status keeper - Privacy-first status saver',
+  title: 'Status Keeper - Status Downloader & Video Saver',
   description: 'The ultimate secure and fast WhatsApp status saver. Download HD stories, videos, and images instantly. Optimized for high performance and total user privacy.',
-  keywords: ['status saver', 'whatsapp downloader', 'secure story saver', 'HD video downloader', 'privacy status saver', 'global status keeper'],
+  keywords: ['status saver', 'whatsapp downloader', 'secure story saver', 'HD video downloader', 'privacy status saver', 'video saver', 'status downloader'],
   authors: [{ name: 'Status Keeper Team' }],
   openGraph: {
-    title: 'Status keeper - Professional status downloader',
+    title: 'Status Keeper - Professional Status Downloader',
     description: 'Save WhatsApp statuses in high definition without leaving a trace.',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Status keeper | Secure status saver',
+    title: 'Status Keeper | Secure Video Saver',
     description: 'Fast, secure, and professional status downloader for Android.',
   },
 };
