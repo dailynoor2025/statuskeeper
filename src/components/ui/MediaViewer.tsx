@@ -10,9 +10,8 @@ import { Share } from '@capacitor/share';
 import { toast } from '@/hooks/use-toast';
 
 /**
- * MediaViewer - Fully optimized for true full-screen experience.
- * Implements intelligent resize logic using object-contain.
- * Controls are minimalist and backgrounds are removed for immersive viewing.
+ * MediaViewer - Optimized for immersive full-screen experience.
+ * Controls are minimalist without backgrounds for a professional look.
  */
 
 interface MediaViewerProps {
@@ -56,13 +55,13 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
           <VisuallyHidden>Media viewer - {media.id}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Action Bar - Minimalist, no icon backgrounds */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-[1310] bg-gradient-to-b from-black/60 to-transparent pt-safe">
+        {/* Top Control Bar - Minimalist, no icon backgrounds */}
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between z-[1320] bg-gradient-to-b from-black/60 to-transparent pt-safe">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={handleClose} 
-            className="text-white hover:text-white/60 transition-transform active:scale-90 border-none"
+            className="text-white hover:text-white/60 transition-transform active:scale-90 border-none bg-transparent"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -72,7 +71,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
               variant="ghost" 
               size="icon" 
               onClick={handleShare}
-              className="text-white hover:text-white/60 transition-transform active:scale-90 border-none"
+              className="text-white hover:text-white/60 transition-transform active:scale-90 border-none bg-transparent"
             >
               <Share2 className="w-4 h-4" />
             </Button>
@@ -82,7 +81,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                 variant="ghost" 
                 size="icon" 
                 onClick={() => onDownload?.(media.id)}
-                className="text-white hover:text-primary transition-transform active:scale-90 border-none"
+                className="text-white hover:text-primary transition-transform active:scale-90 border-none bg-transparent"
               >
                 <Download className="w-4 h-4" />
               </Button>
@@ -94,7 +93,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
                   onDelete?.(media.id);
                   handleClose();
                 }}
-                className="text-white hover:text-destructive transition-transform active:scale-90 border-none"
+                className="text-white hover:text-destructive transition-transform active:scale-90 border-none bg-transparent"
               >
                 <Trash2 className="w-4 h-4" />
               </Button>
@@ -102,13 +101,13 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
           </div>
         </div>
 
-        {/* Media Surface - Fills entire interface with object-contain resize logic */}
-        <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-black">
+        {/* Media Surface - Full screen frame-less container */}
+        <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-black z-0">
           <Image 
             src={media.imageUrl} 
             alt="Status preview" 
             fill 
-            className="object-contain animate-in fade-in duration-700"
+            className="object-contain animate-in fade-in duration-500"
             priority
             sizes="100vw"
             data-ai-hint="media preview"
@@ -116,7 +115,7 @@ export function MediaViewer({ isOpen, onClose, media, mode, onDelete, onDownload
         </div>
 
         {/* Brand Overlay - Minimal and ultra-transparent */}
-        <div className="absolute bottom-8 left-0 right-0 p-6 flex flex-col items-center gap-1 text-white/20 text-[clamp(7px,1.2vw,8px)] font-black uppercase tracking-[0.4em] pointer-events-none z-[1310]">
+        <div className="absolute bottom-8 left-0 right-0 p-6 flex flex-col items-center gap-1 text-white/20 text-[7px] font-black uppercase tracking-[0.4em] pointer-events-none z-[1320]">
           <span>Stable build</span>
           <div className="w-4 h-0.5 bg-primary/20 rounded-full" />
         </div>

@@ -745,6 +745,9 @@ video {
 .z-\[1310\] {
   z-index: 1310;
 }
+.z-\[1320\] {
+  z-index: 1320;
+}
 .m-0 {
   margin: 0px;
 }
@@ -995,6 +998,9 @@ video {
 .min-h-\[100px\] {
   min-height: 100px;
 }
+.min-h-\[24px\] {
+  min-height: 24px;
+}
 .w-0 {
   width: 0px;
 }
@@ -1120,6 +1126,9 @@ video {
 }
 .max-w-\[calc\(100\%-2rem\)\] {
   max-width: calc(100% - 2rem);
+}
+.max-w-\[320px\] {
+  max-width: 320px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1462,6 +1471,9 @@ video {
 .rounded-\[4px\] {
   border-radius: 4px;
 }
+.rounded-\[3px\] {
+  border-radius: 3px;
+}
 .border {
   border-width: 1px;
 }
@@ -1766,6 +1778,11 @@ video {
   --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-black\/30 {
+  --tw-gradient-from: rgb(0 0 0 / 0.3) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .via-transparent {
   --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -1781,6 +1798,9 @@ video {
 }
 .to-black\/60 {
   --tw-gradient-to: rgb(0 0 0 / 0.6) var(--tw-gradient-to-position);
+}
+.to-black\/70 {
+  --tw-gradient-to: rgb(0 0 0 / 0.7) var(--tw-gradient-to-position);
 }
 .fill-current {
   fill: currentColor;
@@ -1918,6 +1938,10 @@ video {
 .px-0 {
   padding-left: 0px;
   padding-right: 0px;
+}
+.py-\[0\.5px\] {
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
 }
 .pb-16 {
   padding-bottom: 4rem;
@@ -2128,6 +2152,9 @@ video {
 .tracking-\[0\.2em\] {
   letter-spacing: 0.2em;
 }
+.tracking-\[0\.5em\] {
+  letter-spacing: 0.5em;
+}
 .text-accent-foreground {
   color: hsl(var(--accent-foreground));
 }
@@ -2271,6 +2298,12 @@ video {
 }
 .text-white\/20 {
   color: rgb(255 255 255 / 0.2);
+}
+.text-primary\/80 {
+  color: hsl(var(--primary) / 0.8);
+}
+.text-white\/60 {
+  color: rgb(255 255 255 / 0.6);
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
