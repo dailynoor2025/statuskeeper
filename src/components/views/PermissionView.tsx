@@ -8,6 +8,9 @@ interface PermissionViewProps {
   onGrant: () => void;
 }
 
+/**
+ * PermissionView - Immersive entry point for storage authorization.
+ */
 export function PermissionView({ onGrant }: PermissionViewProps) {
   return (
     <div className="flex flex-col h-full w-full bg-white animate-in slide-in-from-bottom-10 duration-700 overflow-hidden pt-safe">
@@ -58,7 +61,7 @@ export function PermissionView({ onGrant }: PermissionViewProps) {
           </p>
           <div className="flex items-center gap-1 opacity-40">
             <ShieldCheck className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
-            <span className="text-[7px] sm:text-[8px] font-black">Local storage only</span>
+            <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-widest">Local only</span>
           </div>
         </div>
       </div>

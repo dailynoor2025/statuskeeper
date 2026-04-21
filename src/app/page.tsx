@@ -76,7 +76,7 @@ export default function MainApp() {
     const initApp = async () => {
       const permissionCheck = checkPermissionsAndProceed(true);
       
-      // Release Logic: Pre-load Ad during splash
+      // Release Logic: Wait for assets to settle
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
@@ -122,7 +122,8 @@ export default function MainApp() {
       } else if (!silent) {
         setLifecycle('permission');
       } else {
-        setLifecycle('main'); // Proceed to main in silent debug mode
+        // In Debug silent mode, we still let them into main but show a banner there if needed
+        setLifecycle('main');
       }
     } catch (e) {
       setLifecycle('main');
@@ -132,8 +133,7 @@ export default function MainApp() {
   const handleAppOpenAdClose = () => {
     setShowAppOpenAd(false);
     localStorage.setItem('last_app_open_ad_time', Date.now().toString());
-    // Instant launch to main screen
-    setLifecycle('main');
+    // Proceed to permissions then main
     checkPermissionsAndProceed();
   };
 
@@ -142,7 +142,7 @@ export default function MainApp() {
     const hasRated = localStorage.getItem('has_rated_app') === 'true';
 
     // Strategic Prompting: 12+ sessions for Tier 1 quality feedback
-    if (!hasRated && sessions >= 12) {
+    if (!hasRated && sessions >= AD_CONFIG.SETTINGS.SESSION_RATING_THRESHOLD) {
       setShowRateUs(true);
     }
   };
