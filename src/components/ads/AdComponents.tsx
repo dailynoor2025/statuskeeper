@@ -30,7 +30,7 @@ function AdOverlay({
   buttonText: string; 
   onClose: () => void; 
   disabledClose?: boolean; 
-  timerLabel?: string;
+  timerLabel?: string; 
   variant?: 'interstitial' | 'rewarded' | 'app-open';
 }) {
   const isRewarded = variant === 'rewarded';
@@ -46,7 +46,7 @@ function AdOverlay({
         {/* Full-Screen Immersive Media with Resize Logic */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-stable-v8/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-stable-v10/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-1000"
@@ -54,8 +54,7 @@ function AdOverlay({
             sizes="100vw"
             data-ai-hint="full screen video"
           />
-          {/* Heavy gradient for text clarity on top of video */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
         </div>
 
         {/* Minimalist Top Bar */}
@@ -121,12 +120,6 @@ function AdOverlay({
               )}>
                 {buttonText}
               </Button>
-              
-              <div className="flex flex-col items-center opacity-10">
-                <span className="text-[5px] font-black text-white uppercase tracking-[0.5em]">
-                  Secure stable architecture
-                </span>
-              </div>
             </div>
           </div>
         </div>
@@ -247,10 +240,6 @@ export function RewardedAdOverlay({
   );
 }
 
-/**
- * NativeVideoAd - Optimized for grid presentation with high-quality badge.
- * Badge and CTA button reduced in size as requested.
- */
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -276,29 +265,28 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v9/400/622`} 
+          src={`https://picsum.photos/seed/native-v10/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Redesigned Ad Badge - Tighter and smaller */}
+        {/* Compact Ad Badge */}
         <div className="absolute top-1.5 left-1.5 z-10">
-          <div className="bg-primary px-1 py-0 rounded-[3px] shadow-sm border border-primary/10 flex items-center">
+          <div className="bg-primary px-1 py-0 rounded-[3px] shadow-sm flex items-center">
             <span className="text-[5px] font-black text-white uppercase tracking-tighter">Ad</span>
           </div>
         </div>
 
-        {/* Subtle Featured Label */}
+        {/* Refined Promoted Label */}
         <div className="absolute bottom-1.5 left-1.5 z-10">
-          <div className="bg-black/30 backdrop-blur-sm px-1.5 py-0.5 rounded-full border border-white/5">
-            <span className="text-[6px] font-black text-white/80 tracking-widest uppercase">Promoted</span>
+          <div className="bg-black/20 backdrop-blur-sm px-1 py-0.5 rounded-[3px] border border-white/10">
+            <span className="text-[5px] font-black text-white/90 tracking-tight">Promoted</span>
           </div>
         </div>
         
-        {/* Hover interaction */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
       <div className="flex items-center justify-center p-1 bg-primary/5 border-t border-gray-50 min-h-[26px]">
