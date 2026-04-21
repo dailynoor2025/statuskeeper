@@ -25,7 +25,7 @@ export const AD_CONFIG = {
   // Operational settings following Google Best Practices
   SETTINGS: {
     INTERSTITIAL_INTERVAL_MS: 10 * 60 * 1000, // 10 minutes gap
-    APP_OPEN_COOLDOWN_MS: 15 * 60 * 1000,    // 15 minutes gap for app open
+    APP_OPEN_COOLDOWN_MS: 30 * 1000,         // 30 seconds gap for app open session
     AD_EXPIRATION_MS: 4 * 60 * 60 * 1000,    // 4 hours expiration for loaded ads
     REWARDED_COUNTDOWN_SEC: 10,
   }

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -10,20 +9,20 @@ import { PremiumView } from "@/components/views/PremiumView";
 import { SettingsView } from "@/components/views/SettingsView";
 import { HelpView } from "@/components/views/HelpView";
 import { PermissionView } from "@/components/views/PermissionView";
-import { NoInternetView } from "@/components/views/NoInternetView";
 import { SplashScreen } from "@/components/views/SplashScreen";
-import { InterstitialAd } from "@/components/ads/AdComponents";
+import { InterstitialAd, AppOpenAd } from "@/components/ads/AdComponents";
 import { RateUsDialog } from "@/components/ui/RateUsDialog";
 import { SplashScreen as NativeSplashScreen } from '@capacitor/splash-screen';
 import { Network } from '@capacitor/network';
 import { Filesystem } from '@capacitor/filesystem';
+import { AD_CONFIG } from "@/lib/ad-config";
 
-type AppLifecycle = 'splash' | 'permission' | 'main';
+type AppLifecycle = 'splash' | 'ad' | 'permission' | 'main';
 type ExtendedTabType = TabType | 'help';
 
 /**
  * MainApp - Entry point for the Status Keeper application.
- * Optimized for Tier 1 markets with intelligent Rate Us logic and ad-conflict management.
+ * Enhanced with activated App Open Ad logics for the "Stable Build".
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -31,10 +30,11 @@ export default function MainApp() {
   const [isPro, setIsPro] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const [showInterstitial, setShowInterstitial] = useState(false);
+  const [showAppOpenAd, setShowAppOpenAd] = useState(false);
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // 1. Session Counting: Track how many times user returns to the app
+    // 1. Session Counting & Initial Timers
     const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
     localStorage.setItem('app_session_count', sessionCount.toString());
 
@@ -57,16 +57,6 @@ export default function MainApp() {
     };
     checkInitialNetwork();
 
-    let networkListener: any;
-    const setupNetworkListener = async () => {
-      try {
-        networkListener = await Network.addListener('networkStatusChange', status => {
-          setIsOnline(status.connected);
-        });
-      } catch (e) {}
-    };
-    setupNetworkListener();
-
     const checkProStatus = () => {
       const expiry = localStorage.getItem('ad_free_expiry');
       setIsPro(expiry ? parseInt(expiry) > Date.now() : false);
@@ -75,57 +65,70 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
+      // Step 1: Wait on Splash
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      try {
-        const status = await Filesystem.checkPermissions();
-        if (status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true') {
-          setLifecycle('main');
-        } else {
-          setLifecycle('permission');
-        }
-      } catch (e) {
-        setLifecycle('permission');
+      // Step 2: Decide if App Open Ad should show
+      const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
+      const cooldown = AD_CONFIG.SETTINGS.APP_OPEN_COOLDOWN_MS;
+      const isAdDue = Date.now() - lastOpenAd > cooldown;
+      const expiry = localStorage.getItem('ad_free_expiry');
+      const proActive = expiry ? parseInt(expiry) > Date.now() : false;
+
+      if (!proActive && isAdDue) {
+        setLifecycle('ad');
+        setShowAppOpenAd(true);
+      } else {
+        await checkPermissionsAndProceed();
       }
     };
     initApp();
 
     const handleInterstitialRequest = () => triggerSmartActionLogic();
-    const handleRateUsRequest = () => setShowRateUs(true);
-
     window.addEventListener('request-interstitial', handleInterstitialRequest);
-    window.addEventListener('request-rate-us', handleRateUsRequest);
 
     return () => {
       clearInterval(proInterval);
-      if (networkListener && typeof networkListener.remove === 'function') {
-        networkListener.remove();
-      }
       window.removeEventListener('request-interstitial', handleInterstitialRequest);
-      window.removeEventListener('request-rate-us', handleRateUsRequest);
     };
   }, []);
+
+  const checkPermissionsAndProceed = async () => {
+    try {
+      const status = await Filesystem.checkPermissions();
+      if (status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true') {
+        setLifecycle('main');
+      } else {
+        setLifecycle('permission');
+      }
+    } catch (e) {
+      setLifecycle('permission');
+    }
+  };
+
+  const handleAppOpenAdClose = () => {
+    setShowAppOpenAd(false);
+    localStorage.setItem('last_app_open_ad_time', Date.now().toString());
+    checkPermissionsAndProceed();
+  };
 
   const triggerSmartActionLogic = () => {
     const expiry = localStorage.getItem('ad_free_expiry');
     const proActive = expiry ? parseInt(expiry) > Date.now() : false;
     
     const lastAdShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
-    const adInterval = 10 * 60 * 1000;
+    const adInterval = AD_CONFIG.SETTINGS.INTERSTITIAL_INTERVAL_MS;
     const isAdDue = (Date.now() - lastAdShown > adInterval);
 
-    // LOGIC: Check if it's time for Rate Us instead of Ad
     const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
     const hasPromptedRate = localStorage.getItem('has_seen_rate_prompt') === 'true';
 
-    // Tier 1 logic: Prompt only once ever, after 12 sessions, and when ad IS NOT showing
     if (!hasPromptedRate && sessions >= 12 && (!isAdDue || proActive)) {
       setShowRateUs(true);
       localStorage.setItem('has_seen_rate_prompt', 'true');
-      return; // Stop here, don't show ad
+      return;
     }
 
-    // Standard Ad Logic
     if (!proActive && isAdDue) {
       setShowInterstitial(true);
       localStorage.setItem('last_interstitial_time', Date.now().toString());
@@ -148,8 +151,8 @@ export default function MainApp() {
     }
   };
 
-  if (!isOnline) return <NoInternetView />;
   if (lifecycle === 'splash') return <SplashScreen />;
+  if (lifecycle === 'ad') return <AppOpenAd isOpen={showAppOpenAd} onClose={handleAppOpenAdClose} />;
   if (lifecycle === 'permission') return <PermissionView onGrant={handleGrantPermission} />;
 
   return (

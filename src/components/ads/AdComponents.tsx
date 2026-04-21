@@ -31,13 +31,14 @@ function AdOverlay({
   onClose: () => void; 
   disabledClose?: boolean; 
   timerLabel?: string;
-  variant?: 'interstitial' | 'rewarded';
+  variant?: 'interstitial' | 'rewarded' | 'app-open';
 }) {
   const isRewarded = variant === 'rewarded';
+  const isAppOpen = variant === 'app-open';
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !disabledClose && onClose()}>
-      <DialogContent className="fixed inset-0 z-[1000] w-screen h-[100dvh] max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
+      <DialogContent className="fixed inset-0 z-[1100] w-screen h-[100dvh] max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
         <DialogTitle>
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
@@ -45,7 +46,7 @@ function AdOverlay({
         {/* Immersive Video/Media Background - Fills screen perfectly */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src={`https://picsum.photos/seed/${isRewarded ? 'reward-video' : 'inter-video'}/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-video/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover"
@@ -63,11 +64,13 @@ function AdOverlay({
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10">
               {isRewarded ? (
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              ) : isAppOpen ? (
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
               )}
               <span className="text-[10px] font-black text-white tracking-tight uppercase">
-                {isRewarded ? 'Premium reward' : 'Sponsored'}
+                {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome gift' : 'Sponsored'}
               </span>
             </div>
             
@@ -94,7 +97,7 @@ function AdOverlay({
         <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-lg mx-auto">
           <div className="space-y-6">
             <div className="space-y-2">
-              {isRewarded && (
+              {(isRewarded || isAppOpen) && (
                 <div className="inline-flex items-center gap-1.5 text-amber-400 py-1 text-[9px] font-black uppercase tracking-[0.2em] drop-shadow-md">
                   <Sparkles className="w-3 h-3" />
                   <span>Unlock pro features</span>
@@ -102,7 +105,7 @@ function AdOverlay({
               )}
               <h2 className={cn(
                 "text-3xl sm:text-4xl font-black tracking-tighter leading-none drop-shadow-2xl",
-                isRewarded ? "text-amber-400" : "text-white"
+                isRewarded || isAppOpen ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
@@ -114,7 +117,7 @@ function AdOverlay({
             <div className="space-y-4">
               <Button className={cn(
                 "w-full h-14 rounded-2xl font-black tracking-tight text-sm active:scale-95 transition-all border-none shadow-2xl",
-                isRewarded 
+                isRewarded || isAppOpen
                   ? "bg-amber-500 text-black hover:bg-amber-400" 
                   : "bg-primary text-white hover:bg-primary/90"
               )}>
@@ -159,6 +162,33 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       subtitle="Remove all ads and get instant status saves. Support our stable build development."
       buttonText="Learn more"
       variant="interstitial"
+    />
+  );
+}
+
+export function AppOpenAd({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [timer, setTimer] = useState(3);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimer(3);
+      const interval = setInterval(() => {
+        setTimer(t => (t <= 1 ? (clearInterval(interval), 0) : t - 1));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
+
+  return (
+    <AdOverlay 
+      isOpen={isOpen}
+      onClose={onClose}
+      disabledClose={timer > 0}
+      timerLabel={`${timer}s`}
+      title="Quick start"
+      subtitle="Unlock pro features for this session and enjoy ad-free status saving."
+      buttonText="Get started"
+      variant="app-open"
     />
   );
 }
