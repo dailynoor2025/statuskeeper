@@ -1,6 +1,6 @@
 "use client";
 
-import { MoreVertical, ShieldCheck } from 'lucide-react';
+import { MoreVertical, ShieldCheck, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -26,12 +26,14 @@ export const LogoIcon = ({ className }: { className?: string }) => (
 interface AppHeaderProps {
   isPro?: boolean;
   onHelpClick?: () => void;
+  onRateClick?: () => void;
 }
 
 /**
  * AppHeader - Minimalist header with restored brand logo and smaller icons.
+ * Integrated with global rating feature.
  */
-export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
+export function AppHeader({ isPro, onHelpClick, onRateClick }: AppHeaderProps) {
   const { t } = useTranslation();
 
   return (
@@ -61,9 +63,16 @@ export function AppHeader({ isPro, onHelpClick }: AppHeaderProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 rounded-2xl p-1.5 shadow-2xl border-none glass-morphism">
+              <DropdownMenuItem className="rounded-xl text-[10px] font-bold py-2" onClick={onRateClick}>
+                <div className="flex items-center gap-2 text-amber-500">
+                  <Star className="w-3 h-3 fill-amber-500" />
+                  <span>Rate us 5 stars</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-gray-100 mx-1 opacity-50" />
               <DropdownMenuItem className="rounded-xl text-[10px] font-bold py-2" asChild>
                 <a href="https://sites.google.com/view/qhaleel-latest-apps/home" target="_blank" rel="noopener noreferrer">
-                  Latest apps
+                  Latest apps 🔥
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem className="rounded-xl text-[10px] font-bold py-2" asChild>

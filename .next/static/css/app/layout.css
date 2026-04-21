@@ -796,6 +796,9 @@ video {
 .mt-8 {
   margin-top: 2rem;
 }
+.mt-6 {
+  margin-top: 1.5rem;
+}
 .line-clamp-3 {
   overflow: hidden;
   display: -webkit-box;
@@ -944,6 +947,9 @@ video {
 .min-h-svh {
   min-height: 100svh;
 }
+.min-h-\[100px\] {
+  min-height: 100px;
+}
 .w-0 {
   width: 0px;
 }
@@ -1019,6 +1025,9 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-\[320px\] {
+  width: 320px;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -1063,6 +1072,9 @@ video {
 }
 .max-w-sm {
   max-width: 24rem;
+}
+.max-w-\[calc\(100\%-2rem\)\] {
+  max-width: calc(100% - 2rem);
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1223,6 +1235,9 @@ video {
 }
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .flex-col {
   flex-direction: column;
@@ -1723,6 +1738,12 @@ video {
 .fill-white {
   fill: #fff;
 }
+.fill-amber-400 {
+  fill: #fbbf24;
+}
+.fill-amber-500 {
+  fill: #f59e0b;
+}
 .object-contain {
   object-fit: contain;
 }
@@ -1986,6 +2007,10 @@ video {
 .text-\[clamp\(6px\2c 1\.5vw\2c 8px\)\] {
   font-size: clamp(6px,1.5vw,8px);
 }
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
 .font-black {
   font-weight: 900;
 }
@@ -2180,6 +2205,10 @@ video {
 }
 .text-white\/90 {
   color: rgb(255 255 255 / 0.9);
+}
+.text-amber-500 {
+  --tw-text-opacity: 1;
+  color: rgb(245 158 11 / var(--tw-text-opacity, 1));
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
@@ -2809,6 +2838,10 @@ video {
   --tw-ring-color: hsl(var(--sidebar-ring));
 }
 
+.focus-visible\:ring-primary\/20:focus-visible {
+  --tw-ring-color: hsl(var(--primary) / 0.2);
+}
+
 .focus-visible\:ring-offset-2:focus-visible {
   --tw-ring-offset-width: 2px;
 }
@@ -2832,6 +2865,12 @@ video {
 .active\:scale-\[0\.99\]:active {
   --tw-scale-x: 0.99;
   --tw-scale-y: 0.99;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-75:active {
+  --tw-scale-x: .75;
+  --tw-scale-y: .75;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 

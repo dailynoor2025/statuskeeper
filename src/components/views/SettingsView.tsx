@@ -28,7 +28,7 @@ import {
 
 /**
  * SettingsView - System preferences and storage management.
- * Integrated with i18n language switcher and fixed ReferenceError.
+ * Fixed ReferenceError: e is not defined by using isClearing state.
  */
 export function SettingsView() {
   const { t, lang, changeLanguage } = useTranslation();
@@ -43,8 +43,8 @@ export function SettingsView() {
     setCacheSize(localStorage.getItem('sim_cache') || "4.8 mb");
   }, []);
 
-  const handleClearCache = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
+  const handleClearCache = (ev?: React.MouseEvent) => {
+    if (ev) ev.stopPropagation();
     if (cacheSize === "0 kb") return;
     setIsClearing(true);
     setTimeout(() => {

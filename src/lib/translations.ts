@@ -16,7 +16,9 @@ export const translations = {
       share: "Share",
       delete: "Delete",
       save: "Save",
-      cancel: "Cancel"
+      cancel: "Cancel",
+      submit: "Submit",
+      later: "Later"
     },
     ads: {
       promoted: "Promoted content",
@@ -24,6 +26,14 @@ export const translations = {
       premium_reward: "Premium reward",
       skip: "Skip ad",
       wait: "Wait"
+    },
+    rating: {
+      title: "Rate our app",
+      subtitle: "Your feedback helps us provide a better experience.",
+      enjoying: "Enjoying the app?",
+      give_5_stars: "Give us 5 stars!",
+      placeholder: "Write your thoughts here...",
+      success: "Thank you for your rating!"
     }
   },
   es: {
@@ -43,7 +53,9 @@ export const translations = {
       share: "Compartir",
       delete: "Eliminar",
       save: "Guardar",
-      cancel: "Cancelar"
+      cancel: "Cancelar",
+      submit: "Enviar",
+      later: "Después"
     },
     ads: {
       promoted: "Contenido promocionado",
@@ -51,6 +63,14 @@ export const translations = {
       premium_reward: "Recompensa premium",
       skip: "Saltar anuncio",
       wait: "Espera"
+    },
+    rating: {
+      title: "Califícanos",
+      subtitle: "Tus comentarios nos ayudan a mejorar.",
+      enjoying: "¿Te gusta la app?",
+      give_5_stars: "¡Danos 5 estrellas!",
+      placeholder: "Escribe tus comentarios aquí...",
+      success: "¡Gracias por tu calificación!"
     }
   },
   fr: {
@@ -70,7 +90,9 @@ export const translations = {
       share: "Partager",
       delete: "Supprimer",
       save: "Enregistrer",
-      cancel: "Annuler"
+      cancel: "Annuler",
+      submit: "Envoyer",
+      later: "Plus tard"
     },
     ads: {
       promoted: "Contenu sponsorisé",
@@ -78,6 +100,14 @@ export const translations = {
       premium_reward: "Récompense premium",
       skip: "Passer la pub",
       wait: "Attendez"
+    },
+    rating: {
+      title: "Notez-nous",
+      subtitle: "Vos commentaires nous aident à nous améliorer.",
+      enjoying: "Vous aimez l'application ?",
+      give_5_stars: "Donnez-nous 5 étoiles !",
+      placeholder: "Écrivez vos pensées ici...",
+      success: "Merci pour votre note !"
     }
   },
   de: {
@@ -97,7 +127,9 @@ export const translations = {
       share: "Teilen",
       delete: "Löschen",
       save: "Speichern",
-      cancel: "Abbrechen"
+      cancel: "Abbrechen",
+      submit: "Absenden",
+      later: "Später"
     },
     ads: {
       promoted: "Gesponserte Inhalte",
@@ -105,6 +137,14 @@ export const translations = {
       premium_reward: "Premium-Belohnung",
       skip: "Anzeige überspringen",
       wait: "Warten"
+    },
+    rating: {
+      title: "Bewerten Sie uns",
+      subtitle: "Ihr Feedback hilft uns, besser zu werden.",
+      enjoying: "Gefällt Ihnen die App?",
+      give_5_stars: "Geben Sie uns 5 Sterne!",
+      placeholder: "Schreiben Sie hier Ihre Gedanken...",
+      success: "Vielen Dank für Ihre Bewertung!"
     }
   }
 };

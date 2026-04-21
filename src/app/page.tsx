@@ -12,6 +12,7 @@ import { PermissionView } from "@/components/views/PermissionView";
 import { NoInternetView } from "@/components/views/NoInternetView";
 import { SplashScreen } from "@/components/views/SplashScreen";
 import { InterstitialAd } from "@/components/ads/AdComponents";
+import { RateUsDialog } from "@/components/ui/RateUsDialog";
 import { SplashScreen as NativeSplashScreen } from '@capacitor/splash-screen';
 import { Network } from '@capacitor/network';
 import { Filesystem } from '@capacitor/filesystem';
@@ -21,7 +22,7 @@ type ExtendedTabType = TabType | 'help';
 
 /**
  * MainApp - Entry point for the Status Keeper application.
- * Optimized with clean ad state control and fixed Settings reference error.
+ * Optimized with Rate Us integration and event-driven triggers.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -29,6 +30,7 @@ export default function MainApp() {
   const [isPro, setIsPro] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const [showInterstitial, setShowInterstitial] = useState(false);
+  const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem('last_interstitial_time')) {
@@ -68,7 +70,6 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Branding visibility delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       try {
@@ -85,7 +86,10 @@ export default function MainApp() {
     initApp();
 
     const handleInterstitialRequest = () => triggerInterstitialLogic();
+    const handleRateUsRequest = () => setShowRateUs(true);
+
     window.addEventListener('request-interstitial', handleInterstitialRequest);
+    window.addEventListener('request-rate-us', handleRateUsRequest);
 
     return () => {
       clearInterval(proInterval);
@@ -93,6 +97,7 @@ export default function MainApp() {
         networkListener.remove();
       }
       window.removeEventListener('request-interstitial', handleInterstitialRequest);
+      window.removeEventListener('request-rate-us', handleRateUsRequest);
     };
   }, []);
 
@@ -132,7 +137,11 @@ export default function MainApp() {
 
   return (
     <div className="flex flex-col h-full bg-background text-foreground overflow-hidden w-full relative">
-      <AppHeader isPro={isPro} onHelpClick={() => handleTabChange('help')} />
+      <AppHeader 
+        isPro={isPro} 
+        onHelpClick={() => handleTabChange('help')} 
+        onRateClick={() => setShowRateUs(true)}
+      />
       
       <div className="flex-1 overflow-y-auto no-scrollbar w-full relative">
         <div key={activeTab} className="animate-in fade-in slide-in-from-bottom-2 duration-400 w-full h-full">
@@ -147,6 +156,7 @@ export default function MainApp() {
       <BottomNav activeTab={activeTab === 'help' ? 'status' : activeTab as TabType} onTabChange={handleTabChange} />
       
       <InterstitialAd isOpen={showInterstitial} onClose={() => setShowInterstitial(false)} />
+      <RateUsDialog isOpen={showRateUs} onClose={() => setShowRateUs(false)} />
     </div>
   );
 }

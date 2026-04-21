@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { Share } from '@capacitor/share';
+import { useTranslation } from '@/hooks/use-translation';
+import { ToastAction } from '@/components/ui/toast';
 
 export interface StatusCardProps {
   id: string;
@@ -30,6 +32,7 @@ export function StatusCard({
   onDelete, 
   onView 
 }: StatusCardProps) {
+  const { t } = useTranslation();
   const [isSaved, setIsSaved] = useState(false);
   const [timeAgo, setTimeAgo] = useState("");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -59,7 +62,28 @@ export function StatusCard({
         localStorage.setItem('saved_statuses', JSON.stringify(savedItems));
         setIsSaved(true);
         
-        toast({ title: "Status saved", description: "Media captured to gallery", variant: "success" });
+        toast({ 
+          title: "Status saved", 
+          description: "Media captured to gallery", 
+          variant: "success" 
+        });
+
+        // Strategic Rate Us Prompt after success
+        const hasRated = localStorage.getItem('has_rated_app') === 'true';
+        if (!hasRated) {
+          setTimeout(() => {
+            toast({
+              title: t.rating.enjoying,
+              description: t.rating.give_5_stars,
+              action: (
+                <ToastAction altText="Rate" onClick={() => window.dispatchEvent(new CustomEvent('request-rate-us'))}>
+                  Rate
+                </ToastAction>
+              ),
+            });
+          }, 1500);
+        }
+
         window.dispatchEvent(new CustomEvent('request-interstitial'));
       }
     } catch (err) {
