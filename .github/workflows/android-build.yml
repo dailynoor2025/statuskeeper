@@ -45,24 +45,24 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease bundleRelease
 
-      - name: Sign APK
+      - name: Sign APK/AAB
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
           releaseDirectory: android/app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: status-keeper-release-signed-apk
+          name: app-release-signed-apk
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
-      - name: Upload Release Bundle (AAB)
+      - name: Upload Signed AAB
         uses: actions/upload-artifact@v4
         with:
-          name: status-keeper-release-bundle
+          name: app-release-bundle
           path: android/app/build/outputs/bundle/release/app-release.aab
