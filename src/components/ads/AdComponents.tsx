@@ -10,8 +10,8 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
- * AdOverlay - Immersive full-screen ad presentation for Stable Build.
- * Optimized with reduced text/icon sizes and NO backgrounds for controls.
+ * AdOverlay - Immersive full-screen ad presentation.
+ * Clean minimalist UI with transparent controls for a professional look.
  */
 function AdOverlay({ 
   isOpen, 
@@ -42,21 +42,21 @@ function AdOverlay({
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Full-Screen Immersive Media with Object Cover */}
+        {/* Full-Screen Immersive Media (object-cover) */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-v22/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-v25/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-700"
             priority
             sizes="100vw"
-            data-ai-hint="full screen media"
+            data-ai-hint="immersive media ad"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
         </div>
 
-        {/* Minimalist Top Bar - Icons float directly on media */}
+        {/* Minimalist Top Bar */}
         <div className="relative z-20 pt-safe w-full">
           <div className="p-4 flex justify-between items-center w-full">
             <div className="flex items-center gap-1.5 drop-shadow-md">
@@ -89,12 +89,12 @@ function AdOverlay({
           </div>
         </div>
 
-        {/* Minimalist Immersive Bottom Actions */}
+        {/* Action Content Area */}
         <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-[280px] mx-auto text-center">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className={cn(
-                "text-base font-black tracking-tight leading-tight drop-shadow-2xl",
+                "text-lg font-black tracking-tight leading-tight drop-shadow-2xl",
                 isRewarded || isAppOpen ? "text-amber-400" : "text-white"
               )}>
                 {title}
@@ -201,7 +201,7 @@ export function useRewardedAd(onReward: () => void) {
   const completeReward = () => {
     if (countdown === 0) {
       onReward();
-      // Smart prompt rating after reward
+      // Dispatch for smart rating trigger
       window.dispatchEvent(new CustomEvent('request-rating'));
     }
     setIsWatching(false);
@@ -258,7 +258,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v22/400/622`} 
+          src={`https://picsum.photos/seed/native-v25/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"

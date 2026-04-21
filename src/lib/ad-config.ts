@@ -1,32 +1,25 @@
 /**
- * Centralized AdMob configuration for production.
+ * Centralized AdMob configuration.
  * Placements: App open, Native video, Interstitial, and Rewarded.
  */
 
 export const AD_CONFIG = {
-  // Official AdMob App ID (Linked in AndroidManifest.xml)
+  // Official AdMob App ID
   APP_ID: "ca-app-pub-9704872868499742~4538679298",
 
-  // Ad unit IDs for direct AdMob server connection
+  // Production Ad Unit IDs
   UNITS: {
-    // App open ad shown on app start/resume
     APP_OPEN: "ca-app-pub-9704872868499742/1450930000",
-
-    // Native video ads integrated into the gallery grids
     NATIVE: "ca-app-pub-9704872868499742/6511690000", 
-
-    // Interstitial ads shown during navigation transitions
     INTERSTITIAL: "ca-app-pub-9704872868499742/1450930000", 
-
-    // Rewarded ads for unlocking pro status
     REWARDED: "ca-app-pub-9704872868499742/6915220000", 
   },
 
-  // Operational settings following Google Best Practices
+  // Operational settings for Stable Build
   SETTINGS: {
-    INTERSTITIAL_INTERVAL_MS: 10 * 60 * 1000, // 10 minutes gap
-    APP_OPEN_COOLDOWN_MS: 30 * 1000,         // 30 seconds gap for app open session
-    AD_EXPIRATION_MS: 4 * 60 * 60 * 1000,    // 4 hours expiration for loaded ads
+    INTERSTITIAL_INTERVAL_MS: 10 * 60 * 1000, // 10 minutes interval
+    APP_OPEN_COOLDOWN_MS: 30 * 1000,         // 30 seconds cooldown between opens
     REWARDED_COUNTDOWN_SEC: 10,
+    SESSION_RATING_THRESHOLD: 12,            // Show rating after 12 sessions
   }
 };

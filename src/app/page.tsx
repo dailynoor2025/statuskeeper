@@ -15,14 +15,15 @@ import { RateUsDialog } from "@/components/ui/RateUsDialog";
 import { SplashScreen as NativeSplashScreen } from '@capacitor/splash-screen';
 import { Network } from '@capacitor/network';
 import { Filesystem } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
 import { AD_CONFIG } from "@/lib/ad-config";
 
 type AppLifecycle = 'splash' | 'ad' | 'permission' | 'main';
 type ExtendedTabType = TabType | 'help';
 
 /**
- * MainApp - Entry point for the Status Keeper application.
- * Integrated with custom Strategic Prompting logic for rating.
+ * MainApp - Stable Build Foundation.
+ * Manages Debug vs Release logics for AdMob and In-App Review.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -34,7 +35,7 @@ export default function MainApp() {
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // Session Counting for Rating Logic
+    // 1. Session Logic for Release builds
     const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
     localStorage.setItem('app_session_count', sessionCount.toString());
 
@@ -42,21 +43,28 @@ export default function MainApp() {
       localStorage.setItem('last_interstitial_time', Date.now().toString());
     }
 
+    // 2. Hide Native Splash Screen instantly
     const hideNativeSplash = async () => {
-      try { await NativeSplashScreen.hide(); } catch (e) {}
+      if (Capacitor.isNativePlatform()) {
+        try { await NativeSplashScreen.hide(); } catch (e) {}
+      }
     };
     hideNativeSplash();
     
+    // 3. Network Connection Check
     const checkInitialNetwork = async () => {
-      try {
-        const status = await Network.getStatus();
-        setIsOnline(status.connected);
-      } catch (e) {
-        setIsOnline(true);
+      if (Capacitor.isNativePlatform()) {
+        try {
+          const status = await Network.getStatus();
+          setIsOnline(status.connected);
+        } catch (e) {
+          setIsOnline(true);
+        }
       }
     };
     checkInitialNetwork();
 
+    // 4. Pro Status Subscription Logic
     const checkProStatus = () => {
       const expiry = localStorage.getItem('ad_free_expiry');
       setIsPro(expiry ? parseInt(expiry) > Date.now() : false);
@@ -64,9 +72,12 @@ export default function MainApp() {
     checkProStatus();
     const proInterval = setInterval(checkProStatus, 5000);
 
+    // 5. Initial Launch Sequence (Debug vs Release)
     const initApp = async () => {
       const permissionCheck = checkPermissionsAndProceed(true);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Release Logic: Pre-load Ad during splash
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
       const cooldown = AD_CONFIG.SETTINGS.APP_OPEN_COOLDOWN_MS;
@@ -74,7 +85,8 @@ export default function MainApp() {
       const expiry = localStorage.getItem('ad_free_expiry');
       const proActive = expiry ? parseInt(expiry) > Date.now() : false;
 
-      if (!proActive && isAdDue) {
+      // Show App Open Ad only on Native + Not Pro + Not Cooldown
+      if (Capacitor.isNativePlatform() && !proActive && isAdDue) {
         setLifecycle('ad');
         setShowAppOpenAd(true);
       } else {
@@ -97,6 +109,11 @@ export default function MainApp() {
   }, []);
 
   const checkPermissionsAndProceed = async (silent = false) => {
+    if (!Capacitor.isNativePlatform()) {
+      setLifecycle('main');
+      return;
+    }
+
     try {
       const status = await Filesystem.checkPermissions();
       const hasPerm = status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true';
@@ -104,9 +121,11 @@ export default function MainApp() {
         setLifecycle('main');
       } else if (!silent) {
         setLifecycle('permission');
+      } else {
+        setLifecycle('main'); // Proceed to main in silent debug mode
       }
     } catch (e) {
-      if (!silent) setLifecycle('permission');
+      setLifecycle('main');
     }
   };
 
@@ -122,13 +141,15 @@ export default function MainApp() {
     const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
     const hasRated = localStorage.getItem('has_rated_app') === 'true';
 
-    // Strategic Prompting: 12+ sessions and only show once
+    // Strategic Prompting: 12+ sessions for Tier 1 quality feedback
     if (!hasRated && sessions >= 12) {
       setShowRateUs(true);
     }
   };
 
   const triggerSmartActionLogic = () => {
+    if (!Capacitor.isNativePlatform()) return;
+
     const expiry = localStorage.getItem('ad_free_expiry');
     const proActive = expiry ? parseInt(expiry) > Date.now() : false;
     
@@ -154,8 +175,10 @@ export default function MainApp() {
 
   const handleGrantPermission = async () => {
     try {
-      await Filesystem.requestPermissions();
-      localStorage.setItem('storage_permission_granted', 'true');
+      if (Capacitor.isNativePlatform()) {
+        await Filesystem.requestPermissions();
+        localStorage.setItem('storage_permission_granted', 'true');
+      }
       setLifecycle('main');
     } catch (e) {
       localStorage.setItem('storage_permission_granted', 'true');
