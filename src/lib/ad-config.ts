@@ -7,12 +7,12 @@ export const AD_CONFIG = {
   // Official AdMob App ID
   APP_ID: "ca-app-pub-9704872868499742~4538679298",
 
-  // Production Ad Unit IDs
+  // Production Ad Unit IDs (Updated)
   UNITS: {
-    APP_OPEN: "ca-app-pub-9704872868499742/1450930000",
-    NATIVE: "ca-app-pub-9704872868499742/6511690000", 
-    INTERSTITIAL: "ca-app-pub-9704872868499742/1450930000", 
-    REWARDED: "ca-app-pub-9704872868499742/6915220000", 
+    APP_OPEN: "ca-app-pub-9704872868499742/7637864780",
+    NATIVE: "ca-app-pub-9704872868499742/6511692783", 
+    INTERSTITIAL: "ca-app-pub-9704872868499742/1450937798", 
+    REWARDED: "ca-app-pub-9704872868499742/6915229492", 
   },
 
   // Operational settings for Stable Build

@@ -16,7 +16,7 @@ import com.google.android.gms.ads.appopen.AppOpenAd;
 import java.util.Date;
 
 public class AppOpenManager implements DefaultLifecycleObserver, Application.ActivityLifecycleCallbacks {
-    private static final String AD_UNIT_ID = "ca-app-pub-9704872868499742/1450930000";
+    private static final String AD_UNIT_ID = "ca-app-pub-9704872868499742/7637864780";
     private AppOpenAd appOpenAd = null;
     private AppOpenAd.AppOpenAdLoadCallback loadCallback;
     private final MyApplication myApplication;
