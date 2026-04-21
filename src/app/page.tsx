@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -114,6 +113,7 @@ export default function MainApp() {
   const handleAppOpenAdClose = () => {
     setShowAppOpenAd(false);
     localStorage.setItem('last_app_open_ad_time', Date.now().toString());
+    // Instant launch to main screen
     setLifecycle('main');
     checkPermissionsAndProceed();
   };

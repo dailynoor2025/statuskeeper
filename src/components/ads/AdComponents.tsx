@@ -45,7 +45,7 @@ function AdOverlay({
         {/* Full-Screen Immersive Media with Object Cover */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-v18/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-v22/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-700"
@@ -53,7 +53,7 @@ function AdOverlay({
             sizes="100vw"
             data-ai-hint="full screen media"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
         </div>
 
         {/* Minimalist Top Bar - Icons float directly on media */}
@@ -258,7 +258,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v20/400/622`} 
+          src={`https://picsum.photos/seed/native-v22/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
