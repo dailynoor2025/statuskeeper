@@ -27,7 +27,7 @@ import {
 
 /**
  * SettingsView - System preferences and storage management.
- * Optimized with correct import paths and sentence case labels.
+ * Optimized for Stable Build with correct imports and sentence case labels.
  */
 export function SettingsView() {
   const { t, lang, changeLanguage } = useTranslation();

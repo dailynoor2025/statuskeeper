@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, ShieldCheck, Trophy, Sparkles } from 'lucide-react';
+import { X, ShieldCheck, Trophy, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -11,8 +11,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
  * AdOverlay - Immersive full-screen ad presentation for Stable Build.
- * Optimized with object-cover and minimalist controls (no backgrounds).
- * z-index set to 1500+ to ensure it covers Header and Bottom Nav.
+ * Optimized with reduced text/icon sizes and NO backgrounds for controls.
  */
 function AdOverlay({ 
   isOpen, 
@@ -43,32 +42,32 @@ function AdOverlay({
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Full-Screen Immersive Media with Resize Logic */}
+        {/* Full-Screen Immersive Media with Object Cover */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-stable-v15/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-v16/1080/1920`} 
             alt="Ad media" 
             fill 
-            className="object-cover animate-in fade-in duration-1000"
+            className="object-cover animate-in fade-in duration-700"
             priority
             sizes="100vw"
-            data-ai-hint="full screen video"
+            data-ai-hint="full screen media"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70" />
         </div>
 
-        {/* Minimalist Top Bar - No backgrounds/borders */}
+        {/* Minimalist Top Bar - Icons float directly on media */}
         <div className="relative z-20 pt-safe w-full">
-          <div className="p-5 flex justify-between items-center w-full">
-            <div className="flex items-center gap-1.5 drop-shadow-lg">
+          <div className="p-4 flex justify-between items-center w-full">
+            <div className="flex items-center gap-1.5 drop-shadow-md">
               {isRewarded ? (
-                <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                <Trophy className="w-3 h-3 text-amber-400" />
               ) : isAppOpen ? (
-                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                <Sparkles className="w-3 h-3 text-primary" />
               ) : (
-                <ShieldCheck className="w-3.5 h-3.5 text-primary/90" />
+                <ShieldCheck className="w-3 h-3 text-primary/90" />
               )}
-              <span className="text-[8px] font-black text-white/80 tracking-[0.2em] uppercase">
+              <span className="text-[7px] font-black text-white/90 tracking-[0.2em] uppercase">
                 {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome' : 'Sponsored'}
               </span>
             </div>
@@ -77,50 +76,42 @@ function AdOverlay({
               disabled={disabledClose} 
               onClick={onClose} 
               className={cn(
-                "w-10 h-10 flex items-center justify-center transition-all active:scale-75 border-none outline-none bg-transparent drop-shadow-2xl", 
-                disabledClose ? "opacity-30" : "text-white hover:text-primary"
+                "w-8 h-8 flex items-center justify-center transition-all active:scale-75 border-none outline-none bg-transparent drop-shadow-2xl", 
+                disabledClose ? "opacity-40" : "text-white hover:text-primary"
               )}
             >
               {disabledClose ? (
-                <span className="text-[9px] font-black tracking-tighter tabular-nums text-white">{timerLabel}</span>
+                <span className="text-[8px] font-black tracking-tighter tabular-nums text-white">{timerLabel}</span>
               ) : (
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Immersive Bottom Actions */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-[320px] mx-auto text-center">
+        {/* Minimalist Immersive Bottom Actions */}
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-14 w-full max-w-[280px] mx-auto text-center">
           <div className="space-y-4">
             <div className="space-y-1">
-              {(isRewarded || isAppOpen) && (
-                <div className="inline-flex items-center gap-1 text-amber-400 text-[6px] font-black uppercase tracking-[0.25em] mb-1 drop-shadow-md mx-auto">
-                  <Sparkles className="w-2 h-2" />
-                  <span>Elite access active</span>
-                </div>
-              )}
               <h2 className={cn(
-                "text-lg font-black tracking-tight leading-tight drop-shadow-2xl",
+                "text-base font-black tracking-tight leading-tight drop-shadow-2xl",
                 isRewarded || isAppOpen ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
-              <p className="text-[9px] text-white/70 font-bold tracking-tight leading-relaxed line-clamp-2 mt-1 drop-shadow-lg px-4">
+              <p className="text-[8px] text-white/80 font-bold tracking-tight leading-relaxed line-clamp-2 drop-shadow-lg px-2">
                 {subtitle}
               </p>
             </div>
 
-            <div className="space-y-3">
-              <Button className={cn(
-                "w-full h-12 rounded-2xl font-black tracking-widest text-[10px] uppercase active:scale-95 transition-all border-none shadow-2xl",
-                isRewarded || isAppOpen
-                  ? "bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/10" 
-                  : "bg-primary text-white hover:bg-primary/90 shadow-primary/10"
-              )}>
-                {buttonText}
-              </Button>
-            </div>
+            <Button className={cn(
+              "w-full h-10 rounded-xl font-black tracking-widest text-[9px] uppercase active:scale-95 transition-all border-none shadow-2xl",
+              isRewarded || isAppOpen
+                ? "bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/20" 
+                : "bg-primary text-white hover:bg-primary/90 shadow-primary/20"
+            )}>
+              {buttonText}
+            </Button>
           </div>
         </div>
       </DialogContent>
@@ -210,6 +201,8 @@ export function useRewardedAd(onReward: () => void) {
   const completeReward = () => {
     if (countdown === 0) {
       onReward();
+      // Smart prompt rating after reward
+      window.dispatchEvent(new CustomEvent('request-rating'));
     }
     setIsWatching(false);
   };
@@ -240,27 +233,13 @@ export function RewardedAdOverlay({
   );
 }
 
-const AD_DESCRIPTIONS = [
-  "Experience elite status saving features...",
-  "Remove ads for a seamless experience...",
-  "Unlock pro access and save instantly...",
-  "Premium status protector for your media...",
-  "", // some empty
-  "Promoted content for you...",
-  "Smart video saver for stories...",
-];
-
 export function NativeVideoAd({ className }: { className?: string }) {
   const [adStatus, setAdStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [adDescription, setAdDescription] = useState('');
 
   useEffect(() => {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        const desc = AD_DESCRIPTIONS[Math.floor(Math.random() * AD_DESCRIPTIONS.length)];
-        setAdDescription(desc);
-        
         await new Promise(resolve => setTimeout(resolve, 800));
         setAdStatus('ready');
       } catch (e) {
@@ -279,7 +258,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v15/400/622`} 
+          src={`https://picsum.photos/seed/native-v16/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
@@ -287,23 +266,19 @@ export function NativeVideoAd({ className }: { className?: string }) {
           data-ai-hint="native ad video"
         />
         
-        {/* Compact Ad Badge */}
         <div className="absolute top-1.5 left-1.5 z-10">
           <div className="bg-primary px-1 py-0 rounded-[3px] shadow-sm flex items-center">
             <span className="text-[5px] font-black text-white uppercase tracking-tighter">Ad</span>
           </div>
         </div>
 
-        {/* Dynamic Ad Description/Label */}
-        {adDescription && (
-          <div className="absolute bottom-1.5 left-1.5 z-10 max-w-[85%]">
-            <div className="bg-black/20 backdrop-blur-sm px-1 py-0.5 rounded-[3px] border border-white/10">
-              <span className="text-[5px] font-bold text-white/90 tracking-tight line-clamp-1">
-                {adDescription}
-              </span>
-            </div>
+        <div className="absolute bottom-1.5 left-1.5 z-10 max-w-[85%]">
+          <div className="bg-black/20 backdrop-blur-sm px-1 py-0.5 rounded-[3px] border border-white/10">
+            <span className="text-[5px] font-bold text-white/90 tracking-tight line-clamp-1">
+              Unlock elite status saving features today...
+            </span>
           </div>
-        )}
+        </div>
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>

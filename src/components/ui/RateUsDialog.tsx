@@ -32,6 +32,8 @@ export function RateUsDialog({ isOpen, onClose }: RateUsDialogProps) {
       localStorage.setItem('has_rated_app', 'true');
       toast({ title: t.rating.success, variant: "success" });
       onClose();
+      // Implementation Note: Bridge to In-App Review API for Android here
+      // if (window.Capacitor) { ... }
     }, 1200);
   };
 

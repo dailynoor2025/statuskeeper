@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { BottomNav, type TabType } from "@/components/layout/BottomNav";
 import { StatusView } from "@/components/views/StatusView";
@@ -23,7 +23,7 @@ type ExtendedTabType = TabType | 'help';
 /**
  * MainApp - Entry point for the Status Peeker application.
  * Enhanced with activated App Open Ad logics for the "Stable Build".
- * Optimized for instant transition from Ad to Main UI.
+ * Integrated with Smart Rating and AdMob logic for high quality markets.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -35,7 +35,7 @@ export default function MainApp() {
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // 1. Session Counting & Timers
+    // 1. Session Counting for Rating Logic
     const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
     localStorage.setItem('app_session_count', sessionCount.toString());
 
@@ -66,13 +66,9 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Parallel permission check to avoid delay later
       const permissionCheck = checkPermissionsAndProceed(true);
-      
-      // Step 1: Minimum Splash time
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Step 2: Decide if App Open Ad should show
       const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
       const cooldown = AD_CONFIG.SETTINGS.APP_OPEN_COOLDOWN_MS;
       const isAdDue = Date.now() - lastOpenAd > cooldown;
@@ -89,11 +85,15 @@ export default function MainApp() {
     initApp();
 
     const handleInterstitialRequest = () => triggerSmartActionLogic();
+    const handleRatingRequest = () => triggerRatingLogic();
+
     window.addEventListener('request-interstitial', handleInterstitialRequest);
+    window.addEventListener('request-rating', handleRatingRequest);
 
     return () => {
       clearInterval(proInterval);
       window.removeEventListener('request-interstitial', handleInterstitialRequest);
+      window.removeEventListener('request-rating', handleRatingRequest);
     };
   }, []);
 
@@ -101,7 +101,6 @@ export default function MainApp() {
     try {
       const status = await Filesystem.checkPermissions();
       const hasPerm = status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true';
-      
       if (hasPerm) {
         setLifecycle('main');
       } else if (!silent) {
@@ -115,8 +114,19 @@ export default function MainApp() {
   const handleAppOpenAdClose = () => {
     setShowAppOpenAd(false);
     localStorage.setItem('last_app_open_ad_time', Date.now().toString());
-    // Instant transition to next state
     checkPermissionsAndProceed();
+  };
+
+  const triggerRatingLogic = () => {
+    const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
+    const hasRated = localStorage.getItem('has_rated_app') === 'true';
+    const hasSeen = localStorage.getItem('has_seen_rate_prompt') === 'true';
+
+    // Criteria: 12+ sessions, never seen before, and not already rated
+    if (!hasRated && !hasSeen && sessions >= 12) {
+      setShowRateUs(true);
+      localStorage.setItem('has_seen_rate_prompt', 'true');
+    }
   };
 
   const triggerSmartActionLogic = () => {
@@ -127,12 +137,9 @@ export default function MainApp() {
     const adInterval = AD_CONFIG.SETTINGS.INTERSTITIAL_INTERVAL_MS;
     const isAdDue = (Date.now() - lastAdShown > adInterval);
 
-    const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
-    const hasPromptedRate = localStorage.getItem('has_seen_rate_prompt') === 'true';
-
-    if (!hasPromptedRate && sessions >= 12 && (!isAdDue || proActive)) {
-      setShowRateUs(true);
-      localStorage.setItem('has_seen_rate_prompt', 'true');
+    // If ad is NOT due or pro is active, try showing rating prompt instead
+    if (proActive || !isAdDue) {
+      triggerRatingLogic();
       return;
     }
 
