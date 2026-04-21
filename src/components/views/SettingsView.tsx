@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * SettingsView - System preferences and storage management.
- * Standardized with Sentence case and fixed ReferenceError.
+ * Standardized with Sentence case and fixed ReferenceError for isClearing.
  */
 export function SettingsView() {
   const [isClearing, setIsClearing] = useState(false);

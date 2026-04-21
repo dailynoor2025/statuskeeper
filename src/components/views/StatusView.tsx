@@ -155,8 +155,8 @@ export function StatusView() {
         <div className="flex items-center justify-between px-2 sticky top-0 bg-white/95 backdrop-blur-xl z-20 py-1.5 border-b border-gray-100 shadow-sm transition-all duration-300">
           <TabsList className="flex-1 grid grid-cols-3 h-8 rounded-xl bg-gray-100 p-0.5 border-none shadow-inner mr-2">
             <TabsTrigger value="all" className="rounded-lg text-[clamp(7px,1.8vw,9px)] font-black h-full data-[state=active]:bg-white data-[state=active]:shadow-sm">All</TabsTrigger>
-            <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3 h-3" /></TabsTrigger>
-            <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3 h-3" /></TabsTrigger>
+            <TabsTrigger value="images" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><Camera className="w-3.5 h-3.5" /></TabsTrigger>
+            <TabsTrigger value="videos" className="rounded-lg flex items-center justify-center h-full data-[state=active]:bg-white data-[state=active]:shadow-sm"><PlayCircle className="w-3.5 h-3.5" /></TabsTrigger>
           </TabsList>
           <div className="flex items-center gap-1">
             {isSelectionMode ? (

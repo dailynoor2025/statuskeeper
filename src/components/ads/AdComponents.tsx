@@ -11,8 +11,8 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
  * AdOverlay - Immersive full-screen ad presentation.
- * Optimized with true full-screen video resize logics.
- * Buttons are transparent (no background) to maximize immersion.
+ * Optimized with true full-screen video resize logics using object-cover.
+ * Icons are transparent (no background) to maximize immersion.
  */
 function AdOverlay({ 
   isOpen, 
@@ -45,28 +45,29 @@ function AdOverlay({
         {/* Immersive Video/Media Background - Fills screen perfectly */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src={`https://picsum.photos/seed/${isRewarded ? 'video-reward' : 'video-inter'}/1080/1920`} 
+            src={`https://picsum.photos/seed/${isRewarded ? 'reward-video' : 'inter-video'}/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover"
             priority
             sizes="100vw"
+            data-ai-hint="video ad"
           />
           {/* Dark overlays for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
         </div>
 
-        {/* Top Header - No background, minimal */}
+        {/* Top Header - No background, minimal icons */}
         <div className="relative z-20 pt-safe w-full">
           <div className="p-4 flex justify-between items-center w-full">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/10 backdrop-blur-sm border border-white/5">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10">
               {isRewarded ? (
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
               )}
               <span className="text-[10px] font-black text-white tracking-tight uppercase">
-                {isRewarded ? 'Reward video' : 'Sponsored'}
+                {isRewarded ? 'Premium reward' : 'Sponsored'}
               </span>
             </div>
             
@@ -76,31 +77,31 @@ function AdOverlay({
               className={cn(
                 "h-8 px-4 rounded-full flex items-center gap-2 transition-all active:scale-90 border-none", 
                 disabledClose 
-                  ? "bg-black/20 text-white/40" 
-                  : "bg-white/10 hover:bg-white/20 text-white"
+                  ? "text-white/40" 
+                  : "text-white hover:text-white/80"
               )}
             >
               {disabledClose ? (
                 <span className="text-[10px] font-black tracking-tight tabular-nums">{timerLabel}</span>
               ) : (
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Content Area - Minimalist layout with floating elements */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-lg mx-auto">
+        {/* Content Area - Minimalist layout floating over media */}
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-lg mx-auto">
           <div className="space-y-6">
             <div className="space-y-2">
               {isRewarded && (
-                <div className="inline-flex items-center gap-1.5 text-amber-400 px-0 py-1 text-[9px] font-black uppercase tracking-[0.2em] drop-shadow-md">
+                <div className="inline-flex items-center gap-1.5 text-amber-400 py-1 text-[9px] font-black uppercase tracking-[0.2em] drop-shadow-md">
                   <Sparkles className="w-3 h-3" />
-                  <span>Premium reward</span>
+                  <span>Unlock pro features</span>
                 </div>
               )}
               <h2 className={cn(
-                "text-2xl sm:text-3xl font-black tracking-tighter leading-tight drop-shadow-2xl",
+                "text-3xl sm:text-4xl font-black tracking-tighter leading-none drop-shadow-2xl",
                 isRewarded ? "text-amber-400" : "text-white"
               )}>
                 {title}
@@ -122,7 +123,7 @@ function AdOverlay({
               
               <div className="flex flex-col items-center gap-1.5 opacity-40">
                 <span className="text-[8px] font-black text-white uppercase tracking-[0.3em]">
-                  {isRewarded ? "Watch to claim 24h pro" : "Status keeper stable build"}
+                  {isRewarded ? "Watch until end to claim" : "Status keeper stable build"}
                 </span>
               </div>
             </div>
@@ -154,8 +155,8 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
-      title="Upgrade to Pro"
-      subtitle="Unlock premium features and remove all ads instantly. Support our stable build development."
+      title="Go premium today"
+      subtitle="Remove all ads and get instant status saves. Support our stable build development."
       buttonText="Learn more"
       variant="interstitial"
     />
@@ -170,6 +171,7 @@ export function useRewardedAd(onReward: () => void) {
   const showRewardedAd = () => {
     if (isProcessing || isWatching) return;
     setIsProcessing(true);
+    // Simulate loading/buffering
     setTimeout(() => {
       setIsProcessing(false);
       setIsWatching(true);
@@ -212,8 +214,8 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Elite Access"
-      subtitle="Complete this video to unlock 24 hours of premium ad-free features instantly."
+      title="Elite access"
+      subtitle="Watch this short video to unlock 24 hours of premium ad-free features instantly."
       buttonText="Claim reward"
       variant="rewarded"
     />
@@ -258,7 +260,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Ad Label Overlay - Located on media area as requested */}
+        {/* Ad Label Overlay - Integrated on media as requested */}
         <div className="absolute bottom-1.5 left-1.5 z-10">
           <div className="bg-black/40 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-white/10 flex items-center">
             <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/90 tracking-tight uppercase">
@@ -277,7 +279,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </div>
 
-      {/* Card Footer with Tiny CTA */}
+      {/* Card Footer with Tiny CTA with Resize Logic */}
       <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
         <button className="bg-primary text-white w-full h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tight active:scale-95 transition-all flex items-center justify-center leading-none">
           {mediaType === 'reels' ? 'Watch' : 'Install'}

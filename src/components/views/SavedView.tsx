@@ -10,6 +10,10 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useAds } from "@/hooks/use-ads";
 
+/**
+ * SavedView - Gallery of captured statuses.
+ * UI cleaned up with Sentence case and standardized icon sizing.
+ */
 export function SavedView() {
   const [items, setItems] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("all");

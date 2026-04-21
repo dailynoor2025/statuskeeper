@@ -2700,6 +2700,10 @@ video {
   color: hsl(var(--sidebar-accent-foreground));
 }
 
+.hover\:text-white\/80:hover {
+  color: rgb(255 255 255 / 0.8);
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -3551,6 +3555,11 @@ video {
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 
   .data-\[state\=open\]\:sm\:slide-in-from-bottom-full[data-state="open"] {
