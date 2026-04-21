@@ -11,7 +11,8 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 /**
  * AdOverlay - Immersive full-screen ad presentation.
- * Uses fixed inset-0 and top-tier z-index to cover everything including navigation.
+ * Optimized with true full-screen video resize logics.
+ * Buttons are transparent (no background) to maximize immersion.
  */
 function AdOverlay({ 
   isOpen, 
@@ -36,78 +37,75 @@ function AdOverlay({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !disabledClose && onClose()}>
-      <DialogContent className="fixed inset-0 z-[1000] w-screen h-screen max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col items-center justify-center outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
+      <DialogContent className="fixed inset-0 z-[1000] w-screen h-[100dvh] max-w-none m-0 p-0 border-none bg-black rounded-none shadow-none flex flex-col outline-none overflow-hidden translate-x-0 translate-y-0 left-0 top-0">
         <DialogTitle>
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Immersive Background */}
+        {/* Immersive Video/Media Background - Fills screen perfectly */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src={`https://picsum.photos/seed/${isRewarded ? 'reward' : 'inter'}-v10/1080/1920`} 
-            alt="Ad background" 
+            src={`https://picsum.photos/seed/${isRewarded ? 'video-reward' : 'video-inter'}/1080/1920`} 
+            alt="Ad media" 
             fill 
-            className="object-cover opacity-70"
+            className="object-cover"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
+          {/* Dark overlays for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
         </div>
 
-        {/* Global Action Bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-safe">
+        {/* Top Header - No background, minimal */}
+        <div className="relative z-20 pt-safe w-full">
           <div className="p-4 flex justify-between items-center w-full">
-            <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/10 backdrop-blur-sm border border-white/5">
               {isRewarded ? (
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
               )}
-              <span className="text-[10px] font-black text-white/90 tracking-tight">
+              <span className="text-[10px] font-black text-white tracking-tight uppercase">
                 {isRewarded ? 'Reward video' : 'Sponsored'}
               </span>
             </div>
+            
             <button 
               disabled={disabledClose} 
               onClick={onClose} 
               className={cn(
-                "h-9 px-5 rounded-full flex items-center gap-2 transition-all active:scale-95 border-none", 
+                "h-8 px-4 rounded-full flex items-center gap-2 transition-all active:scale-90 border-none", 
                 disabledClose 
-                  ? "bg-white/10 text-white/30" 
-                  : isRewarded 
-                    ? "bg-amber-500 text-black shadow-lg font-black" 
-                    : "bg-primary text-white shadow-lg font-black"
+                  ? "bg-black/20 text-white/40" 
+                  : "bg-white/10 hover:bg-white/20 text-white"
               )}
             >
               {disabledClose ? (
-                <span className="text-[10px] font-black tracking-tight">Wait {timerLabel}</span>
+                <span className="text-[10px] font-black tracking-tight tabular-nums">{timerLabel}</span>
               ) : (
-                <>
-                  <span className="text-[10px] font-black tracking-tight">Skip ad</span>
-                  <X className="w-4 h-4" />
-                </>
+                <X className="w-4 h-4" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Content Area */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-8 pb-16 w-full max-w-sm">
+        {/* Content Area - Minimalist layout with floating elements */}
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-lg mx-auto">
           <div className="space-y-6">
             <div className="space-y-2">
               {isRewarded && (
-                <div className="inline-flex items-center gap-1.5 bg-amber-500 text-black px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider mb-2">
+                <div className="inline-flex items-center gap-1.5 text-amber-400 px-0 py-1 text-[9px] font-black uppercase tracking-[0.2em] drop-shadow-md">
                   <Sparkles className="w-3 h-3" />
                   <span>Premium reward</span>
                 </div>
               )}
               <h2 className={cn(
-                "text-3xl font-black tracking-tighter leading-none drop-shadow-2xl",
+                "text-2xl sm:text-3xl font-black tracking-tighter leading-tight drop-shadow-2xl",
                 isRewarded ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
-              <p className="text-sm text-white/90 font-medium tracking-tight leading-relaxed line-clamp-3 drop-shadow-xl">
+              <p className="text-[clamp(11px,2.5vw,13px)] text-white/80 font-medium tracking-tight leading-relaxed line-clamp-2 drop-shadow-xl">
                 {subtitle}
               </p>
             </div>
@@ -121,9 +119,12 @@ function AdOverlay({
               )}>
                 {buttonText}
               </Button>
-              <p className="text-[9px] text-center text-white/40 font-bold tracking-[0.25em] uppercase">
-                {isRewarded ? "Watch until end to claim" : "Status keeper stable build"}
-              </p>
+              
+              <div className="flex flex-col items-center gap-1.5 opacity-40">
+                <span className="text-[8px] font-black text-white uppercase tracking-[0.3em]">
+                  {isRewarded ? "Watch to claim 24h pro" : "Status keeper stable build"}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -153,8 +154,8 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
-      title="Status keeper pro"
-      subtitle="Enjoy an enhanced experience by going ad-free today. Support the stable build development."
+      title="Upgrade to Pro"
+      subtitle="Unlock premium features and remove all ads instantly. Support our stable build development."
       buttonText="Learn more"
       variant="interstitial"
     />
@@ -211,7 +212,7 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Unlock elite access"
+      title="Elite Access"
       subtitle="Complete this video to unlock 24 hours of premium ad-free features instantly."
       buttonText="Claim reward"
       variant="rewarded"
@@ -257,29 +258,28 @@ export function NativeVideoAd({ className }: { className?: string }) {
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        {/* Ad Label */}
+        {/* Ad Label Overlay - Located on media area as requested */}
+        <div className="absolute bottom-1.5 left-1.5 z-10">
+          <div className="bg-black/40 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-white/10 flex items-center">
+            <span className="text-[clamp(5px,1.5vw,7px)] font-black text-white/90 tracking-tight uppercase">
+              Promoted content
+            </span>
+          </div>
+        </div>
+
+        {/* Small Ad Badge at Top */}
         <div className="absolute top-1.5 left-1.5 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1.5 py-[1px] rounded-md shadow-sm border border-gray-100 flex items-center">
             <span className="text-[5px] font-black text-gray-900 tracking-tight">Ad</span>
           </div>
         </div>
 
-        {/* Media Overlay Info */}
-        <div className="absolute bottom-1.5 left-1.5 right-1.5 z-10 flex flex-col gap-0.5 opacity-90 pointer-events-none">
-          <div className="flex items-center gap-1">
-            <ShieldCheck className="w-2 h-2 text-white" />
-            <span className="text-[6px] font-black text-white truncate block tracking-wider">
-              {mediaType === 'reels' ? 'Trending now' : 'Promoted content'}
-            </span>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </div>
 
-      {/* Simplified Footer Button */}
+      {/* Card Footer with Tiny CTA */}
       <div className="flex items-center justify-center px-1.5 py-1 bg-primary/5 border-t border-gray-50 min-h-[28px]">
-        <button className="bg-primary text-white w-full h-4 rounded-md text-[7px] font-black uppercase tracking-tighter active:scale-95 transition-all flex items-center justify-center leading-none">
+        <button className="bg-primary text-white w-full h-4 rounded-md text-[clamp(6px,1.5vw,8px)] font-black uppercase tracking-tight active:scale-95 transition-all flex items-center justify-center leading-none">
           {mediaType === 'reels' ? 'Watch' : 'Install'}
         </button>
       </div>

@@ -14,7 +14,7 @@ import { useAds } from "@/hooks/use-ads";
 
 /**
  * StatusView - Manages discovery and display of current WhatsApp statuses.
- * UI cleaned up with Sentence case and reduced icon sizes.
+ * UI cleaned up with Sentence case and standardized icon sizing.
  */
 export function StatusView() {
   const [isLoading, setIsLoading] = useState(true);
@@ -129,7 +129,7 @@ export function StatusView() {
       }
     });
     return gridElements;
-  }, [isSelectionMode, selectedIds, isPro, toggleSelect]);
+  }, [isSelectionMode, selectedIds, isPro, toggleSelect, statusData]);
 
   if (isLoading) {
     return (
