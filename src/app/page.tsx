@@ -21,8 +21,9 @@ type AppLifecycle = 'splash' | 'ad' | 'permission' | 'main';
 type ExtendedTabType = TabType | 'help';
 
 /**
- * MainApp - Entry point for the Status Keeper application.
+ * MainApp - Entry point for the Status Peeker application.
  * Enhanced with activated App Open Ad logics for the "Stable Build".
+ * Optimized for instant transition from Ad to Main UI.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
@@ -34,7 +35,7 @@ export default function MainApp() {
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // 1. Session Counting & Initial Timers
+    // 1. Session Counting & Timers
     const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
     localStorage.setItem('app_session_count', sessionCount.toString());
 
@@ -65,7 +66,10 @@ export default function MainApp() {
     const proInterval = setInterval(checkProStatus, 5000);
 
     const initApp = async () => {
-      // Step 1: Wait on Splash
+      // Parallel permission check to avoid delay later
+      const permissionCheck = checkPermissionsAndProceed(true);
+      
+      // Step 1: Minimum Splash time
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       // Step 2: Decide if App Open Ad should show
@@ -79,7 +83,7 @@ export default function MainApp() {
         setLifecycle('ad');
         setShowAppOpenAd(true);
       } else {
-        await checkPermissionsAndProceed();
+        await permissionCheck;
       }
     };
     initApp();
@@ -93,22 +97,25 @@ export default function MainApp() {
     };
   }, []);
 
-  const checkPermissionsAndProceed = async () => {
+  const checkPermissionsAndProceed = async (silent = false) => {
     try {
       const status = await Filesystem.checkPermissions();
-      if (status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true') {
+      const hasPerm = status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true';
+      
+      if (hasPerm) {
         setLifecycle('main');
-      } else {
+      } else if (!silent) {
         setLifecycle('permission');
       }
     } catch (e) {
-      setLifecycle('permission');
+      if (!silent) setLifecycle('permission');
     }
   };
 
   const handleAppOpenAdClose = () => {
     setShowAppOpenAd(false);
     localStorage.setItem('last_app_open_ad_time', Date.now().toString());
+    // Instant transition to next state
     checkPermissionsAndProceed();
   };
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -43,25 +42,25 @@ function AdOverlay({
           <VisuallyHidden>{title}</VisuallyHidden>
         </DialogTitle>
         
-        {/* Full-Screen Immersive Media with Resize Logic */}
+        {/* Full-Screen Immersive Media */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-prod-v1/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-stable-v2/1080/1920`} 
             alt="Ad media" 
             fill 
-            className="object-cover animate-in fade-in duration-1000"
+            className="object-cover animate-in fade-in duration-700"
             priority
             sizes="100vw"
             data-ai-hint="full screen video"
           />
           {/* Subtle gradient for overlay text clarity */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
         </div>
 
-        {/* Minimalist Top Bar - Icons have NO background for high-end feel */}
+        {/* Minimalist Top Bar - No backgrounds on buttons */}
         <div className="relative z-20 pt-safe w-full">
           <div className="p-4 flex justify-between items-center w-full">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 drop-shadow-md">
               {isRewarded ? (
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : isAppOpen ? (
@@ -69,8 +68,8 @@ function AdOverlay({
               ) : (
                 <ShieldCheck className="w-3.5 h-3.5 text-primary/80" />
               )}
-              <span className="text-[8px] font-black text-white/80 tracking-[0.2em] uppercase">
-                {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome gift' : 'Sponsored'}
+              <span className="text-[7px] font-black text-white/90 tracking-[0.2em] uppercase">
+                {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome' : 'Sponsored'}
               </span>
             </div>
             
@@ -78,8 +77,8 @@ function AdOverlay({
               disabled={disabledClose} 
               onClick={onClose} 
               className={cn(
-                "w-8 h-8 flex items-center justify-center transition-all active:scale-75 border-none outline-none bg-transparent", 
-                disabledClose ? "opacity-30" : "text-white/70 hover:text-white"
+                "w-8 h-8 flex items-center justify-center transition-all active:scale-75 border-none outline-none bg-transparent drop-shadow-lg", 
+                disabledClose ? "opacity-50" : "text-white/80 hover:text-white"
               )}
             >
               {disabledClose ? (
@@ -92,29 +91,29 @@ function AdOverlay({
         </div>
 
         {/* Minimalist Bottom Actions */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-[320px] mx-auto">
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-[300px] mx-auto">
           <div className="space-y-4">
             <div className="space-y-0.5">
               {(isRewarded || isAppOpen) && (
-                <div className="inline-flex items-center gap-1 text-amber-400 text-[7px] font-black uppercase tracking-[0.3em] mb-1">
+                <div className="inline-flex items-center gap-1 text-amber-400 text-[6px] font-black uppercase tracking-[0.3em] mb-1 drop-shadow-md">
                   <Sparkles className="w-2 h-2" />
-                  <span>Elite access active</span>
+                  <span>Elite access bonus</span>
                 </div>
               )}
               <h2 className={cn(
-                "text-lg font-black tracking-tight leading-none drop-shadow-md",
+                "text-base font-black tracking-tight leading-none drop-shadow-lg",
                 isRewarded || isAppOpen ? "text-amber-400" : "text-white"
               )}>
                 {title}
               </h2>
-              <p className="text-[8px] text-white/60 font-bold tracking-tight leading-tight line-clamp-2 mt-1">
+              <p className="text-[8px] text-white/70 font-bold tracking-tight leading-tight line-clamp-2 mt-1 drop-shadow-md">
                 {subtitle}
               </p>
             </div>
 
             <div className="space-y-3">
               <Button className={cn(
-                "w-full h-10 rounded-xl font-black tracking-tight text-[9px] uppercase active:scale-95 transition-all border-none shadow-2xl",
+                "w-full h-11 rounded-2xl font-black tracking-tight text-[10px] uppercase active:scale-95 transition-all border-none shadow-2xl",
                 isRewarded || isAppOpen
                   ? "bg-amber-500 text-black hover:bg-amber-400" 
                   : "bg-primary text-white hover:bg-primary/90"
@@ -122,9 +121,9 @@ function AdOverlay({
                 {buttonText}
               </Button>
               
-              <div className="flex flex-col items-center opacity-20">
-                <span className="text-[6px] font-black text-white uppercase tracking-[0.5em]">
-                  Status keeper stable build
+              <div className="flex flex-col items-center opacity-30">
+                <span className="text-[5px] font-black text-white uppercase tracking-[0.5em]">
+                  Secure stable architecture
                 </span>
               </div>
             </div>
@@ -154,9 +153,9 @@ export function InterstitialAd({ isOpen, onClose }: { isOpen: boolean; onClose: 
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
-      title="Go ad-free"
-      subtitle="Unlock instant downloads and remove all interruptions for a smoother experience."
-      buttonText="Upgrade now"
+      title="Unlock instant access"
+      subtitle="Remove all interruptions and enjoy seamless status saving forever."
+      buttonText="Go premium"
       variant="interstitial"
     />
   );
@@ -181,9 +180,9 @@ export function AppOpenAd({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
       onClose={onClose}
       disabledClose={timer > 0}
       timerLabel={`${timer}s`}
-      title="Status keeper"
-      subtitle="Locating your viewed statuses. Start saving your favorite media instantly."
-      buttonText="Continue"
+      title="Status peeker"
+      subtitle="Your favorites are ready. Start browsing and saving media instantly."
+      buttonText="Start exploring"
       variant="app-open"
     />
   );
@@ -197,11 +196,12 @@ export function useRewardedAd(onReward: () => void) {
   const showRewardedAd = () => {
     if (isProcessing || isWatching) return;
     setIsProcessing(true);
+    // Fast processing simulation for Tier 1 users
     setTimeout(() => {
       setIsProcessing(false);
       setIsWatching(true);
       setCountdown(AD_CONFIG.SETTINGS.REWARDED_COUNTDOWN_SEC);
-    }, 1800);
+    }, 1200);
   };
 
   useEffect(() => {
@@ -239,9 +239,9 @@ export function RewardedAdOverlay({
       onClose={onClose}
       disabledClose={countdown > 0}
       timerLabel={`${countdown}s`}
-      title="Elite access reward"
-      subtitle="Watch this short video to unlock 24 hours of premium ad-free features instantly."
-      buttonText="Claim 24h Pro"
+      title="Premium bonus unlocked"
+      subtitle="Complete this video to activate your 24-hour elite ad-free pass."
+      buttonText="Claim 24h pro"
       variant="rewarded"
     />
   );
@@ -254,7 +254,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        await new Promise(resolve => setTimeout(resolve, 1200));
+        await new Promise(resolve => setTimeout(resolve, 800));
         setAdStatus('ready');
       } catch (e) {
         setAdStatus('error');
@@ -272,28 +272,28 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-gray-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-ad-v6/400/622`} 
+          src={`https://picsum.photos/seed/native-pro-v1/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80"
           sizes="(max-width: 480px) 33vw, 25vw"
         />
         
-        <div className="absolute top-1.5 left-1.5 z-10">
+        <div className="absolute top-1 left-1 z-10">
           <div className="bg-white/90 backdrop-blur-md px-1 py-[0.5px] rounded-[3px] shadow-sm border border-gray-100">
             <span className="text-[5px] font-black text-gray-900 uppercase">Ad</span>
           </div>
         </div>
 
-        <div className="absolute bottom-1.5 left-1.5 z-10">
-          <div className="bg-black/40 backdrop-blur-md px-1.5 py-[1px] rounded-[4px] shadow-sm border border-white/10">
-            <span className="text-[6px] font-black text-white/90 tracking-tight uppercase">Promoted</span>
+        <div className="absolute bottom-1 left-1 z-10">
+          <div className="bg-black/30 backdrop-blur-sm px-1.5 py-[1px] rounded-[4px] border border-white/10">
+            <span className="text-[6px] font-black text-white/80 tracking-tight uppercase">Featured</span>
           </div>
         </div>
       </div>
 
       <div className="flex items-center justify-center px-1 py-1 bg-primary/5 border-t border-gray-50 min-h-[24px]">
-        <button className="bg-primary text-white w-full h-3.5 rounded-md text-[6px] font-black uppercase tracking-tight active:scale-95 transition-all">
+        <button className="bg-primary text-white w-full h-4 rounded-lg text-[6px] font-black uppercase tracking-tight active:scale-95 transition-all">
           Install
         </button>
       </div>
