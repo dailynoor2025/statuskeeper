@@ -1,6 +1,7 @@
 /**
  * Centralized AdMob configuration with official Production IDs.
  * Placements: App open, Native video, Interstitial, and Rewarded.
+ * Verified for Stable Build Release.
  */
 
 export const AD_CONFIG = {
@@ -10,8 +11,8 @@ export const AD_CONFIG = {
   // Production Ad Unit IDs provided by the user
   UNITS: {
     APP_OPEN: "ca-app-pub-9704872868499742/7637864780",
-    NATIVE: "ca-app-pub-9704872868499742/6511692783", 
     INTERSTITIAL: "ca-app-pub-9704872868499742/1450937798", 
+    NATIVE: "ca-app-pub-9704872868499742/6511692783", 
     REWARDED: "ca-app-pub-9704872868499742/6915229492", 
   },
 
