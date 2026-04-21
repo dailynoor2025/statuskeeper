@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, ShieldCheck, Trophy, Sparkles, Loader2 } from 'lucide-react';
+import { X, ShieldCheck, Trophy, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -45,7 +45,7 @@ function AdOverlay({
         {/* Full-Screen Immersive Media with Object Cover */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-v16/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-v18/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-700"
@@ -53,7 +53,7 @@ function AdOverlay({
             sizes="100vw"
             data-ai-hint="full screen media"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
         </div>
 
         {/* Minimalist Top Bar - Icons float directly on media */}
@@ -61,14 +61,14 @@ function AdOverlay({
           <div className="p-4 flex justify-between items-center w-full">
             <div className="flex items-center gap-1.5 drop-shadow-md">
               {isRewarded ? (
-                <Trophy className="w-3 h-3 text-amber-400" />
+                <Trophy className="w-3.5 h-3.5 text-amber-400" />
               ) : isAppOpen ? (
-                <Sparkles className="w-3 h-3 text-primary" />
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
               ) : (
-                <ShieldCheck className="w-3 h-3 text-primary/90" />
+                <ShieldCheck className="w-3.5 h-3.5 text-primary/90" />
               )}
               <span className="text-[7px] font-black text-white/90 tracking-[0.2em] uppercase">
-                {isRewarded ? 'Premium reward' : isAppOpen ? 'Welcome' : 'Sponsored'}
+                {isRewarded ? 'Elite reward' : isAppOpen ? 'Welcome' : 'Sponsored'}
               </span>
             </div>
             
@@ -90,7 +90,7 @@ function AdOverlay({
         </div>
 
         {/* Minimalist Immersive Bottom Actions */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-14 w-full max-w-[280px] mx-auto text-center">
+        <div className="relative z-10 flex-1 flex flex-col justify-end p-6 pb-12 w-full max-w-[280px] mx-auto text-center">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className={cn(
@@ -99,7 +99,7 @@ function AdOverlay({
               )}>
                 {title}
               </h2>
-              <p className="text-[8px] text-white/80 font-bold tracking-tight leading-relaxed line-clamp-2 drop-shadow-lg px-2">
+              <p className="text-[9px] text-white/80 font-bold tracking-tight leading-relaxed line-clamp-2 drop-shadow-lg px-2">
                 {subtitle}
               </p>
             </div>
@@ -258,7 +258,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v16/400/622`} 
+          src={`https://picsum.photos/seed/native-v20/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"

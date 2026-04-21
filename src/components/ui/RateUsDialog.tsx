@@ -8,46 +8,61 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/use-translation';
 import { toast } from '@/hooks/use-toast';
+import { RateApp } from 'capacitor-rate-app';
 
 interface RateUsDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+/**
+ * RateUsDialog - Strategic Prompting with Native In-App Review.
+ * Integrated with capacitor-rate-app for authentic Play Store rating.
+ */
 export function RateUsDialog({ isOpen, onClose }: RateUsDialogProps) {
   const { t } = useTranslation();
   const [rating, setStarRating] = useState(0);
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (rating === 0) {
       toast({ title: "Please select stars", variant: "destructive" });
       return;
     }
     
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    
+    try {
+      // Logic: If 5 stars, trigger the native Play Store review flow
+      if (rating === 5) {
+        await RateApp.requestReview().catch(() => {
+          // Fallback if native fails
+          console.log("Native review not available");
+        });
+      }
+      
       localStorage.setItem('has_rated_app', 'true');
       toast({ title: t.rating.success, variant: "success" });
       onClose();
-      // Implementation Note: Bridge to In-App Review API for Android here
-      // if (window.Capacitor) { ... }
-    }, 1200);
+    } catch (err) {
+      onClose();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-[calc(100%-2rem)] w-[320px] rounded-[2.5rem] p-6 border-none shadow-2xl animate-in zoom-in-95 duration-300 outline-none">
-        <DialogTitle className="text-xl font-black tracking-tight text-gray-900 text-center">
-          {t.rating.title}
+        <DialogTitle className="text-lg font-black tracking-tight text-gray-900 text-center">
+          Love Status Keeper?
         </DialogTitle>
-        <DialogDescription className="text-center text-[10px] font-bold text-gray-400 mt-2 leading-relaxed px-2 uppercase tracking-wide">
-          {t.rating.subtitle}
+        <DialogDescription className="text-center text-[9px] font-bold text-gray-400 mt-2 leading-relaxed px-2 uppercase tracking-wide">
+          Your 5-star rating keeps us fast and free for everyone. Share your favorite part!
         </DialogDescription>
 
-        <div className="flex justify-center gap-2.5 my-8">
+        <div className="flex justify-center gap-2 my-6">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -56,7 +71,7 @@ export function RateUsDialog({ isOpen, onClose }: RateUsDialogProps) {
             >
               <Star 
                 className={cn(
-                  "w-9 h-9 transition-colors duration-300",
+                  "w-8 h-8 transition-colors duration-300",
                   star <= rating ? "fill-amber-400 text-amber-400 drop-shadow-md" : "text-gray-100"
                 )}
               />
@@ -65,24 +80,24 @@ export function RateUsDialog({ isOpen, onClose }: RateUsDialogProps) {
         </div>
 
         <Textarea 
-          placeholder={t.rating.placeholder}
+          placeholder="Tell us what you love most..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="min-h-[90px] rounded-2xl bg-gray-50 border-gray-100 text-[10px] font-medium focus-visible:ring-primary/20 p-4 no-scrollbar"
+          className="min-h-[80px] rounded-2xl bg-gray-50 border-gray-100 text-[10px] font-medium focus-visible:ring-primary/20 p-4 no-scrollbar border-none"
         />
 
-        <div className="grid grid-cols-2 gap-3 mt-8">
+        <div className="grid grid-cols-2 gap-3 mt-6">
           <Button 
             variant="ghost" 
             onClick={onClose}
-            className="rounded-xl font-black text-[9px] uppercase tracking-widest text-gray-400 hover:bg-gray-50"
+            className="rounded-xl font-black text-[9px] uppercase tracking-widest text-gray-400 hover:bg-gray-50 border-none"
           >
             {t.common.later}
           </Button>
           <Button 
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="rounded-xl font-black text-[9px] uppercase tracking-widest bg-primary shadow-xl shadow-primary/20 hover:scale-[0.98] active:scale-95 transition-all"
+            className="rounded-xl font-black text-[9px] uppercase tracking-widest bg-primary shadow-xl shadow-primary/20 hover:scale-[0.98] active:scale-95 transition-all border-none"
           >
             {isSubmitting ? "..." : t.common.submit}
           </Button>
