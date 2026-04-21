@@ -5,7 +5,7 @@
  */
 
 export const AD_CONFIG = {
-  // Official AdMob App ID
+  // Official AdMob App ID - Hardcoded for production stability
   APP_ID: "ca-app-pub-9704872868499742~4538679298",
 
   // Production Ad Unit IDs provided by the user

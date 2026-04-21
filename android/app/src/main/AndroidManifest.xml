@@ -35,7 +35,7 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
 
-        <!-- Official AdMob Application ID - PRODUCTION -->
+        <!-- Official AdMob Application ID - Hardcoded for Stability -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9704872868499742~4538679298"/>
