@@ -29,11 +29,11 @@ export const translations = {
     },
     rating: {
       title: "Rate our app",
-      subtitle: "Your feedback helps us provide a better experience.",
+      subtitle: "Love Status Keeper? Your 5-star review keeps us fast and free for everyone. Share your favorite part!",
       enjoying: "Enjoying the app?",
       give_5_stars: "Give us 5 stars!",
-      placeholder: "Write your thoughts here...",
-      success: "Thank you for your rating!"
+      placeholder: "Tell us what you love most about the app...",
+      success: "Thank you for your amazing feedback!"
     }
   },
   es: {
@@ -66,7 +66,7 @@ export const translations = {
     },
     rating: {
       title: "Califícanos",
-      subtitle: "Tus comentarios nos ayudan a mejorar.",
+      subtitle: "¿Te gusta Status Keeper? ¡Tu reseña de 5 estrellas nos ayuda a seguir creciendo!",
       enjoying: "¿Te gusta la app?",
       give_5_stars: "¡Danos 5 estrellas!",
       placeholder: "Escribe tus comentarios aquí...",
@@ -103,7 +103,7 @@ export const translations = {
     },
     rating: {
       title: "Notez-nous",
-      subtitle: "Vos commentaires nous aident à nous améliorer.",
+      subtitle: "Vous aimez Status Keeper ? Votre avis 5 étoiles nous aide à rester gratuits !",
       enjoying: "Vous aimez l'application ?",
       give_5_stars: "Donnez-nous 5 étoiles !",
       placeholder: "Écrivez vos pensées ici...",
@@ -140,7 +140,7 @@ export const translations = {
     },
     rating: {
       title: "Bewerten Sie uns",
-      subtitle: "Ihr Feedback hilft uns, besser zu werden.",
+      subtitle: "Gefällt dir Status Keeper? Deine 5-Sterne-Bewertung hilft uns sehr!",
       enjoying: "Gefällt Ihnen die App?",
       give_5_stars: "Geben Sie uns 5 Sterne!",
       placeholder: "Schreiben Sie hier Ihre Gedanken...",

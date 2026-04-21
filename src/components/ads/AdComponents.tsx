@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { X, ShieldCheck, Trophy, Sparkles, RefreshCcw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, ShieldCheck, Trophy, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -46,7 +46,7 @@ function AdOverlay({
         {/* Full-Screen Immersive Media with Resize Logic */}
         <div className="absolute inset-0 z-0 bg-black">
           <Image 
-            src={`https://picsum.photos/seed/${variant}-stable-v12/1080/1920`} 
+            src={`https://picsum.photos/seed/${variant}-stable-v15/1080/1920`} 
             alt="Ad media" 
             fill 
             className="object-cover animate-in fade-in duration-1000"
@@ -258,7 +258,6 @@ export function NativeVideoAd({ className }: { className?: string }) {
     const loadAd = async () => {
       try {
         setAdStatus('loading');
-        // Randomly select a description on mount
         const desc = AD_DESCRIPTIONS[Math.floor(Math.random() * AD_DESCRIPTIONS.length)];
         setAdDescription(desc);
         
@@ -280,7 +279,7 @@ export function NativeVideoAd({ className }: { className?: string }) {
     )}>
       <div className="relative aspect-[9/14] w-full bg-slate-900 overflow-hidden group cursor-pointer">
         <Image 
-          src={`https://picsum.photos/seed/native-v12/400/622`} 
+          src={`https://picsum.photos/seed/native-v15/400/622`} 
           alt="Ad" 
           fill
           className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
