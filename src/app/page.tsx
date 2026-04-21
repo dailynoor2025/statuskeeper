@@ -23,27 +23,22 @@ type ExtendedTabType = TabType | 'help';
 
 /**
  * MainApp - Stable Build Foundation.
- * Manages Debug vs Release logics for AdMob and In-App Review.
+ * Distinguishes between Web (Debug) and Native (Release) lifecycles.
  */
 export default function MainApp() {
   const [lifecycle, setLifecycle] = useState<AppLifecycle>('splash');
   const [activeTab, setActiveTab] = useState<ExtendedTabType>('status');
   const [isPro, setIsPro] = useState(false);
-  const [isOnline, setIsOnline] = useState(true);
   const [showInterstitial, setShowInterstitial] = useState(false);
   const [showAppOpenAd, setShowAppOpenAd] = useState(false);
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // 1. Session Logic for Release builds
+    // 1. Session tracking for strategic rating
     const sessionCount = parseInt(localStorage.getItem('app_session_count') || '0') + 1;
     localStorage.setItem('app_session_count', sessionCount.toString());
 
-    if (!localStorage.getItem('last_interstitial_time')) {
-      localStorage.setItem('last_interstitial_time', Date.now().toString());
-    }
-
-    // 2. Hide Native Splash Screen instantly
+    // 2. Clear native splash screen instantly
     const hideNativeSplash = async () => {
       if (Capacitor.isNativePlatform()) {
         try { await NativeSplashScreen.hide(); } catch (e) {}
@@ -51,20 +46,7 @@ export default function MainApp() {
     };
     hideNativeSplash();
     
-    // 3. Network Connection Check
-    const checkInitialNetwork = async () => {
-      if (Capacitor.isNativePlatform()) {
-        try {
-          const status = await Network.getStatus();
-          setIsOnline(status.connected);
-        } catch (e) {
-          setIsOnline(true);
-        }
-      }
-    };
-    checkInitialNetwork();
-
-    // 4. Pro Status Subscription Logic
+    // 3. Subscription status check
     const checkProStatus = () => {
       const expiry = localStorage.getItem('ad_free_expiry');
       setIsPro(expiry ? parseInt(expiry) > Date.now() : false);
@@ -72,26 +54,29 @@ export default function MainApp() {
     checkProStatus();
     const proInterval = setInterval(checkProStatus, 5000);
 
-    // 5. Initial Launch Sequence (Debug vs Release)
+    // 4. Launch sequence: Splash -> [Ad] -> [Permission] -> Main
     const initApp = async () => {
-      const permissionCheck = checkPermissionsAndProceed(true);
-      
-      // Release Logic: Wait for assets to settle
+      // Release Logic: Asset stabilization time
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
-      const cooldown = AD_CONFIG.SETTINGS.APP_OPEN_COOLDOWN_MS;
-      const isAdDue = Date.now() - lastOpenAd > cooldown;
+      const isNative = Capacitor.isNativePlatform();
       const expiry = localStorage.getItem('ad_free_expiry');
       const proActive = expiry ? parseInt(expiry) > Date.now() : false;
 
-      // Show App Open Ad only on Native + Not Pro + Not Cooldown
-      if (Capacitor.isNativePlatform() && !proActive && isAdDue) {
-        setLifecycle('ad');
-        setShowAppOpenAd(true);
-      } else {
-        await permissionCheck;
+      // Handle App Open Ad (Native Release only)
+      if (isNative && !proActive) {
+        const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
+        const cooldown = AD_CONFIG.SETTINGS.APP_OPEN_COOLDOWN_MS;
+        
+        if (Date.now() - lastOpenAd > cooldown) {
+          setLifecycle('ad');
+          setShowAppOpenAd(true);
+          return;
+        }
       }
+
+      // Check permissions if no Ad is shown
+      await checkPermissionsAndProceed();
     };
     initApp();
 
@@ -108,7 +93,7 @@ export default function MainApp() {
     };
   }, []);
 
-  const checkPermissionsAndProceed = async (silent = false) => {
+  const checkPermissionsAndProceed = async () => {
     if (!Capacitor.isNativePlatform()) {
       setLifecycle('main');
       return;
@@ -117,15 +102,14 @@ export default function MainApp() {
     try {
       const status = await Filesystem.checkPermissions();
       const hasPerm = status.publicStorage === 'granted' || localStorage.getItem('storage_permission_granted') === 'true';
+      
       if (hasPerm) {
         setLifecycle('main');
-      } else if (!silent) {
-        setLifecycle('permission');
       } else {
-        // In Debug silent mode, we still let them into main but show a banner there if needed
-        setLifecycle('main');
+        setLifecycle('permission');
       }
     } catch (e) {
+      // Fallback for unexpected failures in legacy devices
       setLifecycle('main');
     }
   };
@@ -133,15 +117,17 @@ export default function MainApp() {
   const handleAppOpenAdClose = () => {
     setShowAppOpenAd(false);
     localStorage.setItem('last_app_open_ad_time', Date.now().toString());
-    // Proceed to permissions then main
+    // Move to next step in lifecycle
     checkPermissionsAndProceed();
   };
 
   const triggerRatingLogic = () => {
+    if (!Capacitor.isNativePlatform()) return;
+
     const sessions = parseInt(localStorage.getItem('app_session_count') || '0');
     const hasRated = localStorage.getItem('has_rated_app') === 'true';
 
-    // Strategic Prompting: 12+ sessions for Tier 1 quality feedback
+    // Show rating dialog after reaching session threshold
     if (!hasRated && sessions >= AD_CONFIG.SETTINGS.SESSION_RATING_THRESHOLD) {
       setShowRateUs(true);
     }
@@ -153,18 +139,16 @@ export default function MainApp() {
     const expiry = localStorage.getItem('ad_free_expiry');
     const proActive = expiry ? parseInt(expiry) > Date.now() : false;
     
+    if (proActive) return;
+
     const lastAdShown = parseInt(localStorage.getItem('last_interstitial_time') || '0');
     const adInterval = AD_CONFIG.SETTINGS.INTERSTITIAL_INTERVAL_MS;
-    const isAdDue = (Date.now() - lastAdShown > adInterval);
 
-    if (proActive || !isAdDue) {
-      triggerRatingLogic();
-      return;
-    }
-
-    if (!proActive && isAdDue) {
+    if (Date.now() - lastAdShown > adInterval) {
       setShowInterstitial(true);
       localStorage.setItem('last_interstitial_time', Date.now().toString());
+    } else {
+      triggerRatingLogic();
     }
   };
 
@@ -176,8 +160,10 @@ export default function MainApp() {
   const handleGrantPermission = async () => {
     try {
       if (Capacitor.isNativePlatform()) {
-        await Filesystem.requestPermissions();
-        localStorage.setItem('storage_permission_granted', 'true');
+        const result = await Filesystem.requestPermissions();
+        if (result.publicStorage === 'granted') {
+          localStorage.setItem('storage_permission_granted', 'true');
+        }
       }
       setLifecycle('main');
     } catch (e) {

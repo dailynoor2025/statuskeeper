@@ -15,7 +15,7 @@ import { useTranslation } from "@/hooks/use-translation";
 
 /**
  * StatusView - Discovery core for current WhatsApp statuses.
- * Clean minimalist UI with standard icon sizing.
+ * Optimized for high performance and smooth transitions.
  */
 export function StatusView() {
   const { t } = useTranslation();
@@ -52,7 +52,9 @@ export function StatusView() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    toast({ title: "Smart scan", description: "Scanning directories..." });
+    toast({ title: "Scanning directory", description: "Locating latest media..." });
+    
+    // Simulate directory scan logic
     setTimeout(() => {
       setIsRefreshing(false);
       toast({ title: "Sync complete", description: "Status list updated", variant: "success" });
@@ -81,6 +83,7 @@ export function StatusView() {
     if (selectedIds.length === 0) return;
     const savedItems = JSON.parse(localStorage.getItem('saved_statuses') || '[]');
     let newlySaved = 0;
+    
     selectedIds.forEach(id => {
       const item = statusData.find(s => s.id === id);
       if (item && !savedItems.find((s: any) => s.id === id)) {
@@ -88,6 +91,7 @@ export function StatusView() {
         newlySaved++;
       }
     });
+    
     localStorage.setItem('saved_statuses', JSON.stringify(savedItems));
     toast({ title: "Save complete", description: `${newlySaved} items added to gallery`, variant: "success" });
     
@@ -98,6 +102,7 @@ export function StatusView() {
   const renderGridItems = useCallback((dataItems: any[]) => {
     const gridElements: React.ReactNode[] = [];
     
+    // Show Ad at the start of the grid if not Pro
     if (!isPro) {
       gridElements.push(
         <div key="native-ad-start" className="animate-staggered h-full">
@@ -122,6 +127,7 @@ export function StatusView() {
         </div>
       );
       
+      // Inline Native Ads every 5 items
       if (!isPro && (index + 1) % 5 === 0) {
         gridElements.push(
           <div key={`ad-${index}`} className="animate-staggered h-full">
@@ -163,16 +169,16 @@ export function StatusView() {
           <div className="flex items-center gap-1">
             {isSelectionMode ? (
               <>
-                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5">
+                <button onClick={handleSelectAll} className="h-7 px-2 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center gap-1.5 transition-all">
                   <CheckSquare2 className={cn("w-2.5 h-2.5", isAllActiveSelected ? "text-primary" : "text-gray-400")} />
                   <span className="text-[8px] font-black text-gray-600 truncate max-w-[40px]">{isAllActiveSelected ? 'Unmark' : 'Mark all'}</span>
                 </button>
-                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center"><X className="w-2.5 h-2.5 text-red-500" /></button>
+                <button onClick={exitSelectionMode} className="h-7 w-7 rounded-lg border border-red-100 bg-red-50 shadow-sm active:scale-90 flex items-center justify-center transition-all"><X className="w-2.5 h-2.5 text-red-500" /></button>
               </>
             ) : (
               <>
-                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><CheckSquare className="w-2.5 h-2.5 text-gray-400" /></button>}
-                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center"><RefreshCcw className={cn("w-2.5 h-2.5 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
+                {!isEmpty && <button onClick={() => setIsSelectionMode(true)} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center transition-all"><CheckSquare className="w-2.5 h-2.5 text-gray-400" /></button>}
+                <button onClick={handleRefresh} disabled={isRefreshing} className="h-7 w-7 rounded-lg border border-gray-100 bg-white shadow-sm active:scale-90 flex items-center justify-center transition-all"><RefreshCcw className={cn("w-2.5 h-2.5 text-gray-400", isRefreshing && "animate-spin text-primary")} /></button>
               </>
             )}
           </div>
