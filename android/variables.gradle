@@ -1,10 +1,16 @@
+// Bayanan sigogi (versions) na dukkan sassa na Android
 ext {
     minSdkVersion = 24
     compileSdkVersion = 35
     targetSdkVersion = 35
-    androidxLifecycleVersion = '2.8.7'
-    playServicesAdsVersion = '23.6.0'
+    androidxActivityVersion = '1.9.3'
+    androidxAppCompatVersion = '1.7.0'
+    androidxCoordinatorLayoutVersion = '1.2.0'
+    androidxCoreVersion = '1.15.0'
+    androidxFragmentVersion = '1.8.5'
     coreSplashScreenVersion = '1.0.1'
+    androidxWebkitVersion = '1.12.1'
+    lifecycleVersion = '2.8.7'
+    playServicesAdsVersion = '23.6.0'
     kotlin_version = '2.1.0'
-    androidGradlePluginVersion = '8.7.3'
 }
