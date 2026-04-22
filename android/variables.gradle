@@ -3,14 +3,16 @@ ext {
     compileSdkVersion = 35
     targetSdkVersion = 35
     buildToolsVersion = "35.0.0"
-    kotlin_version = '1.9.24'
-    androidxActivityVersion = '1.9.1'
+    androidxActivityVersion = '1.9.2'
     androidxAppCompatVersion = '1.7.0'
     androidxCoordinatorLayoutVersion = '1.2.0'
     androidxCoreVersion = '1.13.1'
-    androidxFragmentVersion = '1.8.2'
+    androidxFragmentVersion = '1.8.3'
     junitVersion = '4.13.2'
     androidxJunitVersion = '1.2.1'
     androidxEspressoCoreVersion = '3.6.1'
     cordovaAndroidVersion = '10.1.1'
+    kotlin_version = '1.9.24'
+    coreSplashScreenVersion = '1.0.1'
+    androidxWebkitVersion = '1.12.0'
 }
