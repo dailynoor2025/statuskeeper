@@ -31,40 +31,46 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
+      # ✅ Android SDK + build tools fix
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          build-tools: 35.0.0
+
+      - name: Install Android Build Tools
+        run: |
+          sdkmanager "build-tools;34.0.0" "platforms;android-34"
+
+      - name: Accept Licenses
+        run: yes | sdkmanager --licenses
 
       - name: Capacitor sync
         run: npx cap sync android
 
       - name: Build Android Release
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: |
           cd android
           chmod +x gradlew
+          ./gradlew clean
           ./gradlew assembleRelease bundleRelease
 
-      - name: Sign APK/AAB
+      # ✅ FIXED SIGNING (no more 29.0.3 issue)
+      - name: Sign APK
         uses: r0adkll/sign-android-release@v1
-        id: sign_app
+        id: sign_apk
         with:
           releaseDirectory: android/app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-          buildToolsVersion: 35.0.0
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release-signed-apk
-          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+          path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
 
-      - name: Upload Signed AAB
+      # ✅ AAB (no need signing step here, Gradle already signs if configured)
+      - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
           name: app-release-bundle
