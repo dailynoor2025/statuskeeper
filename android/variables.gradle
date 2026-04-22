@@ -9,6 +9,9 @@ ext {
     androidxFragmentVersion = '1.8.5'
     coreSplashScreenVersion = '1.0.1'
     androidxLifecycleVersion = '2.8.7'
+    androidxBrowserVersion = '1.8.0'
+    androidxMaterialVersion = '1.12.0'
+    androidxExifInterfaceVersion = '1.3.7'
     playServicesAdsVersion = '23.6.0'
     kotlin_version = '2.1.0'
 }
