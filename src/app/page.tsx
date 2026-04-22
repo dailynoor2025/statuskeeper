@@ -39,21 +39,19 @@ export default function MainApp() {
   const [showRateUs, setShowRateUs] = useState(false);
 
   useEffect(() => {
-    // 1. Initial Plugin Sync & Core Lifecycle
+    // 1. Initial Native UI Sync
     const syncNativeUI = async () => {
       if (Capacitor.isNativePlatform()) {
         try {
           await StatusBar.setStyle({ style: Style.Light });
           await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
           await NativeSplashScreen.hide();
-        } catch (e) {
-          console.warn('Native UI Sync failed', e);
-        }
+        } catch (e) {}
       }
     };
     syncNativeUI();
 
-    // 2. Network Monitoring Logic (Robust Offline Mode)
+    // 2. Network Monitoring
     const initNetwork = async () => {
       try {
         const status = await Network.getStatus();
@@ -65,41 +63,40 @@ export default function MainApp() {
     };
     initNetwork();
 
-    // 3. App State & Haptics Initialization
-    const initAppState = () => {
-      if (Capacitor.isNativePlatform()) {
-        CapacitorApp.addListener('appStateChange', ({ isActive }) => {
-          if (isActive) {
-            // Potential logic for checking new statuses when app resumes
-            console.log('App resumed');
-          }
-        });
-      }
-    };
-    initAppState();
-
-    // 4. Pro Status & Session Tracking
+    // 3. Pro Status & Session Tracking
     const checkProStatus = () => {
       const expiry = localStorage.getItem('ad_free_expiry');
-      setIsPro(expiry ? parseInt(expiry) > Date.now() : false);
+      const active = expiry ? parseInt(expiry) > Date.now() : false;
+      setIsPro(active);
       
-      // Track sessions for smart rating
       const sessions = parseInt(localStorage.getItem('app_sessions') || '0') + 1;
       localStorage.setItem('app_sessions', sessions.toString());
     };
     checkProStatus();
 
-    // 5. Lifecycle Orchestration (Splash -> Ad -> Main)
+    // 4. Interstitial Trigger Listener
+    const handleRequestInterstitial = () => {
+      const expiry = localStorage.getItem('ad_free_expiry');
+      const proActive = expiry ? parseInt(expiry) > Date.now() : false;
+      if (proActive) return;
+
+      const lastInterstitial = parseInt(localStorage.getItem('last_interstitial_time') || '0');
+      if (Date.now() - lastInterstitial > AD_CONFIG.SETTINGS.INTERSTITIAL_INTERVAL_MS) {
+        setShowInterstitial(true);
+        localStorage.setItem('last_interstitial_time', Date.now().toString());
+      }
+    };
+
+    window.addEventListener('request-interstitial', handleRequestInterstitial);
+
+    // 5. App Lifecycle Orchestration
     const initApp = async () => {
-      // Minimum duration for visual stability
-      await new Promise(resolve => setTimeout(resolve, 2200));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      const isNative = Capacitor.isNativePlatform();
       const expiry = localStorage.getItem('ad_free_expiry');
       const proActive = expiry ? parseInt(expiry) > Date.now() : false;
 
-      // RELEASE ONLY: Show App Open Ad if not Pro and cooldown passed
-      if (isNative && !proActive) {
+      if (Capacitor.isNativePlatform() && !proActive) {
         const lastOpenAd = parseInt(localStorage.getItem('last_app_open_ad_time') || '0');
         if (Date.now() - lastOpenAd > AD_CONFIG.SETTINGS.APP_OPEN_COOLDOWN_MS) {
           setLifecycle('ad');
@@ -114,9 +111,7 @@ export default function MainApp() {
 
     return () => {
       Network.removeAllListeners();
-      if (Capacitor.isNativePlatform()) {
-        CapacitorApp.removeAllListeners();
-      }
+      window.removeEventListener('request-interstitial', handleRequestInterstitial);
     };
   }, []);
 
@@ -134,7 +129,7 @@ export default function MainApp() {
         setLifecycle('permission');
       }
     } catch (e) {
-      setLifecycle('main'); // Fallback for safety
+      setLifecycle('main');
     }
   };
 
