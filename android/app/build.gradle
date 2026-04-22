@@ -4,7 +4,6 @@ apply plugin: 'org.jetbrains.kotlin.android'
 android {
     namespace "com.qhaleelahmad.statuskeeper"
     compileSdk rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.qhaleelahmad.statuskeeper"
@@ -13,10 +12,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnit4"
-        aaptOptions {
-             // Strings and resources settings for AGP 8.x
-             noCompress += ["txt"]
-        }
     }
 
     buildTypes {
@@ -34,20 +29,32 @@ android {
     kotlinOptions {
         jvmTarget = '21'
     }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/root_debug.kotlin_module']
+        }
+    }
 }
 
 repositories {
-    google()
-    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
-    implementation project(':capacitor-android')
     
-    // Plugin Dependencies
+    // Test dependencies
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
+
+    // Capacitor Plugins
     implementation project(':capacitor-community-admob')
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
@@ -61,17 +68,14 @@ dependencies {
     implementation project(':capacitor-share')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
-
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
 }
 
+// Try to apply Capacitor build script if it exists, but we have manual fallback above
 try {
-    def servicesConfig = file('google-services.json')
-    if (servicesConfig.exists()) {
-        apply plugin: 'com.google.gms.google-services'
+    def capBuild = new File(projectDir, 'capacitor.build.gradle')
+    if (capBuild.exists()) {
+        apply from: 'capacitor.build.gradle'
     }
 } catch (Exception e) {
-    logger.warn("google-services.json not found, GMS plugin skipped")
+    println "Capacitor build script application failed, using manual config."
 }
