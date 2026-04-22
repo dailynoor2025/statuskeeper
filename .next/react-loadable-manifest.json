@@ -1,4 +1,10 @@
 {
+  "../node_modules/@capacitor/browser/dist/esm/index.js -> ./web": {
+    "id": "../node_modules/@capacitor/browser/dist/esm/index.js -> ./web",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_capacitor_browser_dist_esm_web_js.js"
+    ]
+  },
   "../node_modules/@capacitor/filesystem/dist/esm/index.js -> ./web": {
     "id": "../node_modules/@capacitor/filesystem/dist/esm/index.js -> ./web",
     "files": [
@@ -27,12 +33,6 @@
     "id": "../node_modules/@capacitor/splash-screen/dist/esm/index.js -> ./web",
     "files": [
       "static/chunks/_app-pages-browser_node_modules_capacitor_splash-screen_dist_esm_web_js.js"
-    ]
-  },
-  "../node_modules/capacitor-rate-app/dist/esm/index.js -> ./web": {
-    "id": "../node_modules/capacitor-rate-app/dist/esm/index.js -> ./web",
-    "files": [
-      "static/chunks/_app-pages-browser_node_modules_capacitor-rate-app_dist_esm_web_js.js"
     ]
   }
 }
