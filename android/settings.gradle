@@ -1,28 +1,48 @@
+// Capacitor settings file - Manual Plugin Inclusion for Stable Build
+rootProject.name = 'android'
+
 include ':app'
 
-// Capacitor Android Core
-project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
+// Core Capacitor Android Library
 include ':capacitor-android'
+project(':capacitor-android').projectDir = new File(settingsDir, '../node_modules/@capacitor/android/android')
 
-// Plugins Mapping
-def plugins = [
-    'admob': '@capacitor-community/admob',
-    'app': '@capacitor/app',
-    'browser': '@capacitor/browser',
-    'camera': '@capacitor/camera',
-    'device': '@capacitor/device',
-    'filesystem': '@capacitor/filesystem',
-    'haptics': '@capacitor/haptics',
-    'keyboard': '@capacitor/keyboard',
-    'local-notifications': '@capacitor/local-notifications',
-    'network': '@capacitor/network',
-    'share': '@capacitor/share',
-    'splash-screen': '@capacitor/splash-screen',
-    'status-bar': '@capacitor/status-bar'
-]
+// Capacitor Plugins
+include ':capacitor-community-admob'
+project(':capacitor-community-admob').projectDir = new File(settingsDir, '../node_modules/@capacitor-community/admob/android')
 
-plugins.each { name, path ->
-    def projectPath = ":capacitor-${name}"
-    include projectPath
-    project(projectPath).projectDir = new File("../node_modules/${path}/android")
-}
+include ':capacitor-app'
+project(':capacitor-app').projectDir = new File(settingsDir, '../node_modules/@capacitor/app/android')
+
+include ':capacitor-browser'
+project(':capacitor-browser').projectDir = new File(settingsDir, '../node_modules/@capacitor/browser/android')
+
+include ':capacitor-camera'
+project(':capacitor-camera').projectDir = new File(settingsDir, '../node_modules/@capacitor/camera/android')
+
+include ':capacitor-device'
+project(':capacitor-device').projectDir = new File(settingsDir, '../node_modules/@capacitor/device/android')
+
+include ':capacitor-filesystem'
+project(':capacitor-filesystem').projectDir = new File(settingsDir, '../node_modules/@capacitor/filesystem/android')
+
+include ':capacitor-haptics'
+project(':capacitor-haptics').projectDir = new File(settingsDir, '../node_modules/@capacitor/haptics/android')
+
+include ':capacitor-keyboard'
+project(':capacitor-keyboard').projectDir = new File(settingsDir, '../node_modules/@capacitor/keyboard/android')
+
+include ':capacitor-local-notifications'
+project(':capacitor-local-notifications').projectDir = new File(settingsDir, '../node_modules/@capacitor/local-notifications/android')
+
+include ':capacitor-network'
+project(':capacitor-network').projectDir = new File(settingsDir, '../node_modules/@capacitor/network/android')
+
+include ':capacitor-share'
+project(':capacitor-share').projectDir = new File(settingsDir, '../node_modules/@capacitor/share/android')
+
+include ':capacitor-splash-screen'
+project(':capacitor-splash-screen').projectDir = new File(settingsDir, '../node_modules/@capacitor/splash-screen/android')
+
+include ':capacitor-status-bar'
+project(':capacitor-status-bar').projectDir = new File(settingsDir, '../node_modules/@capacitor/status-bar/android')
