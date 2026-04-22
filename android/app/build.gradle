@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
@@ -14,8 +14,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
-             // Capacitor 7 requirement for progressive web app assets
-             noCompress 'txt'
+             noCompress += ["txt"]
         }
     }
 
@@ -35,8 +34,10 @@ android {
         jvmTarget = '21'
     }
 
-    androidResources {
-        noCompress += ["txt"]
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
     }
 }
 
@@ -48,15 +49,21 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     implementation "androidx.core:core-splashscreen:$rootProject.ext.coreSplashScreenVersion"
-    implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.androidxLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.androidxLifecycleVersion"
-    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.playServicesAdsVersion"
     
-    // Project dependencies for plugins
+    // Core Capacitor Android Library
+    implementation project(':capacitor-android')
+
+    // Android Lifecycle
+    implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
+    
+    // Google Mobile Ads
+    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.playServicesAdsVersion"
+
+    // Capacitor Plugins
     implementation project(':capacitor-community-admob')
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
@@ -65,22 +72,21 @@ dependencies {
     implementation project(':capacitor-filesystem')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
-    implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-network')
     implementation project(':capacitor-share')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
 
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxTestJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxTestEspressoCoreVersion"
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
 }
 
 try {
-    def servicesConfigeration = file('google-services.json')
-    if (servicesConfigeration.exists()) {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
         apply plugin: 'com.google.gms.google-services'
     }
 } catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. This is fine if you're not using Firebase.")
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
 }
