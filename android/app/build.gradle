@@ -3,20 +3,30 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
-    compileSdk project.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
+    
     defaultConfig {
         applicationId "com.qhaleelahmad.statuskeeper"
-        minSdk project.ext.minSdkVersion
-        targetSdk project.ext.targetSdkVersion
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnit4"
         aaptOptions {
-             // Strings and resources settings for stability
-             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+             // Android resources are not localized by default
+             nocompress 'txt'
+             ignoreAssetsPattern "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
         }
     }
-    
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
@@ -26,10 +36,9 @@ android {
         jvmTarget = '21'
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 }
@@ -42,14 +51,19 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
-    implementation "androidx.core:core-ktx:$androidxCoreVersion"
-    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
-    implementation "androidx.lifecycle:lifecycle-process:$androidxProcessVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidxRuntimeKtxVersion"
-    implementation "com.google.android.gms:play-services-ads:$playServicesAdsVersion"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
     implementation project(':capacitor-android')
     implementation project(':capacitor-cordova-android-plugins')
+    
+    // Lifecycle & AdMob dependencies
+    implementation "androidx.lifecycle:lifecycle-process:${rootProject.ext.androidxLifecycleVersion}"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.ext.androidxLifecycleVersion}"
+    implementation "com.google.android.gms:play-services-ads:${rootProject.ext.playServicesAdsVersion}"
+    
+    // Splash Screen
+    implementation "androidx.core:core-splashscreen:${rootProject.ext.coreSplashScreenVersion}"
+
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.2.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
