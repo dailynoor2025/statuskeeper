@@ -11,15 +11,11 @@ android {
         targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        aaptOptions {
-             // Capacitor handles most assets, but we keep this empty or properly formatted
-        }
-    }
 
-    androidResources {
-        // Modern AGP 8.x syntax for noCompress
-        noCompress += ["txt"]
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnit4"
+        aaptOptions {
+             noCompress += ["txt"]
+        }
     }
 
     buildTypes {
@@ -38,11 +34,8 @@ android {
         jvmTarget = '21'
     }
 
-    // Recommended for Capacitor 7 builds
-    packaging {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
+    buildFeatures {
+        dataBinding true
     }
 }
 
@@ -55,22 +48,26 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
-    implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ext.coreCtxVersion"
     implementation "androidx.core:core-splashscreen:$rootProject.ext.coreSplashScreenVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
     
-    // Lifecycle components for AppOpenManager
-    implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
-    
-    // Google Mobile Ads
+    // Ads & Lifecycle for AppOpenManager
     implementation "com.google.android.gms:play-services-ads:$rootProject.ext.playServicesAdsVersion"
+    implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.androidxLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.androidxLifecycleVersion"
 
+    // Capacitor Core
     implementation project(':capacitor-android')
-    implementation project(':capacitor-cordova-android-plugins')
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    // test dependencies
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
+    
+    // Cordova plugins
+    implementation project(':capacitor-cordova-android-plugins')
 }
 
 apply from: 'capacitor.build.gradle'
