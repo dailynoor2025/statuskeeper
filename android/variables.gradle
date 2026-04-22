@@ -1,16 +1,17 @@
 ext {
-    minSdkVersion = 24
+    minSdkVersion = 23
     compileSdkVersion = 35
     targetSdkVersion = 35
     androidxActivityVersion = '1.9.3'
     androidxAppCompatVersion = '1.7.0'
-    androidxCoordinatorLayoutVersion = '1.3.0'
+    androidxCoordinatorLayoutVersion = '1.2.0'
     androidxCoreVersion = '1.15.0'
     androidxFragmentVersion = '1.8.5'
     junitVersion = '4.13.2'
     androidxJunitVersion = '1.2.1'
     androidxEspressoCoreVersion = '3.6.1'
     cordovaAndroidVersion = '10.1.1'
+    lifecycleVersion = '2.8.7'
+    playServicesAdsVersion = '23.6.0'
     kotlin_version = '1.9.24'
-    buildToolsVersion = '35.0.0'
 }

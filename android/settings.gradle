@@ -1,36 +1,27 @@
 include ':app'
-rootProject.name = "android"
 
-// Core Capacitor Android inclusion
-def capacitorDir = new File(settingsDir, '../node_modules/@capacitor/android/capacitor')
-if (capacitorDir.exists()) {
-    include ':capacitor-android'
-    project(':capacitor-android').projectDir = capacitorDir
-}
+// Core Capacitor Android Library
+include ':capacitor-android'
+project(':capacitor-android').projectDir = new File(settingsDir, '../node_modules/@capacitor/android/capacitor')
 
-// Manual Plugin Inclusion to prevent 'Project not found' errors
-def pluginMap = [
-    'admob': '@capacitor-community/admob',
-    'app': '@capacitor/app',
-    'browser': '@capacitor/browser',
-    'camera': '@capacitor/camera',
-    'device': '@capacitor/device',
-    'filesystem': '@capacitor/filesystem',
-    'haptics': '@capacitor/haptics',
-    'keyboard': '@capacitor/keyboard',
-    'local-notifications': '@capacitor/local-notifications',
-    'network': '@capacitor/network',
-    'share': '@capacitor/share',
-    'splash-screen': '@capacitor/splash-screen',
-    'status-bar': '@capacitor/status-bar'
+// Capacitor Plugins Inclusion
+def plugins = [
+    ':capacitor-community-admob': '../node_modules/@capacitor-community/admob/android',
+    ':capacitor-app': '../node_modules/@capacitor/app/android',
+    ':capacitor-browser': '../node_modules/@capacitor/browser/android',
+    ':capacitor-camera': '../node_modules/@capacitor/camera/android',
+    ':capacitor-device': '../node_modules/@capacitor/device/android',
+    ':capacitor-filesystem': '../node_modules/@capacitor/filesystem/android',
+    ':capacitor-haptics': '../node_modules/@capacitor/haptics/android',
+    ':capacitor-keyboard': '../node_modules/@capacitor/keyboard/android',
+    ':capacitor-local-notifications': '../node_modules/@capacitor/local-notifications/android',
+    ':capacitor-network': '../node_modules/@capacitor/network/android',
+    ':capacitor-share': '../node_modules/@capacitor/share/android',
+    ':capacitor-splash-screen': '../node_modules/@capacitor/splash-screen/android',
+    ':capacitor-status-bar': '../node_modules/@capacitor/status-bar/android'
 ]
 
-pluginMap.each { name, npmPath ->
-    def pluginDir = new File(settingsDir, "../node_modules/${npmPath}/android")
-    if (pluginDir.exists()) {
-        def projectName = ":capacitor-${name}"
-        if (name == 'admob') projectName = ":capacitor-community-admob"
-        include projectName
-        project(projectName).projectDir = pluginDir
-    }
+plugins.each { name, path ->
+    include name
+    project(name).projectDir = new File(settingsDir, path)
 }
