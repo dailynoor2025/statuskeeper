@@ -1,21 +1,26 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
-    compileSdk rootProject.ext.compileSdkVersion
-
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    
     defaultConfig {
         applicationId "com.qhaleelahmad.statuskeeper"
-        minSdk rootProject.ext.minSdkVersion
-        targetSdk rootProject.ext.targetSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
+             // Capacitor optimizes images, so we disable the default compression
              noCompress += ["txt"]
         }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     buildTypes {
@@ -24,25 +29,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
-    }
-
-    kotlinOptions {
-        jvmTarget = '21'
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    }
 }
 
 repositories {
-    flatDir {
+    flatDir{
         dirs 'libs'
     }
 }
@@ -53,17 +43,15 @@ dependencies {
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     implementation "androidx.core:core-splashscreen:$rootProject.ext.coreSplashScreenVersion"
     
-    // Core Capacitor Android Library
-    implementation project(':capacitor-android')
-
-    // Android Lifecycle
+    // Lifecycle components for AppOpenManager
     implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     
     // Google Mobile Ads
     implementation "com.google.android.gms:play-services-ads:$rootProject.ext.playServicesAdsVersion"
 
-    // Capacitor Plugins
+    implementation project(':capacitor-android')
     implementation project(':capacitor-community-admob')
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
@@ -72,15 +60,18 @@ dependencies {
     implementation project(':capacitor-filesystem')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-network')
     implementation project(':capacitor-share')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
 
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.2.1"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
+
+apply from: 'capacitor.build.gradle'
 
 try {
     def servicesJSON = file('google-services.json')
@@ -88,5 +79,5 @@ try {
         apply plugin: 'com.google.gms.google-services'
     }
 } catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+    logger.info("google-services.json not found, google-services plugin not applied. This is normal if you are not using Firebase.")
 }
