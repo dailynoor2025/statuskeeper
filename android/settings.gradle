@@ -1,27 +1,28 @@
 
 include ':app'
 
-// Capacitor Core
+// Saita hanyar capacitor-android da kansa domin tabbatar da cewa an gano shi
+include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/android')
 
-// Plugins Manual Inclusion
+// Saita hanyoyin plugins daki-daki domin kaucewa kurakuran loda su
 def plugins = [
-    'capacitor-community-admob': '@capacitor-community/admob',
-    'capacitor-app': '@capacitor/app',
-    'capacitor-browser': '@capacitor/browser',
-    'capacitor-camera': '@capacitor/camera',
-    'capacitor-device': '@capacitor/device',
-    'capacitor-filesystem': '@capacitor/filesystem',
-    'capacitor-haptics': '@capacitor/haptics',
-    'capacitor-keyboard': '@capacitor/keyboard',
-    'capacitor-local-notifications': '@capacitor/local-notifications',
-    'capacitor-network': '@capacitor/network',
-    'capacitor-share': '@capacitor/share',
-    'capacitor-splash-screen': '@capacitor/splash-screen',
-    'capacitor-status-bar': '@capacitor/status-bar'
+    ':capacitor-community-admob': '../node_modules/@capacitor-community/admob/android',
+    ':capacitor-app': '../node_modules/@capacitor/app/android',
+    ':capacitor-browser': '../node_modules/@capacitor/browser/android',
+    ':capacitor-camera': '../node_modules/@capacitor/camera/android',
+    ':capacitor-device': '../node_modules/@capacitor/device/android',
+    ':capacitor-filesystem': '../node_modules/@capacitor/filesystem/android',
+    ':capacitor-haptics': '../node_modules/@capacitor/haptics/android',
+    ':capacitor-keyboard': '../node_modules/@capacitor/keyboard/android',
+    ':capacitor-local-notifications': '../node_modules/@capacitor/local-notifications/android',
+    ':capacitor-network': '../node_modules/@capacitor/network/android',
+    ':capacitor-share': '../node_modules/@capacitor/share/android',
+    ':capacitor-splash-screen': '../node_modules/@capacitor/splash-screen/android',
+    ':capacitor-status-bar': '../node_modules/@capacitor/status-bar/android'
 ]
 
 plugins.each { name, path ->
-    include ":${name}"
-    project(":${name}").projectDir = new File("../node_modules/${path}/android")
+    include name
+    project(name).projectDir = new File(path)
 }
