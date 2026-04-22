@@ -1,26 +1,21 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
-    compileSdk 35
+    compileSdk rootProject.ext.compileSdkVersion
+
     defaultConfig {
         applicationId "com.qhaleelahmad.statuskeeper"
-        minSdk 23
-        targetSdk 35
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnit4"
         aaptOptions {
-             // Strings should not be compressed
-             noCompress 'foo', 'bar'
-             // Symbols not should be stripped
-             ignoreAssetsPattern "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
-        }
-    }
-    
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+             // Strings containing '@' symbols will not be treated as resources.
+             // Helps avoid issues with some types of ad units or metadata.
+             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
 
@@ -36,27 +31,34 @@ android {
         targetCompatibility JavaVersion.VERSION_21
     }
 
-    // Removed or updated for Capacitor 7 / Java 21 compatibility
-    // If you add Kotlin files later, this will ensure they use Java 21 target
     kotlinOptions {
         jvmTarget = '21'
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
     }
 }
 
 repositories {
-    flatDir{
+    flatDir {
         dirs 'libs'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.ext.androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     implementation project(':capacitor-android')
     implementation project(':capacitor-cordova-android-plugins')
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
 }
 
 try {
