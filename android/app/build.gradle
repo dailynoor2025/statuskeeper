@@ -1,4 +1,6 @@
+
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace "com.qhaleelahmad.statuskeeper"
@@ -13,7 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
-             // Capacitor 7 AGP 8.x property
+             // Capacitor optimizes images, so we can disable the default crunched images
+             //@ts-ignore
              noCompress += ["txt"]
         }
     }
@@ -36,7 +39,7 @@ android {
 }
 
 repositories {
-    flatDir {
+    flatDir{
         dirs 'libs'
     }
 }
@@ -46,17 +49,12 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     implementation "androidx.core:core-splashscreen:$rootProject.ext.coreSplashScreenVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     
-    // Lifecycle components for AppOpenManager
-    implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.androidxLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.androidxLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.androidxLifecycleVersion"
-    
-    // Google Mobile Ads
-    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.playServicesAdsVersion"
-
-    // Capacitor dependencies
+    // Capacitor Core
     implementation project(':capacitor-android')
+
+    // Plugins
     implementation project(':capacitor-community-admob')
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
@@ -76,11 +74,9 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
 }
 
-apply from: 'capacitor.build.gradle'
-
 try {
-    def servicesJSON = file('google-services.json')
-    if (servicesJSON.text) {
+    def servicesConfig = file('google-services.json')
+    if (servicesConfig.exists()) {
         apply plugin: 'com.google.gms.google-services'
     }
 } catch(Exception e) {

@@ -1,3 +1,4 @@
+
 ext {
     minSdkVersion = 23
     compileSdkVersion = 35
@@ -9,7 +10,10 @@ ext {
     androidxCoreVersion = '1.15.0'
     androidxFragmentVersion = '1.8.5'
     coreSplashScreenVersion = '1.0.1'
-    androidxLifecycleVersion = '2.8.7'
-    playServicesAdsVersion = '23.6.0'
+    androidxLibsplashscreenVersion = '1.0.1'
     kotlin_version = '1.9.24'
+    androidxMaterialVersion = '1.12.0'
+    androidxBrowserVersion = '1.8.0'
+    androidxLocalbroadcastmanagerVersion = '1.1.0'
+    androidxExifinterfaceVersion = '1.3.7'
 }
