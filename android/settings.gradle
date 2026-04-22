@@ -1,29 +1,27 @@
 include ':app'
-rootProject.name = 'android'
 
-// Manual inclusion of Capacitor Core
+def capacitorAndroidPath = '../node_modules/@capacitor/android/android'
 include ':capacitor-android'
-project(':capacitor-android').projectDir = new File(rootProject.projectDir, '../node_modules/@capacitor/android/capacitor')
+project(':capacitor-android').projectDir = new File(capacitorAndroidPath)
 
-// Manual inclusion of Plugins
-def pluginFolders = [
-    'admob': '../node_modules/@capacitor-community/admob/android',
-    'app': '../node_modules/@capacitor/app/android',
-    'browser': '../node_modules/@capacitor/browser/android',
-    'camera': '../node_modules/@capacitor/camera/android',
-    'device': '../node_modules/@capacitor/device/android',
-    'filesystem': '../node_modules/@capacitor/filesystem/android',
-    'haptics': '../node_modules/@capacitor/haptics/android',
-    'keyboard': '../node_modules/@capacitor/keyboard/android',
-    'local-notifications': '../node_modules/@capacitor/local-notifications/android',
-    'network': '../node_modules/@capacitor/network/android',
-    'share': '../node_modules/@capacitor/share/android',
-    'splash-screen': '../node_modules/@capacitor/splash-screen/android',
-    'status-bar': '../node_modules/@capacitor/status-bar/android'
+// Manually include each Capacitor plugin to ensure stable loading
+def plugins = [
+    'capacitor-community-admob': '../node_modules/@capacitor-community/admob/android',
+    'capacitor-app': '../node_modules/@capacitor/app/android',
+    'capacitor-browser': '../node_modules/@capacitor/browser/android',
+    'capacitor-camera': '../node_modules/@capacitor/camera/android',
+    'capacitor-device': '../node_modules/@capacitor/device/android',
+    'capacitor-filesystem': '../node_modules/@capacitor/filesystem/android',
+    'capacitor-haptics': '../node_modules/@capacitor/haptics/android',
+    'capacitor-keyboard': '../node_modules/@capacitor/keyboard/android',
+    'capacitor-local-notifications': '../node_modules/@capacitor/local-notifications/android',
+    'capacitor-network': '../node_modules/@capacitor/network/android',
+    'capacitor-share': '../node_modules/@capacitor/share/android',
+    'capacitor-splash-screen': '../node_modules/@capacitor/splash-screen/android',
+    'capacitor-status-bar': '../node_modules/@capacitor/status-bar/android'
 ]
 
-pluginFolders.each { name, path ->
-    def projectPath = ":capacitor-${name}"
-    include projectPath
-    project(projectPath).projectDir = new File(rootProject.projectDir, path)
+plugins.each { name, path ->
+    include ":$name"
+    project(":$name").projectDir = new File(path)
 }
