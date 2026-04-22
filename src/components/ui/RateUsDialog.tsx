@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -8,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/use-translation';
 import { toast } from '@/hooks/use-toast';
-import { RateApp } from 'capacitor-rate-app';
+import { Browser } from '@capacitor/browser';
 
 interface RateUsDialogProps {
   isOpen: boolean;
@@ -16,8 +17,8 @@ interface RateUsDialogProps {
 }
 
 /**
- * RateUsDialog - Strategic Prompting with Native In-App Review.
- * Integrated with capacitor-rate-app for authentic Play Store rating.
+ * RateUsDialog - Strategic Prompting with Play Store Redirection.
+ * Optimized for Capacitor 7 using Browser plugin for deep linking.
  */
 export function RateUsDialog({ isOpen, onClose }: RateUsDialogProps) {
   const { t } = useTranslation();
@@ -34,11 +35,17 @@ export function RateUsDialog({ isOpen, onClose }: RateUsDialogProps) {
     setIsSubmitting(true);
     
     try {
-      // Logic: If 5 stars, trigger the native Play Store review flow
+      // Logic: If 5 stars, redirect to Play Store
       if (rating === 5) {
-        await RateApp.requestReview().catch(() => {
-          // Fallback if native fails
-          console.log("Native review not available");
+        const packageName = "com.qhaleelahmad.statuskeeper";
+        await Browser.open({ 
+          url: `market://details?id=${packageName}`,
+          windowName: '_blank'
+        }).catch(async () => {
+          // Fallback to web link if market protocol fails
+          await Browser.open({ 
+            url: `https://play.google.com/store/apps/details?id=${packageName}` 
+          });
         });
       }
       
