@@ -1,8 +1,8 @@
 { pkgs, ... }: {
-  channel = "stable";
-  packages = [
-    pkgs.nodejs_22
+  channel = "stable-24.05";
+  packages = [pkgs.nodejs_22
     pkgs.jdk21
+    pkgs.gh
     pkgs.android-tools
   ];
   env = {
