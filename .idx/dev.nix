@@ -1,23 +1,33 @@
 { pkgs, ... }: {
   channel = "stable-24.05";
   packages = [
+    pkgs.jdk21
     pkgs.nodejs_22
-    pkgs.jdk17
-    pkgs.android-tools
+    pkgs.nodePackages.npm
+    pkgs.nodePackages.pnpm
+    pkgs.bun
   ];
   env = {
-    JAVA_HOME = "${pkgs.jdk17}";
-    ANDROID_HOME = "/home/user/Android/Sdk";
+    JAVA_HOME = "${pkgs.jdk21}/lib/openjdk";
   };
   idx = {
     extensions = [
-      "dsznajder.es7-react-js-snippets"
+      "ms-vscode.js-debug"
+      "ms-vscode.vscode-typescript-next"
     ];
+    workspace = {
+      onCreate = {
+        npm-install = "npm install";
+      };
+      onStart = {
+        # Optional: Add any start commands
+      };
+    };
     previews = {
       enable = true;
       previews = {
         web = {
-          command = ["npm" "run" "dev" "--" "-p" "$PORT"];
+          command = ["npm" "run" "dev" "--" "--port" "$PORT" "--hostname" "0.0.0.0"];
           manager = "web";
         };
       };
