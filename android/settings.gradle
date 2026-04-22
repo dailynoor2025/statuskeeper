@@ -1,27 +1,43 @@
 include ':app'
 
-// Core Capacitor Android Library
-include ':capacitor-android'
-project(':capacitor-android').projectDir = new File(settingsDir, '../node_modules/@capacitor/android/capacitor')
+def nodeModulesDir = new File(settingsDir, '../node_modules')
 
-// Capacitor Plugins Inclusion
-def plugins = [
-    ':capacitor-community-admob': '../node_modules/@capacitor-community/admob/android',
-    ':capacitor-app': '../node_modules/@capacitor/app/android',
-    ':capacitor-browser': '../node_modules/@capacitor/browser/android',
-    ':capacitor-camera': '../node_modules/@capacitor/camera/android',
-    ':capacitor-device': '../node_modules/@capacitor/device/android',
-    ':capacitor-filesystem': '../node_modules/@capacitor/filesystem/android',
-    ':capacitor-haptics': '../node_modules/@capacitor/haptics/android',
-    ':capacitor-keyboard': '../node_modules/@capacitor/keyboard/android',
-    ':capacitor-local-notifications': '../node_modules/@capacitor/local-notifications/android',
-    ':capacitor-network': '../node_modules/@capacitor/network/android',
-    ':capacitor-share': '../node_modules/@capacitor/share/android',
-    ':capacitor-splash-screen': '../node_modules/@capacitor/splash-screen/android',
-    ':capacitor-status-bar': '../node_modules/@capacitor/status-bar/android'
-]
-
-plugins.each { name, path ->
-    include name
-    project(name).projectDir = new File(settingsDir, path)
+// Helper function to include Capacitor plugins
+def includePlugin(String name, String path) {
+    def pluginDir = new File(settingsDir, "../node_modules/${path}/android")
+    if (pluginDir.exists()) {
+        include ":${name}"
+        project(":${name}").projectDir = pluginDir
+    }
 }
+
+// Core Capacitor Android project
+def capacitorAndroidDir = new File(settingsDir, '../node_modules/@capacitor/android/capacitor')
+if (capacitorAndroidDir.exists()) {
+    include ':capacitor-android'
+    project(':capacitor-android').projectDir = capacitorAndroidDir
+} else {
+    throw new GradleException("Could not find @capacitor/android in node_modules. Please run npm install.")
+}
+
+// Capacitor Cordova Plugins
+def cordovaPluginsDir = new File(settingsDir, 'capacitor-cordova-android-plugins')
+if (cordovaPluginsDir.exists()) {
+    include ':capacitor-cordova-android-plugins'
+    project(':capacitor-cordova-android-plugins').projectDir = cordovaPluginsDir
+}
+
+// Include all used plugins explicitly for stability
+includePlugin('capacitor-community-admob', '@capacitor-community/admob')
+includePlugin('capacitor-app', '@capacitor/app')
+includePlugin('capacitor-browser', '@capacitor/browser')
+includePlugin('capacitor-camera', '@capacitor/camera')
+includePlugin('capacitor-device', '@capacitor/device')
+includePlugin('capacitor-filesystem', '@capacitor/filesystem')
+includePlugin('capacitor-haptics', '@capacitor/haptics')
+includePlugin('capacitor-keyboard', '@capacitor/keyboard')
+includePlugin('capacitor-local-notifications', '@capacitor/local-notifications')
+includePlugin('capacitor-network', '@capacitor/network')
+includePlugin('capacitor-share', '@capacitor/share')
+includePlugin('capacitor-splash-screen', '@capacitor/splash-screen')
+includePlugin('capacitor-status-bar', '@capacitor/status-bar')
