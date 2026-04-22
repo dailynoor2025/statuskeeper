@@ -1,28 +1,18 @@
 { pkgs, ... }: {
-  channel = "stable-24.05";
+  channel = "stable";
   packages = [
-    pkgs.jdk21
     pkgs.nodejs_22
-    pkgs.nodePackages.npm
-    pkgs.nodePackages.pnpm
-    pkgs.bun
+    pkgs.jdk21
+    pkgs.android-tools
   ];
   env = {
+    ANDROID_HOME = "/home/user/Android/Sdk";
     JAVA_HOME = "${pkgs.jdk21}/lib/openjdk";
   };
   idx = {
     extensions = [
-      "ms-vscode.js-debug"
-      "ms-vscode.vscode-typescript-next"
+      "google.android-sdk-extension"
     ];
-    workspace = {
-      onCreate = {
-        npm-install = "npm install";
-      };
-      onStart = {
-        # Optional: Add any start commands
-      };
-    };
     previews = {
       enable = true;
       previews = {
