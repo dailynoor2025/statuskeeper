@@ -54,14 +54,15 @@ jobs:
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
         id: sign_apk
+        env:
+          # Wannan shi ne babban gyaran da zai tilasta amfani da 35.0.0
+          BUILD_TOOLS_VERSION: "35.0.0"
         with:
           releaseDirectory: android/app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-          # Wannan layin zai hana neman 29.0.3
-          buildToolsVersion: 35.0.0
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
